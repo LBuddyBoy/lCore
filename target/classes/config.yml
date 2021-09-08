@@ -1,0 +1,19 @@
+mongo:
+  host: "localhost"
+  port: 27017
+  database: "lCore"
+
+
+failed-to-load-profile: "&cFailed to load your profile. Contact an admin."
+
+rank:
+  non-existant: "&cThat rank does not exist"
+  exists: "&cThat rank already exists"
+  deleted: "&aSuccessfully created the %rank%&a."
+  created: "&aSuccessfully deleted the %rank%&a."
+  list:
+    header:
+      - " "
+      - "&6&lRank Info"
+      - " "
+    format: "&7%right_arrow%&r %rank%"

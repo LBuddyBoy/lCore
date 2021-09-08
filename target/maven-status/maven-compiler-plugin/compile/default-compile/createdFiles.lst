@@ -1,0 +1,12 @@
+me\lbuddyboy\core\rank\command\RankDeleteCommand.class
+me\lbuddyboy\core\database\packets\RankDeletePacket.class
+me\lbuddyboy\core\Settings.class
+me\lbuddyboy\core\database\DatabaseHandler.class
+me\lbuddyboy\core\rank\command\RankCreateCommand.class
+me\lbuddyboy\core\profile\Profile.class
+me\lbuddyboy\core\profile\grant\Grant.class
+me\lbuddyboy\core\database\packets\RankCreatePacket.class
+me\lbuddyboy\core\rank\Rank.class
+me\lbuddyboy\core\Core.class
+me\lbuddyboy\core\rank\command\RankListCommand.class
+me\lbuddyboy\core\profile\ProfileListener.class
