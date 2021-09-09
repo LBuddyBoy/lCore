@@ -1,9 +1,13 @@
 package me.lbuddyboy.core;
 
 import lombok.Getter;
+import lombok.SneakyThrows;
 import me.lbuddyboy.core.database.DatabaseHandler;
-import me.lbuddyboy.core.profile.ProfileListener;
+import me.lbuddyboy.core.profile.ProfileHandler;
 import me.lbuddyboy.core.rank.Rank;
+import me.lbuddyboy.core.rank.RankHandler;
+import me.lbuddyboy.core.rank.command.param.RankParameterType;
+import me.lbuddyboy.core.util.YamlDoc;
 import me.lbuddyboy.libraries.command.FrozenCommandHandler;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -17,7 +21,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Core extends JavaPlugin {
 
 	@Getter private static Core instance;
+	private YamlDoc profilesYML;
+	private YamlDoc ranksYML;
 	private DatabaseHandler databaseHandler;
+	private RankHandler rankHandler;
+	private ProfileHandler profileHandler;
 
 	@Override
 	public void onEnable() {
@@ -25,25 +33,25 @@ public class Core extends JavaPlugin {
 
 		this.saveDefaultConfig();
 
-		this.handleDatabases();
-		Rank.loadAllRanks();
-
+		this.loadYMLs();
 		this.loadHandlers();
-		this.loadListeners();
 
 		FrozenCommandHandler.registerAll(this);
+		FrozenCommandHandler.registerParameterType(Rank.class, new RankParameterType());
 	}
 
-	private void handleDatabases() {
-		this.databaseHandler = new DatabaseHandler();
+	@SneakyThrows
+	private void loadYMLs() {
+		this.profilesYML = new YamlDoc(this.getDataFolder(), "profiles.yml");
+		this.profilesYML.init();
+		this.ranksYML = new YamlDoc(this.getDataFolder(), "ranks.yml");
+		this.ranksYML.init();
 	}
 
 	private void loadHandlers() {
-
-	}
-
-	private void loadListeners() {
-		getServer().getPluginManager().registerEvents(new ProfileListener(), this);
+		this.databaseHandler = new DatabaseHandler();
+		this.rankHandler = new RankHandler();
+		this.profileHandler = new ProfileHandler();
 	}
 
 }

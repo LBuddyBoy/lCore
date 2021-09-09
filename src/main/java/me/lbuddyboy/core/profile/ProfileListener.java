@@ -1,8 +1,13 @@
 package me.lbuddyboy.core.profile;
 
+import me.lbuddyboy.core.Core;
+import me.lbuddyboy.core.Settings;
+import me.lbuddyboy.core.util.HashUtil;
+import me.lbuddyboy.libraries.util.CC;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.util.UUID;
 
@@ -16,7 +21,7 @@ public class ProfileListener implements Listener {
 	@EventHandler
 	public void onAsyncPlayerJoinEvent(AsyncPlayerPreLoginEvent event) {
 
-		String ip = "omgcoolip";
+		String ip = (Settings.PROFILE_HASHED_IPS.getBoolean() ? HashUtil.hash(event.getAddress().getHostAddress()) : event.getAddress().getHostAddress());
 
 		UUID uuid = event.getUniqueId();
 
@@ -26,7 +31,11 @@ public class ProfileListener implements Listener {
 			profile.getKnownIPs().add(ip);
 		}
 
-		Profile.profiles.add(profile);
+		profile.recalculateGrants();
+
+		if (Core.getInstance().getProfileHandler().getByUUID(uuid) == null) {
+			Core.getInstance().getProfileHandler().getProfiles().add(profile);
+		}
 
 		profile.save();
 
@@ -37,5 +46,19 @@ public class ProfileListener implements Listener {
 
 	}
 
+	@EventHandler
+	public void onJoin(PlayerJoinEvent event) {
+		Profile profile = Core.getInstance().getProfileHandler().getByUUID(event.getPlayer().getUniqueId());
+
+		if (profile == null) {
+			event.getPlayer().sendMessage(Settings.FAILED_TO_LOAD_PROFILE.getMessage());
+			event.getPlayer().kickPlayer(Settings.FAILED_TO_LOAD_PROFILE.getMessage());
+			return;
+		}
+
+		profile.setupPermissions();
+
+		event.getPlayer().setDisplayName(CC.translate(profile.getDisplayName()));
+	}
 
 }

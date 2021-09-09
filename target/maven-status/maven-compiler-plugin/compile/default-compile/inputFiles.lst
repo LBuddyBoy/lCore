@@ -1,12 +1,54 @@
-D:\SourceCodes\lCore\src\main\java\me\lbuddyboy\core\Settings.java
-D:\SourceCodes\lCore\src\main\java\me\lbuddyboy\core\database\DatabaseHandler.java
-D:\SourceCodes\lCore\src\main\java\me\lbuddyboy\core\rank\command\RankCreateCommand.java
-D:\SourceCodes\lCore\src\main\java\me\lbuddyboy\core\database\packets\RankCreatePacket.java
-D:\SourceCodes\lCore\src\main\java\me\lbuddyboy\core\rank\command\RankListCommand.java
-D:\SourceCodes\lCore\src\main\java\me\lbuddyboy\core\profile\ProfileListener.java
-D:\SourceCodes\lCore\src\main\java\me\lbuddyboy\core\Core.java
-D:\SourceCodes\lCore\src\main\java\me\lbuddyboy\core\rank\Rank.java
-D:\SourceCodes\lCore\src\main\java\me\lbuddyboy\core\database\packets\RankDeletePacket.java
-D:\SourceCodes\lCore\src\main\java\me\lbuddyboy\core\profile\grant\Grant.java
-D:\SourceCodes\lCore\src\main\java\me\lbuddyboy\core\rank\command\RankDeleteCommand.java
-D:\SourceCodes\lCore\src\main\java\me\lbuddyboy\core\profile\Profile.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\profile\grant\menu\GrantsMenu.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\database\packets\grant\GrantAddPacket.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\database\packets\punishments\PunishmentBroadcastPacket.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\Core.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\database\packets\rank\RankSetDisplayPacket.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\punishment\PunishmentType.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\profile\grant\listener\GrantListener.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\punishment\command\BanCommand.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\rank\command\param\RankParameterType.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\rank\command\RankDeleteCommand.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\rank\command\RankEditCommand.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\rank\command\RankRenameCommand.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\punishment\Punishment.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\profile\grant\command\GrantsCommand.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\rank\listener\RankEditListener.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\util\Callback.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\rank\command\RankSetColorCommand.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\profile\command\UserCommand.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\database\packets\rank\RankRemovePermissionPacket.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\profile\grant\command\SetRankCommand.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\database\packets\rank\RankAddPermissionPacket.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\database\packets\rank\RankRenamePacket.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\util\YamlDoc.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\database\DatabaseHandler.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\database\packets\rank\RankDeletePacket.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\profile\ProfileHandler.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\rank\Rank.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\profile\grant\Grant.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\database\packets\rank\RankSetColorPacket.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\database\packets\rank\RankSetPrefixPacket.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\database\packets\punishments\BanPacket.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\rank\command\RankCreateCommand.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\rank\menu\RankEditMenu.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\rank\command\RankListCommand.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\rank\RankHandler.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\database\packets\rank\RankSetWeightPacket.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\profile\grant\command\GrantCommand.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\profile\ProfileListener.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\rank\command\RankSetDisplayCommand.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\util\BukkitUtils.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\database\packets\rank\RankCreatePacket.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\database\packets\variation\JedisPacketBoolean.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\profile\Profile.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\profile\grant\menu\GrantMenu.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\database\packets\grant\GrantRemovePacket.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\util\HashUtil.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\database\packets\ProfileStatusPacket.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\database\packets\rank\RankRemovedPermissionPacket.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\rank\command\RankAddPermissionCommand.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\profile\grant\GrantBuild.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\rank\command\RankSetWeightCommand.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\rank\command\RankRemovePermissionCommand.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\rank\command\RankSetPrefixCommand.java
+D:\LBuddyBoy Development\lCore\src\main\java\me\lbuddyboy\core\Settings.java

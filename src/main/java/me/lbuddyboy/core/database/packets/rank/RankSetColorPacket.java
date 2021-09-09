@@ -1,8 +1,9 @@
-package me.lbuddyboy.core.database.packets;
+package me.lbuddyboy.core.database.packets.rank;
 
 import lombok.AllArgsConstructor;
 import me.lbuddyboy.core.rank.Rank;
 import me.lbuddyboy.libraries.redis.JedisPacket;
+import org.bukkit.ChatColor;
 
 /**
  * @author LBuddyBoy (lbuddyboy.me)
@@ -11,17 +12,18 @@ import me.lbuddyboy.libraries.redis.JedisPacket;
  */
 
 @AllArgsConstructor
-public class RankDeletePacket implements JedisPacket {
+public class RankSetColorPacket implements JedisPacket {
 
 	private final Rank rank;
+	private final ChatColor newColor;
 
 	@Override
 	public void onReceive() {
-		Rank.getRanks().remove(rank);
+		rank.setColor(newColor);
 	}
 
 	@Override
 	public String getID() {
-		return "Rank Delete";
+		return "Rank Set Color";
 	}
 }

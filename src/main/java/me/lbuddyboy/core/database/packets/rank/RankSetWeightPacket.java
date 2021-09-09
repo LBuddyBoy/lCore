@@ -1,4 +1,4 @@
-package me.lbuddyboy.core.database.packets;
+package me.lbuddyboy.core.database.packets.rank;
 
 import lombok.AllArgsConstructor;
 import me.lbuddyboy.core.rank.Rank;
@@ -11,19 +11,18 @@ import me.lbuddyboy.libraries.redis.JedisPacket;
  */
 
 @AllArgsConstructor
-public class RankCreatePacket implements JedisPacket {
+public class RankSetWeightPacket implements JedisPacket {
 
-	private String name;
+	private final Rank rank;
+	private final int newWeight;
 
 	@Override
 	public void onReceive() {
-		Rank rank = new Rank(this.name);
-		Rank.getRanks().add(rank);
-		rank.save();
+		rank.setWeight(newWeight);
 	}
 
 	@Override
 	public String getID() {
-		return "Rank Create";
+		return "Rank Set Weight";
 	}
 }

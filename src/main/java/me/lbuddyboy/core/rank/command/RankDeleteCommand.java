@@ -1,8 +1,9 @@
 package me.lbuddyboy.core.rank.command;
 
 import com.mongodb.client.model.Filters;
+import me.lbuddyboy.core.Core;
 import me.lbuddyboy.core.Settings;
-import me.lbuddyboy.core.database.packets.RankDeletePacket;
+import me.lbuddyboy.core.database.packets.rank.RankDeletePacket;
 import me.lbuddyboy.core.rank.Rank;
 import me.lbuddyboy.libraries.command.Command;
 import me.lbuddyboy.libraries.command.Param;
@@ -16,22 +17,22 @@ import org.bukkit.command.CommandSender;
  */
 public class RankDeleteCommand {
 
-	@Command(names = "rank delete", permission = "lcore.command.rank.delete")
+	@Command(names = "rank delete", permission = "lcore.command.rank.delete", async = true)
 	public static void deleteRank(CommandSender sender, @Param(name = "name") String name) {
 
-		if (Rank.getByName(name) == null) {
+		if (Core.getInstance().getRankHandler().getByName(name) == null) {
 			sender.sendMessage(CC.translate(Settings.RANK_NONEXISTANT.getMessage()));
 			return;
 		}
 
-		Rank rank = Rank.getByName(name);
-		Rank.getRanks().remove(rank);
+		Rank rank = Core.getInstance().getRankHandler().getByName(name);
+		Core.getInstance().getRankHandler().getRanks().remove(rank);
 
 		new RankDeletePacket(rank).send();
 
 		sender.sendMessage(CC.translate(Settings.DELETED_RANK.getMessage().replaceAll("%rank%", name)));
 
-		Rank.collection.deleteOne(Filters.eq("name", name));
+		Core.getInstance().getRankHandler().getCollection().deleteOne(Filters.eq("name", name));
 
 	}
 

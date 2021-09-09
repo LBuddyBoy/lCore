@@ -1,5 +1,6 @@
 package me.lbuddyboy.core.rank.command.param;
 
+import me.lbuddyboy.core.Core;
 import me.lbuddyboy.core.rank.Rank;
 import me.lbuddyboy.libraries.command.ParameterType;
 import org.apache.commons.lang.StringUtils;
@@ -19,10 +20,11 @@ public class RankParameterType implements ParameterType<Rank> {
 	@Override
 	public Rank transform(CommandSender sender, String source) {
 
-		for (Rank rank : Rank.getRanks()) {
-			if (rank.getName() == source)
+		for (Rank rank : Core.getInstance().getRankHandler().getRanks()) {
+			if (rank.getName().equals(source)) {
+				return rank;
+			}
 		}
-
 		return null;
 	}
 
@@ -31,7 +33,7 @@ public class RankParameterType implements ParameterType<Rank> {
 
 		List<String> completions = new ArrayList<>();
 
-		for (Rank rank : Rank.getRanks()) {
+		for (Rank rank : Core.getInstance().getRankHandler().getRanks()) {
 			if (StringUtils.startsWithIgnoreCase(rank.getName(), source)) {
 				completions.add(rank.getName());
 			}
