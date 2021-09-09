@@ -3,6 +3,7 @@ package me.lbuddyboy.core.rank.listener;
 import me.lbuddyboy.core.Settings;
 import me.lbuddyboy.core.database.packets.rank.*;
 import me.lbuddyboy.core.rank.Rank;
+import me.lbuddyboy.core.rank.menu.RankEditMenu;
 import me.lbuddyboy.libraries.util.CC;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -21,23 +22,24 @@ import java.util.Map;
  * lCore / me.lbuddyboy.core.rank.listener
  */
 public class RankEditListener implements Listener {
-	
+
 	public static List<Player> rename = new ArrayList<>();
-	public static List<Player> color = new ArrayList<>();
+	public static List<Player> chatcolor = new ArrayList<>();
 	public static List<Player> display = new ArrayList<>();
 	public static List<Player> prefix = new ArrayList<>();
 	public static List<Player> weight = new ArrayList<>();
 	public static Map<Player, Rank> renameMap = new HashMap<>();
-	
-	
+
+
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent event) {
-		
+
 		Player p = event.getPlayer();
-		
+
 		if (rename.contains(p)) {
 			if (event.getMessage().equalsIgnoreCase("cancel")) {
 				p.sendMessage(CC.translate("&cProcess cancelled."));
+				event.setCancelled(true);
 				rename.remove(p);
 				return;
 			}
@@ -52,10 +54,15 @@ public class RankEditListener implements Listener {
 					.replaceAll("%new%", event.getMessage())
 					.replaceAll("%rank%", rank.getName())));
 
-		} else if (color.contains(p)) {
+			rename.remove(p);
+
+			event.setCancelled(true);
+			new RankEditMenu(rank).openMenu(p);
+		} else if (chatcolor.contains(p)) {
 			if (event.getMessage().equalsIgnoreCase("cancel")) {
 				p.sendMessage(CC.translate("&cProcess cancelled."));
-				color.remove(p);
+				event.setCancelled(true);
+				chatcolor.remove(p);
 				return;
 			}
 
@@ -76,20 +83,22 @@ public class RankEditListener implements Listener {
 			p.sendMessage(CC.translate(Settings.SET_RANK_COLOR.getMessage()
 					.replaceAll("%new%", event.getMessage())
 					.replaceAll("%rank%", rank.getName())));
+
+			chatcolor.remove(p);
+
+			event.setCancelled(true);
+			new RankEditMenu(rank).openMenu(p);
 		} else if (weight.contains(p)) {
 			if (event.getMessage().equalsIgnoreCase("cancel")) {
 				p.sendMessage(CC.translate("&cProcess cancelled."));
+				event.setCancelled(true);
 				weight.remove(p);
 				return;
 			}
 
-			int weight;
-			try {
-				weight = Integer.parseInt(event.getMessage());
-			} catch (Exception ignored) {
-				p.sendMessage(CC.translate("&cThat color does not exist. Try again..."));
-				return;
-			}
+			weight.remove(p);
+
+			int weight = Integer.parseInt(event.getMessage());
 
 			Rank rank = renameMap.get(p);
 			rank.setWeight(weight);
@@ -100,12 +109,20 @@ public class RankEditListener implements Listener {
 			p.sendMessage(CC.translate(Settings.SET_RANK_WEIGHT.getMessage()
 					.replaceAll("%new%", event.getMessage())
 					.replaceAll("%rank%", rank.getName())));
+
+
+
+			event.setCancelled(true);
+			new RankEditMenu(rank).openMenu(p);
 		} else if (prefix.contains(p)) {
 			if (event.getMessage().equalsIgnoreCase("cancel")) {
 				p.sendMessage(CC.translate("&cProcess cancelled."));
+				event.setCancelled(true);
 				prefix.remove(p);
 				return;
 			}
+
+			prefix.remove(p);
 
 			Rank rank = renameMap.get(p);
 			rank.setPrefix(event.getMessage());
@@ -116,12 +133,18 @@ public class RankEditListener implements Listener {
 			p.sendMessage(CC.translate(Settings.SET_RANK_PREFIX.getMessage()
 					.replaceAll("%new%", event.getMessage())
 					.replaceAll("%rank%", rank.getName())));
+
+			event.setCancelled(true);
+			new RankEditMenu(rank).openMenu(p);
 		} else if (display.contains(p)) {
 			if (event.getMessage().equalsIgnoreCase("cancel")) {
 				p.sendMessage(CC.translate("&cProcess cancelled."));
+				event.setCancelled(true);
 				display.remove(p);
 				return;
 			}
+
+			display.remove(p);
 
 			Rank rank = renameMap.get(p);
 			rank.setDisplayName(event.getMessage());
@@ -133,7 +156,10 @@ public class RankEditListener implements Listener {
 					.replaceAll("%new%", event.getMessage())
 					.replaceAll("%rank%", rank.getName())));
 
+			event.setCancelled(true);
+			new RankEditMenu(rank).openMenu(p);
+
 		}
 	}
-	
+
 }

@@ -22,9 +22,9 @@ import java.util.UUID;
 public class BanCommand {
 
 	@Command(names = "ban", permission = "lcore.command.ban")
-	public static void ban(CommandSender sender, @Param(name = "-p", defaultValue = "-s") String silentS, @Param(name = "target")UUID uuid, @Param(name = "time") String time, @Param(name = "reason", wildcard = true) String reason) {
+	public static void ban(CommandSender sender, @Param(name = "target")UUID uuid, @Param(name = "time") String time, @Param(name = "reason {-p}", wildcard = true) String reason) {
 
-		boolean silent = (!silentS.contains("-p"));
+		boolean silent = (!reason.contains("-p"));
 
 		UUID senderUUID = (sender instanceof Player ? ((Player) sender).getUniqueId() : null);
 		long duration = (time.equalsIgnoreCase("perm") ? Long.MAX_VALUE : JavaUtils.parse(time));

@@ -27,7 +27,7 @@ public class Rank {
 	private static Core plugin = Core.getInstance();
 	private static RankHandler rankHandler = plugin.getRankHandler();
 
-	private String name;
+	private String name = "";
 
 	private int weight = 0;
 	private String prefix = "";
@@ -41,6 +41,16 @@ public class Rank {
 		this.displayName = name;
 
 		load();
+	}
+
+	public Rank(String name, boolean load) {
+		this.name = name;
+		this.permissions = new ArrayList<>();
+		this.displayName = name;
+
+		if (load) {
+			load();
+		}
 	}
 
 	@SneakyThrows

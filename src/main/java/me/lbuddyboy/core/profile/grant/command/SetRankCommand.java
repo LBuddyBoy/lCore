@@ -44,7 +44,6 @@ public class SetRankCommand {
 
 		Grant grant = new Grant(UUID.randomUUID(), rank, senderUUID, uuid, reason, System.currentTimeMillis(), duration);
 		profile.getGrants().add(grant);
-		profile.recalculateGrants();
 		profile.save();
 
 		sender.sendMessage(CC.translate(Settings.GRANTED_SENDER.getMessage()
@@ -52,6 +51,8 @@ public class SetRankCommand {
 				.replaceAll("%rank%", rank.getDisplayName())
 				.replaceAll("%player%", profile.getName())
 		));
+
+		new GrantAddPacket(grant).send();
 
 		Player player = Bukkit.getPlayer(grant.getTarget());
 		if (player != null) {

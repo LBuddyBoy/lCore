@@ -31,6 +31,11 @@ public class GrantMenu extends Menu {
 	private final Profile target;
 
 	@Override
+	public String getTitle(Player player) {
+		return CC.translate("&6Granting: " + target.getName());
+	}
+
+	@Override
 	public Map<Integer, Button> getButtons(Player var1) {
 		Map<Integer, Button> buttons = new HashMap<>();
 
@@ -79,7 +84,7 @@ public class GrantMenu extends Menu {
 
 			GrantBuild grantBuild = new GrantBuild(player.getUniqueId(), target.getUniqueId(), rank, null, null);
 			GrantListener.grantBuildMap.put(player, grantBuild);
-			GrantListener.reason.add(player);
+			GrantListener.time.add(player);
 			player.sendMessage(CC.translate("&aType the time you would like to grant this player the " + rank.getDisplayName() + " &arank for."));
 			player.sendMessage(CC.translate("&aType 'cancel' to cancel the process"));
 		}

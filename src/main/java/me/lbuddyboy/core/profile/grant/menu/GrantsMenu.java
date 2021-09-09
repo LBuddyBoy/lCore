@@ -4,12 +4,14 @@ import lombok.AllArgsConstructor;
 import me.lbuddyboy.core.Settings;
 import me.lbuddyboy.core.profile.Profile;
 import me.lbuddyboy.core.profile.grant.Grant;
+import me.lbuddyboy.core.profile.grant.listener.GrantListener;
 import me.lbuddyboy.libraries.util.CC;
 import me.lbuddyboy.libraries.uuid.UniqueIDCache;
 import net.frozenorb.qlib.menu.Button;
 import net.frozenorb.qlib.menu.pagination.PaginatedMenu;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,20 +60,40 @@ public class GrantsMenu extends PaginatedMenu {
 
 		@Override
 		public List<String> getDescription(Player var1) {
-			List<String> lore = Settings.MENU_GRANTS_LORE.getList();
 			List<String> newLore = new ArrayList<>();
 
-			for (String s : lore) {
-				newLore.add(s
-						.replaceAll("%addedBy%", UniqueIDCache.name(grant.getSender()))
-						.replaceAll("%addedAt%", grant.getAddedAtDate())
-						.replaceAll("%reason%", grant.getReason())
-						.replaceAll("%time-left%", grant.getTimeRemaining())
-						.replaceAll("%rank%", grant.getRank().getDisplayName()));
+			if (grant.isRemoved()) {
+				List<String> lore = Settings.MENU_GRANTS_LORE_REMOVED.getList();
+				for (String s : lore) {
+					newLore.add(s
+							.replaceAll("%addedBy%", UniqueIDCache.name(grant.getSender()))
+							.replaceAll("%addedAt%", grant.getAddedAtDate())
+							.replaceAll("%reason%", grant.getReason())
+							.replaceAll("%removedBy%", UniqueIDCache.name(grant.getRemovedBy()))
+							.replaceAll("%removedAt%", grant.getRemovedAtDate())
+							.replaceAll("%removedFor%", grant.getRemovedReason())
+							.replaceAll("%reason%", grant.getReason())
+							.replaceAll("%duration%", "Permanent")
+							.replaceAll("%time-left%", grant.getTimeRemaining())
+							.replaceAll("%rank%", grant.getRank().getDisplayName()));
+				}
+				return CC.translate(newLore);
 			}
 
+			if (grant.isPermanent()) {
+				List<String> lore = Settings.MENU_GRANTS_LORE.getList();
+				for (String s : lore) {
+					newLore.add(s
+							.replaceAll("%addedBy%", UniqueIDCache.name(grant.getSender()))
+							.replaceAll("%addedAt%", grant.getAddedAtDate())
+							.replaceAll("%reason%", grant.getReason())
+							.replaceAll("%duration%", "Permanent")
+							.replaceAll("%time-left%", grant.getTimeRemaining())
+							.replaceAll("%rank%", grant.getRank().getDisplayName()));
+				}
+			}
 
-			return newLore;
+			return CC.translate(newLore);
 		}
 
 		@Override
@@ -87,6 +109,16 @@ public class GrantsMenu extends PaginatedMenu {
 		@Override
 		public Material getMaterial(Player var1) {
 			return Material.WOOL;
+		}
+
+		@Override
+		public void clicked(Player player, int slot, ClickType clickType) {
+			if (grant.isRemoved())
+				return;
+			player.closeInventory();
+			player.sendMessage(CC.translate("&aType a reason for removing this players grant."));
+			GrantListener.remove.add(player);
+			GrantListener.grantMap.put(player, grant);
 		}
 	}
 

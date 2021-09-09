@@ -10,6 +10,10 @@ import me.lbuddyboy.libraries.util.CC;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 /**
  * @author LBuddyBoy (lbuddyboy.me)
  * 07/09/2021 / 7:39 PM
@@ -26,8 +30,6 @@ public class GrantRemovePacket implements JedisPacket {
 
 		Profile profile = Core.getInstance().getProfileHandler().getByUUID(grant.getTarget());
 		if (profile != null) {
-			profile.getGrants().remove(grant);
-			profile.save();
 
 			Player player = Bukkit.getPlayer(grant.getTarget());
 			if (player != null) {
@@ -39,12 +41,20 @@ public class GrantRemovePacket implements JedisPacket {
 
 			}
 
+			List<Grant> toSearch = new ArrayList<>();
+			profile.getGrants().stream().filter(Grant::isRemoved).forEach(toSearch::add);
+
+			if (toSearch.size() == 0) {
+				profile.getGrants().add(new Grant(UUID.randomUUID(), Core.getInstance().getRankHandler().defaultRank(), null, profile.getUniqueId(), "Default Grant", System.currentTimeMillis(), Long.MAX_VALUE));
+				profile.save();
+			}
+
 		}
 
 	}
 
 	@Override
 	public String getID() {
-		return "Grant Add";
+		return "Grant Remove";
 	}
 }

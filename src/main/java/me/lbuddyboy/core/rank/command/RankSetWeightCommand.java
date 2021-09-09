@@ -15,7 +15,7 @@ import org.bukkit.command.CommandSender;
  */
 public class RankSetWeightCommand {
 
-	@Command(names = "rank setprefix", permission = "lcore.command.rank.setprefix", async = true)
+	@Command(names = "rank setweight", permission = "lcore.command.rank.setweight", async = true)
 	public static void rankSetPrefix(CommandSender sender, @Param(name = "rank")Rank rank, @Param(name = "newWeight") int newWeight) {
 
 		if (rank == null) {

@@ -29,12 +29,14 @@ grant:
         - '&6Reason&7: &f%addedAt%'
         - '&6Time Left&7: &f%time-left%'
         - ''
+        - '&fClick to remove this grant'
+        - ''
       lore-removed:
         - ''
         - '&6Added By&7: &f%addedBy%'
         - '&6Added At&7: &f%addedAt%'
         - '&6Duration&7: &f%duration%'
-        - '&6Reason&7: &f%addedAt%'
+        - '&6Reason&7: &f%reason%'
         - '&6Time Left&7: &f%time-left%'
         - ''
         - '&6Removed At&7: &f%removedAt%'
@@ -64,8 +66,8 @@ rank:
     menu-title: "&6Editing: &r%rank%"
   non-existant: "&cThat rank does not exist"
   exists: "&cThat rank already exists"
-  deleted: "&aSuccessfully created the %rank%&a."
-  created: "&aSuccessfully deleted the %rank%&a."
+  deleted: "&aSuccessfully deleted the %rank%&a."
+  created: "&aSuccessfully created the %rank%&a."
   rename: "&aSucessfully renamed the %rank% to %new%"
   setPrefix: "&aSucessfully set the prefix of %rank% to %new%"
   setDisplay: "&aSucessfully set the displayname of %rank% to %new%"

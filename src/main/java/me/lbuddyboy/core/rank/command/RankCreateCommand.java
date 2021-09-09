@@ -24,7 +24,7 @@ public class RankCreateCommand {
 			return;
 		}
 
-		Rank rank = new Rank(name);
+		Rank rank = new Rank(name, false);
 		rank.save();
 
 		Core.getInstance().getRankHandler().getRanks().add(rank);

@@ -1,6 +1,7 @@
 me\lbuddyboy\core\rank\command\RankDeleteCommand.class
 me\lbuddyboy\core\database\DatabaseHandler.class
 me\lbuddyboy\core\rank\command\RankCreateCommand.class
+me\lbuddyboy\core\database\DatabaseHandler$1.class
 me\lbuddyboy\core\profile\Profile.class
 me\lbuddyboy\core\database\packets\rank\RankSetColorPacket.class
 me\lbuddyboy\core\database\packets\grant\GrantRemovePacket.class
@@ -10,11 +11,13 @@ me\lbuddyboy\core\database\packets\rank\RankCreatePacket.class
 me\lbuddyboy\core\database\packets\grant\GrantAddPacket.class
 me\lbuddyboy\core\database\packets\rank\RankAddPermissionPacket.class
 me\lbuddyboy\core\rank\command\RankAddPermissionCommand.class
+me\lbuddyboy\core\database\DatabaseHandler$4.class
 me\lbuddyboy\core\profile\ProfileListener.class
 me\lbuddyboy\core\rank\command\RankRemovePermissionCommand.class
 me\lbuddyboy\core\database\packets\rank\RankSetPrefixPacket.class
 me\lbuddyboy\core\profile\grant\command\GrantCommand.class
 me\lbuddyboy\core\profile\grant\command\SetRankCommand.class
+me\lbuddyboy\core\database\DatabaseHandler$2.class
 me\lbuddyboy\core\profile\ProfileHandler.class
 me\lbuddyboy\core\rank\command\RankSetColorCommand.class
 me\lbuddyboy\core\rank\command\RankSetWeightCommand.class
@@ -29,6 +32,8 @@ me\lbuddyboy\core\rank\RankHandler.class
 me\lbuddyboy\core\profile\grant\menu\GrantsMenu$GrantButton.class
 me\lbuddyboy\core\Settings.class
 me\lbuddyboy\core\profile\command\UserCommand.class
+me\lbuddyboy\core\rank\command\RankInfoCommand.class
+me\lbuddyboy\core\database\DatabaseHandler$3.class
 me\lbuddyboy\core\util\HashUtil.class
 me\lbuddyboy\core\database\packets\rank\RankRenamePacket.class
 me\lbuddyboy\core\profile\grant\menu\GrantMenu$RankButton.class

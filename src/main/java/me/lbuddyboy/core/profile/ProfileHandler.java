@@ -44,25 +44,33 @@ public class ProfileHandler {
 		int iy = 0;
 		if (Settings.STORAGE_MONGO.getBoolean()) {
 			for (Document document : collection.find()) {
-				Profile profile = new Profile(UUID.fromString(document.getString("uniqueId")), document.getString("name"), document.getString("ip"));
-				profiles.add(profile);
-				++i;
+				try {
+					Profile profile = new Profile(UUID.fromString(document.getString("uniqueId")), document.getString("name"), document.getString("ip"));
+					profiles.add(profile);
+					++i;
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
+			Bukkit.getConsoleSender().sendMessage(CC.translate("&fLoaded &6" + i + " &fProfiles from Mongo"));
 		}
 		if (Settings.STORAGE_YAML.getBoolean()) {
 			YamlConfiguration config = Core.getInstance().getProfilesYML().gc();
-			for (String key : config.getConfigurationSection("uuid").getKeys(false)) {
-				UUID uuid = UUID.fromString(key);
-				String absolute = "profiles." + key + ".";
-				String name = config.getString(absolute + "name");
-				String ip = config.getString(absolute + "ip");
-				Profile profile = new Profile(uuid, name, ip);
-				profiles.add(profile);
-				++iy;
+			try {
+				for (String key : config.getConfigurationSection("uuid").getKeys(false)) {
+					UUID uuid = UUID.fromString(key);
+					String absolute = "profiles." + key + ".";
+					String name = config.getString(absolute + "name");
+					String ip = config.getString(absolute + "ip");
+					Profile profile = new Profile(uuid, name, ip);
+					profiles.add(profile);
+					++iy;
+				}
+			} catch (NullPointerException e) {
+				e.printStackTrace();
 			}
+			Bukkit.getConsoleSender().sendMessage(CC.translate("&fLoaded &6" + iy + " &fProfiles from Yaml"));
 		}
-		Bukkit.getConsoleSender().sendMessage(CC.translate("&fLoaded &6" + i + " &fProfiles from Mongo"));
-		Bukkit.getConsoleSender().sendMessage(CC.translate("&fLoaded &6" + i + " &fProfiles from Yaml"));
 	}
 
 	public Profile getByUUID(UUID uuid) {

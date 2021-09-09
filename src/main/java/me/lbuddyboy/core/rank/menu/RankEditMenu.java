@@ -81,7 +81,9 @@ public class RankEditMenu extends Menu {
 						.replaceAll("%rank%", rank.getName())));
 				return;
 			}
+			RankEditListener.renameMap.put(player, rank);
 			type.callback.callback(player);
+			player.closeInventory();
 		}
 	}
 
@@ -93,18 +95,23 @@ public class RankEditMenu extends Menu {
 		}),
 		RENAME(Material.NAME_TAG, "Rename", p -> {
 			RankEditListener.rename.add(p);
+			p.sendMessage(CC.translate("&aType the new name for this rank."));
 		}),
 		SET_COLOR(Material.INK_SACK, "Set Color", p -> {
-			RankEditListener.color.add(p);
+			RankEditListener.chatcolor.add(p);
+			p.sendMessage(CC.translate("&aType the new color for this rank."));
 		}),
 		SET_PREFIX(Material.PAINTING, "Set Prefix", p -> {
 			RankEditListener.prefix.add(p);
+			p.sendMessage(CC.translate("&aType the new prefix for this rank."));
 		}),
 		SET_DISPLAY(Material.SIGN, "Set DisplayName", p -> {
 			RankEditListener.display.add(p);
+			p.sendMessage(CC.translate("&aType the new displayname for this rank."));
 		}),
 		SET_WEIGHT(Material.ANVIL, "Set Weight", p -> {
 			RankEditListener.weight.add(p);
+			p.sendMessage(CC.translate("&aType the new weight for this rank."));
 		});
 
 		private final Material displayMaterial;

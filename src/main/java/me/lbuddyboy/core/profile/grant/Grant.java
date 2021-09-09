@@ -45,7 +45,11 @@ public class Grant {
 	public long getRemainingTime() {
 		return (addedAt + duration) - System.currentTimeMillis();
 	}
-
+	public String getRemovedAtDate() {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+		simpleDateFormat.setTimeZone(TimeZone.getTimeZone("EST"));
+		return simpleDateFormat.format(new Date(removedAt));
+	}
 	public String getAddedAtDate() {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
 		simpleDateFormat.setTimeZone(TimeZone.getTimeZone("EST"));

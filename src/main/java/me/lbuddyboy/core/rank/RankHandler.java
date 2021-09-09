@@ -34,8 +34,14 @@ public class RankHandler {
 
 	public void loadAllRanks() {
 		if (getByName("Default") == null) {
-			Rank rank = new Rank("Default");
-			ranks.add(rank);
+			try {
+				Rank rank = new Rank("Default", true);
+				ranks.add(rank);
+			} catch (Exception e) {
+				Rank rank = new Rank("Default", false);
+				rank.save();
+				ranks.add(rank);
+			}
 		}
 		if (Settings.STORAGE_MONGO.getBoolean()) {
 			for (Document document : collection.find()) {
@@ -47,11 +53,15 @@ public class RankHandler {
 		}
 		if (Settings.STORAGE_YAML.getBoolean()) {
 			YamlConfiguration config = Core.getInstance().getRanksYML().gc();
-			for (String key : config.getConfigurationSection("ranks").getKeys(false)) {
-				Rank rank = new Rank(key);
-				ranks.add(rank);
+			try { // this is here incase the ranks: section is empty
+				for (String key : config.getConfigurationSection("ranks").getKeys(false)) {
+					Rank rank = new Rank(key);
+					ranks.add(rank);
 
-				Bukkit.getConsoleSender().sendMessage(CC.translate("&6&l[lCore] &fLoaded " + rank.getColor() + rank.getName()));
+					Bukkit.getConsoleSender().sendMessage(CC.translate("&6&l[lCore] &fLoaded " + rank.getColor() + rank.getName()));
+				}
+			} catch (NullPointerException e) {
+				e.printStackTrace();
 			}
 		}
 	}

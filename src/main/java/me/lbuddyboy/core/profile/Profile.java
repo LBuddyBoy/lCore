@@ -13,6 +13,7 @@ import me.lbuddyboy.core.profile.grant.Grant;
 import me.lbuddyboy.core.profile.grant.command.SetRankCommand;
 import me.lbuddyboy.core.punishment.Punishment;
 import me.lbuddyboy.core.rank.Rank;
+import me.lbuddyboy.libraries.Lib;
 import me.lbuddyboy.libraries.util.CC;
 import org.bson.Document;
 import org.bukkit.Bukkit;
@@ -80,10 +81,11 @@ public class Profile {
 
 			if (document == null) return;
 
-			this.knownIPs = document.getList("knownIPs", String.class);
-			this.knownIPs = document.getList("permissions", String.class);
-			this.grants = document.getList("grants", Grant.class, Collections.singletonList(new Grant(UUID.randomUUID(), Core.getInstance().getRankHandler().defaultRank(), null, this.uniqueId, "Default Grant", System.currentTimeMillis(), Long.MAX_VALUE)));
-			this.punishments = document.getList("punishments", Punishment.class);
+			this.knownIPs = Lib.getInstance().getRedisHandler().getGSON().fromJson(document.getString("knownIPs"), Core.getInstance().getDatabaseHandler().getLIST_STRING_TYPE());
+			this.permissions = Lib.getInstance().getRedisHandler().getGSON().fromJson(document.getString("permissions"), Core.getInstance().getDatabaseHandler().getLIST_STRING_TYPE());
+			this.grants = Lib.getInstance().getRedisHandler().getGSON().fromJson(document.getString("grants"), Core.getInstance().getDatabaseHandler().getLIST_GRANT_TYPE());
+			this.punishments = Lib.getInstance().getRedisHandler().getGSON().fromJson(document.getString("punishments"), Core.getInstance().getDatabaseHandler().getLIST_PUNISHMENT_TYPE());
+
 		}
 
 		boolean hasDefault = false;
@@ -104,14 +106,14 @@ public class Profile {
 
 			this.currentGrant = grants.get(0);
 			this.currentRank = currentGrant.getRank();
-		} catch (Exception ignored) {
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
 	@SneakyThrows
 	public void save() {
 		CompletableFuture.runAsync(() -> {
-			Document document = new Document();
 
 			YamlConfiguration config = Core.getInstance().getProfilesYML().gc();
 
@@ -132,13 +134,15 @@ public class Profile {
 				}
 			}
 			if (Settings.STORAGE_MONGO.getBoolean()) {
+				Document document = new Document();
+
 				document.put("uniqueId", this.uniqueId.toString());
 				document.put("name", this.name);
 				document.put("ip", this.ip);
-				document.put("knownIPs", this.knownIPs);
-				document.put("grants", this.grants);
-				document.put("punishments", this.punishments);
-				document.put("permissions", this.permissions);
+				document.put("knownIPs", Lib.getInstance().getRedisHandler().getGSON().toJson(this.knownIPs, Core.getInstance().getDatabaseHandler().getLIST_STRING_TYPE()));
+				document.put("grants", Lib.getInstance().getRedisHandler().getGSON().toJson(this.grants, Core.getInstance().getDatabaseHandler().getLIST_GRANT_TYPE()));
+				document.put("punishments", Lib.getInstance().getRedisHandler().getGSON().toJson(this.punishments, Core.getInstance().getDatabaseHandler().getLIST_PUNISHMENT_TYPE()));
+				document.put("permissions", Lib.getInstance().getRedisHandler().getGSON().toJson(this.permissions, Core.getInstance().getDatabaseHandler().getLIST_STRING_TYPE()));
 
 				Core.getInstance().getProfileHandler().getCollection().replaceOne(Filters.eq("uniqueId", this.uniqueId.toString()), document, new ReplaceOptions().upsert(true));
 			}

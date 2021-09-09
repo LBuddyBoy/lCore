@@ -16,7 +16,7 @@ import java.util.List;
 public enum Settings {
 
 	SERVER_NAME("server-name", "lCore"),
-	STORAGE_YAML("use-yaml-storage", true),
+	STORAGE_YAML("use-yaml-storage", false),
 	STORAGE_MONGO("mongo.enabled", true),
 
 	// Punishments
@@ -43,8 +43,24 @@ public enum Settings {
 			"&6Added By&7: &f%addedBy%",
 			"&6Added At&7: &f%addedAt%",
 			"&6Duration&7: &f%duration%",
-			"&6Reason&7: &f%addedAt%",
+			"&6Reason&7: &f%reason%",
 			"&6Time Left&7: &f%time-left%",
+			"",
+			"&fClick to remove this grant",
+			""
+	)),
+	MENU_GRANTS_LORE_REMOVED("grant.grants.button.lore-removed", Arrays.asList(
+			"",
+			"&6Added By&7: &f%addedBy%",
+			"&6Added At&7: &f%addedAt%",
+			"&6Duration&7: &f%duration%",
+			"&6Reason&7: &f%reason%",
+			"&6Time Left&7: &f%time-left%",
+			"",
+			"&6&lRemoved Info",
+			"&6Removed By&7: %removedBy%",
+			"&6Removed At&7: %removedAt%",
+			"&6Removed Reason&7: %removedReason%",
 			""
 	)),
 
@@ -87,7 +103,7 @@ public enum Settings {
 	}
 
 	public boolean getBoolean() {
-		return Core.getInstance().getConfig().getBoolean(this.path, (Boolean) def);
+		return Core.getInstance().getConfig().getBoolean(this.path, (boolean) def);
 	}
 
 	public int getNumber() {
