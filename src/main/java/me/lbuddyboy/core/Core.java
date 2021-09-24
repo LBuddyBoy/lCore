@@ -3,7 +3,7 @@ package me.lbuddyboy.core;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import me.lbuddyboy.core.database.DatabaseHandler;
-import me.lbuddyboy.core.profile.ProfileHandler;
+import me.lbuddyboy.core.profile.lProfileHandler;
 import me.lbuddyboy.core.rank.Rank;
 import me.lbuddyboy.core.rank.RankHandler;
 import me.lbuddyboy.core.rank.command.param.RankParameterType;
@@ -25,7 +25,7 @@ public class Core extends JavaPlugin {
 	private YamlDoc ranksYML;
 	private DatabaseHandler databaseHandler;
 	private RankHandler rankHandler;
-	private ProfileHandler profileHandler;
+	private lProfileHandler profileHandler;
 
 	@Override
 	public void onEnable() {
@@ -51,7 +51,7 @@ public class Core extends JavaPlugin {
 	private void loadHandlers() {
 		this.databaseHandler = new DatabaseHandler();
 		this.rankHandler = new RankHandler();
-		this.profileHandler = new ProfileHandler();
+		this.profileHandler = new lProfileHandler();
 	}
 
 }

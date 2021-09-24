@@ -16,7 +16,7 @@ import java.util.List;
 public enum Settings {
 
 	SERVER_NAME("server-name", "lCore"),
-	STORAGE_YAML("use-yaml-storage", false),
+	STORAGE_YAML("use-yaml-storage", true),
 	STORAGE_MONGO("mongo.enabled", true),
 
 	// Punishments
@@ -33,11 +33,12 @@ public enum Settings {
 
 	// Grants
 
+	GRANT_ACTIVE("grant.active-display", "&a&lACTIVE"),
 	GRANT_EXPIRED("grant.granted.expired", "&aYour %rank% has just expired&a."),
 	GRANTED_SENDER("grant.granted.sender", "&aYou have just granted %player% &athe %rank%&a for &e%time%&a."),
 	GRANTED_TARGET("grant.granted.target", "&aYou have just been granted &athe %rank%&a for &e%time%&a."),
 	MENU_GRANTS_TITLE("grant.grants.menu-title", "&6Grants: %player%"),
-	MENU_GRANTS_NAME("grant.grants.button.name", "&6%rank%"),
+	MENU_GRANTS_NAME("grant.grants.button.name", "&6%rank% &7(%status%&7)"),
 	MENU_GRANTS_LORE("grant.grants.button.lore", Arrays.asList(
 			"",
 			"&6Added By&7: &f%addedBy%",

@@ -2,8 +2,8 @@ package me.lbuddyboy.core.profile.grant.command;
 
 import me.lbuddyboy.core.Core;
 import me.lbuddyboy.core.Settings;
-import me.lbuddyboy.core.profile.Profile;
 import me.lbuddyboy.core.profile.grant.menu.GrantMenu;
+import me.lbuddyboy.core.profile.lProfile;
 import me.lbuddyboy.libraries.command.Command;
 import me.lbuddyboy.libraries.command.Param;
 import me.lbuddyboy.libraries.util.CC;
@@ -21,7 +21,7 @@ public class GrantCommand {
 	@Command(names = "grant", permission = "lcore.command.grant", async = true)
 	public static void grant(Player sender, @Param(name = "target")UUID uuid) {
 
-		Profile profile = Core.getInstance().getProfileHandler().getByUUID(uuid);
+		lProfile profile = Core.getInstance().getProfileHandler().getByUUID(uuid);
 
 		if (profile == null) {
 			sender.sendMessage(CC.translate(Settings.INVALID_PROFILE.getMessage()));

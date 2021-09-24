@@ -3,7 +3,7 @@ package me.lbuddyboy.core.punishment.command;
 import me.lbuddyboy.core.Core;
 import me.lbuddyboy.core.database.packets.punishments.BanPacket;
 import me.lbuddyboy.core.database.packets.punishments.PunishmentBroadcastPacket;
-import me.lbuddyboy.core.profile.Profile;
+import me.lbuddyboy.core.profile.lProfile;
 import me.lbuddyboy.core.punishment.Punishment;
 import me.lbuddyboy.core.punishment.PunishmentType;
 import me.lbuddyboy.libraries.command.Command;
@@ -28,8 +28,8 @@ public class BanCommand {
 
 		UUID senderUUID = (sender instanceof Player ? ((Player) sender).getUniqueId() : null);
 		long duration = (time.equalsIgnoreCase("perm") ? Long.MAX_VALUE : JavaUtils.parse(time));
-		Profile senderProfile = Core.getInstance().getProfileHandler().getByUUID(senderUUID);
-		Profile targetProfile = Core.getInstance().getProfileHandler().getByUUID(uuid);
+		lProfile senderProfile = Core.getInstance().getProfileHandler().getByUUID(senderUUID);
+		lProfile targetProfile = Core.getInstance().getProfileHandler().getByUUID(uuid);
 		String senderDisplay = (senderUUID == null ? "&4Console" : (senderProfile == null ? sender.getName() : senderProfile.getNameWithColor()));
 		String targetDisplay = (senderUUID == null ? "&4Console" : (targetProfile == null ? sender.getName() : targetProfile.getNameWithColor()));
 
@@ -39,7 +39,7 @@ public class BanCommand {
 		new BanPacket(uuid, punishment).send();
 
 		if (targetProfile != null) {
-			targetProfile.getPunishments().add(punishment);
+//			targetProfile.getPunishments().add(punishment);
 			targetProfile.save();
 		}
 	}

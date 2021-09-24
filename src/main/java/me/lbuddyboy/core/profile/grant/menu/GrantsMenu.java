@@ -1,14 +1,16 @@
 package me.lbuddyboy.core.profile.grant.menu;
 
 import lombok.AllArgsConstructor;
+import me.lbuddyboy.core.Core;
 import me.lbuddyboy.core.Settings;
-import me.lbuddyboy.core.profile.Profile;
 import me.lbuddyboy.core.profile.grant.Grant;
 import me.lbuddyboy.core.profile.grant.listener.GrantListener;
+import me.lbuddyboy.core.profile.lProfile;
 import me.lbuddyboy.libraries.util.CC;
+import me.lbuddyboy.libraries.util.TimeUtils;
+import me.lbuddyboy.libraries.util.qlib.Button;
+import me.lbuddyboy.libraries.util.qlib.pagination.PaginatedMenu;
 import me.lbuddyboy.libraries.uuid.UniqueIDCache;
-import net.frozenorb.qlib.menu.Button;
-import net.frozenorb.qlib.menu.pagination.PaginatedMenu;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -27,7 +29,7 @@ import java.util.Map;
 @AllArgsConstructor
 public class GrantsMenu extends PaginatedMenu {
 
-	private final Profile profile;
+	private final lProfile profile;
 
 	@Override
 	public String getPrePaginatedTitle(Player var1) {
@@ -55,7 +57,9 @@ public class GrantsMenu extends PaginatedMenu {
 
 		@Override
 		public String getName(Player var1) {
-			return CC.translate(Settings.MENU_GRANTS_NAME.getMessage().replaceAll("%rank%", grant.getRank().getDisplayName()));
+			return CC.translate(Settings.MENU_GRANTS_NAME.getMessage()
+					.replaceAll("%status%", (grant == Core.getInstance().getProfileHandler().getByUUID(grant.getTarget()).getCurrentGrant() ? Settings.GRANT_ACTIVE.getMessage() : ""))
+					.replaceAll("%rank%", grant.getRank().getDisplayName()));
 		}
 
 		@Override
@@ -73,7 +77,7 @@ public class GrantsMenu extends PaginatedMenu {
 							.replaceAll("%removedAt%", grant.getRemovedAtDate())
 							.replaceAll("%removedFor%", grant.getRemovedReason())
 							.replaceAll("%reason%", grant.getReason())
-							.replaceAll("%duration%", "Permanent")
+							.replaceAll("%duration%", TimeUtils.formatIntoDetailedString((int) (grant.getDuration() / 1000)))
 							.replaceAll("%time-left%", grant.getTimeRemaining())
 							.replaceAll("%rank%", grant.getRank().getDisplayName()));
 				}
@@ -91,6 +95,18 @@ public class GrantsMenu extends PaginatedMenu {
 							.replaceAll("%time-left%", grant.getTimeRemaining())
 							.replaceAll("%rank%", grant.getRank().getDisplayName()));
 				}
+				return CC.translate(newLore);
+			}
+
+			List<String> lore = Settings.MENU_GRANTS_LORE.getList();
+			for (String s : lore) {
+				newLore.add(s
+						.replaceAll("%addedBy%", UniqueIDCache.name(grant.getSender()))
+						.replaceAll("%addedAt%", grant.getAddedAtDate())
+						.replaceAll("%reason%", grant.getReason())
+						.replaceAll("%duration%", TimeUtils.formatIntoDetailedString((int) (grant.getDuration() / 1000)))
+						.replaceAll("%time-left%", grant.getTimeRemaining())
+						.replaceAll("%rank%", grant.getRank().getDisplayName()));
 			}
 
 			return CC.translate(newLore);

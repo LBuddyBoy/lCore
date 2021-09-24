@@ -2,11 +2,11 @@ package me.lbuddyboy.core.profile.grant.listener;
 
 import me.lbuddyboy.core.Core;
 import me.lbuddyboy.core.database.packets.grant.GrantRemovePacket;
-import me.lbuddyboy.core.profile.Profile;
 import me.lbuddyboy.core.profile.grant.Grant;
 import me.lbuddyboy.core.profile.grant.GrantBuild;
 import me.lbuddyboy.core.profile.grant.command.SetRankCommand;
 import me.lbuddyboy.core.profile.grant.menu.GrantsMenu;
+import me.lbuddyboy.core.profile.lProfile;
 import me.lbuddyboy.libraries.util.CC;
 import me.lbuddyboy.libraries.uuid.UniqueIDCache;
 import org.bukkit.entity.Player;
@@ -68,6 +68,7 @@ public class GrantListener implements Listener {
 			SetRankCommand.setRank(p, grantBuild.getTarget(), grantBuild.getRank(), grantBuild.getTime(), grantBuild.getReason());
 
 			reason.remove(p);
+			event.setCancelled(true);
 		} else if (remove.contains(p)) {
 			if (event.getMessage().equalsIgnoreCase("cancel")) {
 				p.sendMessage(CC.translate("&cProcess cancelled."));
@@ -76,7 +77,7 @@ public class GrantListener implements Listener {
 				return;
 			}
 			Grant grant = grantMap.get(p);
-			Profile target = Core.getInstance().getProfileHandler().getByUUID(grant.getTarget());
+			lProfile target = Core.getInstance().getProfileHandler().getByUUID(grant.getTarget());
 			grant.setRemovedBy(p.getUniqueId());
 			grant.setRemoved(true);
 			grant.setRemovedAt(System.currentTimeMillis());
@@ -87,6 +88,7 @@ public class GrantListener implements Listener {
 			new GrantsMenu(target).openMenu(p);
 
 			remove.remove(p);
+			event.setCancelled(true);
 		}
 
 	}

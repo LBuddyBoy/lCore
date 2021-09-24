@@ -1,6 +1,7 @@
 package me.lbuddyboy.core.punishment;
 
-import lombok.Getter;
+import com.google.gson.JsonObject;
+import lombok.Data;
 import me.lbuddyboy.libraries.util.CC;
 import me.lbuddyboy.libraries.util.TimeUtils;
 import me.lbuddyboy.libraries.util.fanciful.FancyMessage;
@@ -15,12 +16,12 @@ import java.util.UUID;
  * lCore / me.lbuddyboy.core.punishment
  */
 
-@Getter
+@Data
 public class Punishment {
 
 	private final PunishmentType type;
-	private final UUID sender;
-	private final UUID target;
+	private UUID sender;
+	private UUID target;
 	private final long duration;
 	private final long addedAt;
 	private final String reason;
@@ -84,4 +85,55 @@ public class Punishment {
 		return !isResolved() && this.duration == Long.MAX_VALUE;
 	}
 
+	public static Punishment deserialize(JsonObject object) {
+		Punishment punishment = new Punishment(
+				PunishmentType.valueOf(object.get("type").getAsString()),
+				null,
+				null,
+				object.get("duration").getAsLong(),
+				object.get("addedAt").getAsLong(),
+				object.get("reason").getAsString(),
+				object.get("silent").getAsBoolean()
+		);
+
+		if (!object.get("target").isJsonNull()) {
+			punishment.setTarget(UUID.fromString(object.get("target").getAsString()));
+		}
+		if (!object.get("sender").isJsonNull()) {
+			punishment.setSender(UUID.fromString(object.get("sender").getAsString()));
+		}
+
+		if (!object.get("removedBy").isJsonNull()) {
+			punishment.setResolvedBy(UUID.fromString(object.get("removedBy").getAsString()));
+		}
+
+		if (!object.get("removedAt").isJsonNull()) {
+			punishment.setResolvedAt(object.get("removedAt").getAsLong());
+		}
+
+		if (!object.get("removedReason").isJsonNull()) {
+			punishment.setResolvedReason(object.get("removedReason").getAsString());
+		}
+
+		if (!object.get("removed").isJsonNull()) {
+			punishment.setResolved(object.get("removed").getAsBoolean());
+		}
+
+		return punishment;
+	}
+
+	public JsonObject serialize() {
+		JsonObject object = new JsonObject();
+		object.addProperty("type", getType().name());
+		object.addProperty("sender", getSender() == null ? null : getSender().toString());
+		object.addProperty("target", getTarget() == null ? null : getTarget().toString());
+		object.addProperty("addedAt", getAddedAt());
+		object.addProperty("addedReason", getReason());
+		object.addProperty("duration", getDuration());
+		object.addProperty("removedBy", getResolvedBy() == null ? null : getResolvedBy().toString());
+		object.addProperty("removedAt", getResolvedAt());
+		object.addProperty("removedReason", getResolvedReason());
+		object.addProperty("removed", isResolved());
+		return object;
+	}
 }

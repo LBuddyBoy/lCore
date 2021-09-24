@@ -2,11 +2,16 @@ package me.lbuddyboy.core.database;
 
 import com.google.gson.reflect.TypeToken;
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientOptions;
+import com.mongodb.MongoCredential;
+import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoDatabase;
 import lombok.Getter;
 import me.lbuddyboy.core.Core;
 import me.lbuddyboy.core.profile.grant.Grant;
 import me.lbuddyboy.core.punishment.Punishment;
+import me.lbuddyboy.libraries.util.CC;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.lang.reflect.Type;
@@ -41,15 +46,15 @@ public class DatabaseHandler {
 		String host = config.getString("mongo.host");
 		int port = config.getInt("mongo.port");
 
-//		if (!auth) {
-//			mongoClient = new MongoClient(host, port);
-//		} else {
-//			mongoClient = new MongoClient(new ServerAddress(host, port), MongoCredential.createCredential(username, authDatabase, password.toCharArray()),
-//					MongoClientOptions.builder().build());
-//
-//		}
-		mongoClient = new MongoClient(host, port);
+		if (!auth) {
+			mongoClient = new MongoClient(host, port);
+		} else {
+			mongoClient = new MongoClient(new ServerAddress(host, port), MongoCredential.createCredential(username, authDatabase, password.toCharArray()),
+					MongoClientOptions.builder().build());
+
+		}
 		mongoDatabase = this.mongoClient.getDatabase(database);
+		Bukkit.getConsoleSender().sendMessage(CC.translate("&fSuccessfully connected the &6Mongo Database"));
 	}
 
 }

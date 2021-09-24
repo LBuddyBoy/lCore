@@ -1,7 +1,9 @@
 package me.lbuddyboy.core.profile.grant;
 
+import com.google.gson.JsonObject;
 import lombok.Getter;
 import lombok.Setter;
+import me.lbuddyboy.core.Core;
 import me.lbuddyboy.core.rank.Rank;
 import me.lbuddyboy.libraries.util.TimeUtils;
 
@@ -21,8 +23,8 @@ public class Grant {
 
 	private final UUID id;
 	private final Rank rank;
-	private final UUID sender;
-	private final UUID target;
+	@Setter private UUID sender;
+	@Setter private UUID target;
 	private final String reason;
 	private final long addedAt;
 	private final long duration;
@@ -74,4 +76,58 @@ public class Grant {
 		return duration == Long.MAX_VALUE;
 	}
 
+	public static Grant deserialize(JsonObject object) {
+		Rank rank = Core.getInstance().getRankHandler().getByName(object.get("rank").getAsString());
+
+		Grant grant = new Grant(
+				UUID.fromString(object.get("id").getAsString()),
+				rank,
+				null,
+				null,
+				object.get("addedReason").getAsString(),
+				object.get("addedAt").getAsLong(),
+				object.get("duration").getAsLong()
+		);
+
+		if (!object.get("target").isJsonNull()) {
+			grant.setTarget(UUID.fromString(object.get("target").getAsString()));
+		}
+		if (!object.get("addedBy").isJsonNull()) {
+			grant.setSender(UUID.fromString(object.get("addedBy").getAsString()));
+		}
+
+		if (!object.get("removedBy").isJsonNull()) {
+			grant.setRemovedBy(UUID.fromString(object.get("removedBy").getAsString()));
+		}
+
+		if (!object.get("removedAt").isJsonNull()) {
+			grant.setRemovedAt(object.get("removedAt").getAsLong());
+		}
+
+		if (!object.get("removedReason").isJsonNull()) {
+			grant.setRemovedReason(object.get("removedReason").getAsString());
+		}
+
+		if (!object.get("removed").isJsonNull()) {
+			grant.setRemoved(object.get("removed").getAsBoolean());
+		}
+
+		return grant;
+	}
+
+	public JsonObject serialize() {
+		JsonObject object = new JsonObject();
+		object.addProperty("id", getId().toString());
+		object.addProperty("rank", getRank().getName());
+		object.addProperty("addedBy", getSender() == null ? null : getSender().toString());
+		object.addProperty("target", getTarget() == null ? null : getTarget().toString());
+		object.addProperty("addedAt", getAddedAt());
+		object.addProperty("addedReason", getReason());
+		object.addProperty("duration", getDuration());
+		object.addProperty("removedBy", getRemovedBy() == null ? null : getRemovedBy().toString());
+		object.addProperty("removedAt", getRemovedAt());
+		object.addProperty("removedReason", getRemovedReason());
+		object.addProperty("removed", isRemoved());
+		return object;
+	}
 }

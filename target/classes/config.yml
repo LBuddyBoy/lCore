@@ -20,13 +20,13 @@ grant:
   grants:
     menu-title: "&6Grants: %player%"
     button:
-      name: "&6%rank%"
+      name: "&6%rank% &7(%status%&7)"
       lore:
         - ''
         - '&6Added By&7: &f%addedBy%'
         - '&6Added At&7: &f%addedAt%'
         - '&6Duration&7: &f%duration%'
-        - '&6Reason&7: &f%addedAt%'
+        - '&6Reason&7: &f%reason%'
         - '&6Time Left&7: &f%time-left%'
         - ''
         - '&fClick to remove this grant'

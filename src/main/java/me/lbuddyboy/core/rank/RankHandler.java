@@ -3,7 +3,7 @@ package me.lbuddyboy.core.rank;
 import com.mongodb.client.MongoCollection;
 import lombok.Getter;
 import me.lbuddyboy.core.Core;
-import me.lbuddyboy.core.Settings;
+import me.lbuddyboy.core.profile.grant.Grant;
 import me.lbuddyboy.core.rank.listener.RankEditListener;
 import me.lbuddyboy.libraries.util.CC;
 import org.bson.Document;
@@ -12,6 +12,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * @author LBuddyBoy (lbuddyboy.me)
@@ -43,29 +44,22 @@ public class RankHandler {
 				ranks.add(rank);
 			}
 		}
-		if (Settings.STORAGE_MONGO.getBoolean()) {
-			for (Document document : collection.find()) {
-				Rank rank = new Rank(document.getString("name"));
+		YamlConfiguration config = Core.getInstance().getRanksYML().gc();
+		try { // this is here incase the ranks: section is empty
+			for (String key : config.getConfigurationSection("ranks").getKeys(false)) {
+				Rank rank = new Rank(key);
 				ranks.add(rank);
 
 				Bukkit.getConsoleSender().sendMessage(CC.translate("&6&l[lCore] &fLoaded " + rank.getColor() + rank.getName()));
 			}
-		}
-		if (Settings.STORAGE_YAML.getBoolean()) {
-			YamlConfiguration config = Core.getInstance().getRanksYML().gc();
-			try { // this is here incase the ranks: section is empty
-				for (String key : config.getConfigurationSection("ranks").getKeys(false)) {
-					Rank rank = new Rank(key);
-					ranks.add(rank);
-
-					Bukkit.getConsoleSender().sendMessage(CC.translate("&6&l[lCore] &fLoaded " + rank.getColor() + rank.getName()));
-				}
-			} catch (NullPointerException e) {
-				e.printStackTrace();
-			}
+		} catch (NullPointerException e) {
+			e.printStackTrace();
 		}
 	}
 
+	public Grant defaultGrant(UUID target) {
+		return new Grant(UUID.randomUUID(), defaultRank(), null, target, "Default Grant", System.currentTimeMillis(), Long.MAX_VALUE);
+	}
 	public Rank defaultRank() {
 		if (getByName("Default") != null)
 			return  getByName("Default");

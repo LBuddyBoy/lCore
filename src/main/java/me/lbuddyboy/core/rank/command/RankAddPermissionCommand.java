@@ -3,7 +3,7 @@ package me.lbuddyboy.core.rank.command;
 import me.lbuddyboy.core.Core;
 import me.lbuddyboy.core.Settings;
 import me.lbuddyboy.core.database.packets.rank.RankAddPermissionPacket;
-import me.lbuddyboy.core.profile.Profile;
+import me.lbuddyboy.core.profile.lProfile;
 import me.lbuddyboy.core.rank.Rank;
 import me.lbuddyboy.libraries.command.Command;
 import me.lbuddyboy.libraries.command.Param;
@@ -40,7 +40,7 @@ public class RankAddPermissionCommand {
 				.replaceAll("%perm%", permission)
 				.replaceAll("%rank%", rank.getDisplayName())));
 
-		for (Profile profile : Core.getInstance().getProfileHandler().getProfiles()) {
+		for (lProfile profile : Core.getInstance().getProfileHandler().getProfiles().values()) {
 			if (profile.getCurrentRank().getName().equals(rank.getName())) {
 				profile.setupPermissions();
 			}

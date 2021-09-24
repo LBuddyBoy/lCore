@@ -3,8 +3,8 @@ package me.lbuddyboy.core.database.packets.grant;
 import lombok.AllArgsConstructor;
 import me.lbuddyboy.core.Core;
 import me.lbuddyboy.core.Settings;
-import me.lbuddyboy.core.profile.Profile;
 import me.lbuddyboy.core.profile.grant.Grant;
+import me.lbuddyboy.core.profile.lProfile;
 import me.lbuddyboy.libraries.redis.JedisPacket;
 import me.lbuddyboy.libraries.util.CC;
 import org.bukkit.Bukkit;
@@ -28,7 +28,7 @@ public class GrantRemovePacket implements JedisPacket {
 	@Override
 	public void onReceive() {
 
-		Profile profile = Core.getInstance().getProfileHandler().getByUUID(grant.getTarget());
+		lProfile profile = Core.getInstance().getProfileHandler().getByUUID(grant.getTarget());
 		if (profile != null) {
 
 			Player player = Bukkit.getPlayer(grant.getTarget());
@@ -46,6 +46,7 @@ public class GrantRemovePacket implements JedisPacket {
 
 			if (toSearch.size() == 0) {
 				profile.getGrants().add(new Grant(UUID.randomUUID(), Core.getInstance().getRankHandler().defaultRank(), null, profile.getUniqueId(), "Default Grant", System.currentTimeMillis(), Long.MAX_VALUE));
+				profile.grantNext();
 				profile.save();
 			}
 

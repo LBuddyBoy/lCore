@@ -3,7 +3,7 @@ package me.lbuddyboy.core.database.packets.punishments;
 import lombok.AllArgsConstructor;
 import me.lbuddyboy.core.Core;
 import me.lbuddyboy.core.Settings;
-import me.lbuddyboy.core.profile.Profile;
+import me.lbuddyboy.core.profile.lProfile;
 import me.lbuddyboy.core.punishment.Punishment;
 import me.lbuddyboy.libraries.redis.JedisPacket;
 import me.lbuddyboy.libraries.util.CC;
@@ -26,10 +26,10 @@ public class BanPacket implements JedisPacket {
 
 	@Override
 	public void onReceive() {
-		Profile profile = Core.getInstance().getProfileHandler().getByUUID(this.target);
+		lProfile profile = Core.getInstance().getProfileHandler().getByUUID(this.target);
 		if (profile == null) return;
 
-		profile.getPunishments().add(punishment);
+//		profile.getPunishments().add(punishment);
 		profile.save();
 
 		Player player = Bukkit.getPlayer(target);

@@ -2,14 +2,14 @@ package me.lbuddyboy.core.profile.grant.menu;
 
 import lombok.AllArgsConstructor;
 import me.lbuddyboy.core.Core;
-import me.lbuddyboy.core.profile.Profile;
 import me.lbuddyboy.core.profile.grant.GrantBuild;
 import me.lbuddyboy.core.profile.grant.listener.GrantListener;
+import me.lbuddyboy.core.profile.lProfile;
 import me.lbuddyboy.core.rank.Rank;
 import me.lbuddyboy.core.util.BukkitUtils;
 import me.lbuddyboy.libraries.util.CC;
-import net.frozenorb.qlib.menu.Button;
-import net.frozenorb.qlib.menu.Menu;
+import me.lbuddyboy.libraries.util.qlib.Button;
+import me.lbuddyboy.libraries.util.qlib.Menu;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -28,7 +28,7 @@ import java.util.Map;
 @AllArgsConstructor
 public class GrantMenu extends Menu {
 
-	private final Profile target;
+	private final lProfile target;
 
 	@Override
 	public String getTitle(Player player) {
@@ -52,7 +52,7 @@ public class GrantMenu extends Menu {
 	public static class RankButton extends Button {
 
 		private final Rank rank;
-		private final Profile target;
+		private final lProfile target;
 
 		@Override
 		public String getName(Player var1) {

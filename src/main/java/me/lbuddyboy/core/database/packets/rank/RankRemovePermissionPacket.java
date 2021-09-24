@@ -2,7 +2,7 @@ package me.lbuddyboy.core.database.packets.rank;
 
 import lombok.AllArgsConstructor;
 import me.lbuddyboy.core.Core;
-import me.lbuddyboy.core.profile.Profile;
+import me.lbuddyboy.core.profile.lProfile;
 import me.lbuddyboy.core.rank.Rank;
 import me.lbuddyboy.libraries.redis.JedisPacket;
 
@@ -22,7 +22,8 @@ public class RankRemovePermissionPacket implements JedisPacket {
 	public void onReceive() {
 		rank.getPermissions().remove(permission);
 
-		for (Profile profile : Core.getInstance().getProfileHandler().getProfiles()) {
+		for (lProfile profile : Core.getInstance().getProfileHandler().getProfiles().values()) {
+			if (profile == null || !profile.isLoaded()) continue;
 			if (profile.getCurrentRank().getName().equals(rank.getName())) {
 				profile.setupPermissions();
 			}

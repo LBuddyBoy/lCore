@@ -1,13 +1,9 @@
 package me.lbuddyboy.core.rank;
 
-import com.mongodb.client.model.Filters;
-import com.mongodb.client.model.ReplaceOptions;
 import lombok.Data;
 import lombok.SneakyThrows;
 import me.lbuddyboy.core.Core;
-import me.lbuddyboy.core.Settings;
 import me.lbuddyboy.core.database.packets.rank.RankDeletePacket;
-import org.bson.Document;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -55,84 +51,56 @@ public class Rank {
 
 	@SneakyThrows
 	public void load() {
-		if (Settings.STORAGE_MONGO.getBoolean()) {
-			Document document = rankHandler.getCollection().find(Filters.eq("name", this.name)).first();
+		YamlConfiguration config = Core.getInstance().getRanksYML().gc();
+		String absolute = "ranks." + this.name + ".";
 
-			if (document == null) return;
+		if (!config.contains("ranks." + this.name)) return;
 
-			this.permissions = document.getList("permissions", String.class);
-			this.prefix = document.getString("prefix");
-			this.displayName = document.getString("displayName");
-			this.weight = document.getInteger("weight");
-			this.color = ChatColor.valueOf(document.getString("color"));
-		}
-		if (Settings.STORAGE_YAML.getBoolean()) {
-			YamlConfiguration config = Core.getInstance().getRanksYML().gc();
-			String absolute = "ranks." + this.name + ".";
-
-			if (!config.contains("ranks." + this.name)) return;
-
-			this.permissions = config.getStringList(absolute + "permissions");
-			this.prefix = config.getString(absolute + "prefix");
-			this.displayName = config.getString(absolute + "displayName");
-			this.weight = config.getInt(absolute + "weight");
-			this.color = ChatColor.valueOf(config.getString(absolute + "color"));
-		}
+		this.permissions = config.getStringList(absolute + "permissions");
+		this.prefix = config.getString(absolute + "prefix");
+		this.displayName = config.getString(absolute + "displayName");
+		this.weight = config.getInt(absolute + "weight");
+		this.color = ChatColor.valueOf(config.getString(absolute + "color"));
 	}
 
 	@SneakyThrows
 	public void save() {
 		CompletableFuture.runAsync(() -> {
-			if (Settings.STORAGE_MONGO.getBoolean()) {
-				Document document = new Document();
+			YamlConfiguration config = Core.getInstance().getRanksYML().gc();
 
+			String absolute = "ranks." + this.name + ".";
 
-				document.put("name", this.name);
-				document.put("displayName", this.displayName);
-				document.put("prefix", this.prefix);
-				document.put("weight", this.weight);
-				document.put("color", this.color.name());
-				document.put("permissions", this.permissions);
+			config.set(absolute + "name", this.name);
+			config.set(absolute + "displayName", this.displayName);
+			config.set(absolute + "prefix", this.displayName);
+			config.set(absolute + "weight", this.weight);
+			config.set(absolute + "color", this.color.name());
+			config.set(absolute + "permissions", this.permissions);
 
-				rankHandler.getCollection().replaceOne(Filters.eq("name", this.name), document, new ReplaceOptions().upsert(true));
-			}
-			if (Settings.STORAGE_YAML.getBoolean()) {
-				YamlConfiguration config = Core.getInstance().getRanksYML().gc();
-
-				config.set("name", this.name);
-				config.set("displayName", this.displayName);
-				config.set("prefix", this.displayName);
-				config.set("weight", this.weight);
-				config.set("color", this.color.toString());
-				config.set("permissions", this.permissions);
-
-				try {
-					Core.getInstance().getRanksYML().save();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+			try {
+				Core.getInstance().getRanksYML().save();
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		});
 	}
 
 	@SneakyThrows
 	public void delete() {
-		rankHandler.getRanks().remove(this);
-
-		new RankDeletePacket(this).send();
-
-		if (Settings.STORAGE_MONGO.getBoolean()) {
-			rankHandler.getCollection().deleteOne(Filters.eq("name", name));
+		try {
+			new RankDeletePacket(this).send();
+			rankHandler.getRanks().remove(this);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		if (Settings.STORAGE_YAML.getBoolean()) {
-			YamlConfiguration config = Core.getInstance().getRanksYML().gc();
-			config.getConfigurationSection("ranks." + this.name).getKeys(false).clear();
-			config.set("ranks." + this.name, null);
-			try {
-				Core.getInstance().getRanksYML().save();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+
+		YamlConfiguration config = Core.getInstance().getRanksYML().gc();
+		config.getConfigurationSection("ranks." + this.name).getKeys(false).clear();
+		config.set("ranks." + this.name, null);
+		try {
+			Core.getInstance().getRanksYML().save();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
