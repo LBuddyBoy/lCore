@@ -1,12 +1,13 @@
 package me.lbuddyboy.core.rank.command;
 
+import me.blazingtide.zetsu.permissible.impl.permissible.Permissible;
+import me.blazingtide.zetsu.schema.annotations.Command;
+import me.blazingtide.zetsu.schema.annotations.parameter.Param;
+import me.lbuddyboy.core.Configuration;
 import me.lbuddyboy.core.Core;
-import me.lbuddyboy.core.Settings;
 import me.lbuddyboy.core.database.packets.rank.RankRemovedPermissionPacket;
 import me.lbuddyboy.core.profile.lProfile;
 import me.lbuddyboy.core.rank.Rank;
-import me.lbuddyboy.libraries.command.Command;
-import me.lbuddyboy.libraries.command.Param;
 import me.lbuddyboy.libraries.util.CC;
 import org.bukkit.command.CommandSender;
 
@@ -18,16 +19,17 @@ import org.bukkit.command.CommandSender;
 
 public class RankRemovePermissionCommand {
 
-	@Command(names = "rank removeperm", permission = "lcore.command.rank.removeperm", async = true)
-	public static void rankRemovePerm(CommandSender sender, @Param(name = "rank") Rank rank, @Param(name = "permission") String permission) {
+	@Command(labels = "rank removeperm", async = true, description = "Removes a permission from a rank")
+	@Permissible("lcore.command.rank.removeperm")
+	public void rankAddPerm(CommandSender sender, @Param("rank") Rank rank, @Param("permission") String permission) {
 
 		if (rank == null) {
-			sender.sendMessage(CC.translate(Settings.RANK_NONEXISTANT.getMessage()));
+			sender.sendMessage(CC.translate(Configuration.RANK_NONEXISTANT.getMessage()));
 			return;
 		}
 
 		if (!rank.getPermissions().contains(permission)) {
-			sender.sendMessage(CC.translate(Settings.RANK_DOES_NOT_HAVE_PERM.getMessage()));
+			sender.sendMessage(CC.translate(Configuration.RANK_DOES_NOT_HAVE_PERM.getMessage()));
 			return;
 		}
 
@@ -36,7 +38,7 @@ public class RankRemovePermissionCommand {
 
 		new RankRemovedPermissionPacket(rank, permission).send();
 
-		sender.sendMessage(CC.translate(Settings.RANK_REMOVED_PERM.getMessage()
+		sender.sendMessage(CC.translate(Configuration.RANK_REMOVED_PERM.getMessage()
 				.replaceAll("%perm%", permission)
 				.replaceAll("%rank%", rank.getDisplayName())));
 

@@ -1,10 +1,11 @@
 package me.lbuddyboy.core.rank.command;
 
-import me.lbuddyboy.core.Settings;
+import me.blazingtide.zetsu.permissible.impl.permissible.Permissible;
+import me.blazingtide.zetsu.schema.annotations.Command;
+import me.blazingtide.zetsu.schema.annotations.parameter.Param;
+import me.lbuddyboy.core.Configuration;
 import me.lbuddyboy.core.database.packets.rank.RankSetWeightPacket;
 import me.lbuddyboy.core.rank.Rank;
-import me.lbuddyboy.libraries.command.Command;
-import me.lbuddyboy.libraries.command.Param;
 import me.lbuddyboy.libraries.util.CC;
 import org.bukkit.command.CommandSender;
 
@@ -15,11 +16,12 @@ import org.bukkit.command.CommandSender;
  */
 public class RankSetWeightCommand {
 
-	@Command(names = "rank setweight", permission = "lcore.command.rank.setweight", async = true)
-	public static void rankSetPrefix(CommandSender sender, @Param(name = "rank")Rank rank, @Param(name = "newWeight") int newWeight) {
+	@Command(labels = "rank setweight", async = true, description = "Sets the weight of a rank")
+	@Permissible("lcore.command.rank.setweight")
+	public void rankAddPerm(CommandSender sender, @Param("rank")Rank rank, @Param("newWeight") Integer newWeight) {
 
 		if (rank == null) {
-			sender.sendMessage(CC.translate(Settings.RANK_NONEXISTANT.getMessage()));
+			sender.sendMessage(CC.translate(Configuration.RANK_NONEXISTANT.getMessage()));
 			return;
 		}
 
@@ -28,7 +30,7 @@ public class RankSetWeightCommand {
 
 		new RankSetWeightPacket(rank, newWeight).send();
 
-		sender.sendMessage(CC.translate(Settings.SET_RANK_WEIGHT.getMessage()
+		sender.sendMessage(CC.translate(Configuration.SET_RANK_WEIGHT.getMessage()
 				.replaceAll("%new%", "" + newWeight)
 				.replaceAll("%rank%", rank.getDisplayName())));
 

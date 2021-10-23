@@ -1,7 +1,7 @@
 package me.lbuddyboy.core.rank.menu;
 
 import lombok.AllArgsConstructor;
-import me.lbuddyboy.core.Settings;
+import me.lbuddyboy.core.Configuration;
 import me.lbuddyboy.core.database.packets.rank.RankDeletePacket;
 import me.lbuddyboy.core.rank.Rank;
 import me.lbuddyboy.core.rank.listener.RankEditListener;
@@ -31,7 +31,7 @@ public class RankEditMenu extends Menu {
 
 	@Override
 	public String getTitle(Player player) {
-		return CC.translate(Settings.RANK_EDIT_MENU_TITLE.getMessage().replaceAll("%rank%", rank.getDisplayName()));
+		return CC.translate(Configuration.RANK_EDIT_MENU_TITLE.getMessage().replaceAll("%rank%", rank.getDisplayName()));
 	}
 
 	@Override
@@ -76,7 +76,7 @@ public class RankEditMenu extends Menu {
 
 				new RankDeletePacket(rank).send();
 
-				player.sendMessage(CC.translate(Settings.DELETED_RANK.getMessage()
+				player.sendMessage(CC.translate(Configuration.DELETED_RANK.getMessage()
 						.replaceAll("%new%", rank.getDisplayName())
 						.replaceAll("%rank%", rank.getName())));
 				return;

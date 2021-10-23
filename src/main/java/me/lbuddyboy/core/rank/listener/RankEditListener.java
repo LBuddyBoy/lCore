@@ -1,6 +1,6 @@
 package me.lbuddyboy.core.rank.listener;
 
-import me.lbuddyboy.core.Settings;
+import me.lbuddyboy.core.Configuration;
 import me.lbuddyboy.core.database.packets.rank.*;
 import me.lbuddyboy.core.rank.Rank;
 import me.lbuddyboy.core.rank.menu.RankEditMenu;
@@ -50,7 +50,7 @@ public class RankEditListener implements Listener {
 
 			new RankRenamePacket(rank, event.getMessage()).send();
 
-			p.sendMessage(CC.translate(Settings.RANK_RENAME.getMessage()
+			p.sendMessage(CC.translate(Configuration.RANK_RENAME.getMessage()
 					.replaceAll("%new%", event.getMessage())
 					.replaceAll("%rank%", rank.getName())));
 
@@ -80,7 +80,7 @@ public class RankEditListener implements Listener {
 
 			new RankSetColorPacket(rank, color).send();
 
-			p.sendMessage(CC.translate(Settings.SET_RANK_COLOR.getMessage()
+			p.sendMessage(CC.translate(Configuration.SET_RANK_COLOR.getMessage()
 					.replaceAll("%new%", event.getMessage())
 					.replaceAll("%rank%", rank.getName())));
 
@@ -106,7 +106,7 @@ public class RankEditListener implements Listener {
 
 			new RankSetWeightPacket(rank, weight).send();
 
-			p.sendMessage(CC.translate(Settings.SET_RANK_WEIGHT.getMessage()
+			p.sendMessage(CC.translate(Configuration.SET_RANK_WEIGHT.getMessage()
 					.replaceAll("%new%", event.getMessage())
 					.replaceAll("%rank%", rank.getName())));
 
@@ -130,7 +130,7 @@ public class RankEditListener implements Listener {
 
 			new RankSetPrefixPacket(rank, event.getMessage()).send();
 
-			p.sendMessage(CC.translate(Settings.SET_RANK_PREFIX.getMessage()
+			p.sendMessage(CC.translate(Configuration.SET_RANK_PREFIX.getMessage()
 					.replaceAll("%new%", event.getMessage())
 					.replaceAll("%rank%", rank.getName())));
 
@@ -152,7 +152,7 @@ public class RankEditListener implements Listener {
 
 			new RankSetDisplayPacket(rank, event.getMessage()).send();
 
-			p.sendMessage(CC.translate(Settings.SET_RANK_DISPLAY.getMessage()
+			p.sendMessage(CC.translate(Configuration.SET_RANK_DISPLAY.getMessage()
 					.replaceAll("%new%", event.getMessage())
 					.replaceAll("%rank%", rank.getName())));
 

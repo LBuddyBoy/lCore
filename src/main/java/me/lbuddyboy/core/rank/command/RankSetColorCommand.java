@@ -1,10 +1,11 @@
 package me.lbuddyboy.core.rank.command;
 
-import me.lbuddyboy.core.Settings;
+import me.blazingtide.zetsu.permissible.impl.permissible.Permissible;
+import me.blazingtide.zetsu.schema.annotations.Command;
+import me.blazingtide.zetsu.schema.annotations.parameter.Param;
+import me.lbuddyboy.core.Configuration;
 import me.lbuddyboy.core.database.packets.rank.RankSetColorPacket;
 import me.lbuddyboy.core.rank.Rank;
-import me.lbuddyboy.libraries.command.Command;
-import me.lbuddyboy.libraries.command.Param;
 import me.lbuddyboy.libraries.util.CC;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -16,11 +17,12 @@ import org.bukkit.command.CommandSender;
  */
 public class RankSetColorCommand {
 
-	@Command(names = "rank setcolor", permission = "lcore.command.rank.setcolor", async = true)
-	public static void rankSetColor(CommandSender sender, @Param(name = "rank")Rank rank, @Param(name = "newColor") String color) {
+	@Command(labels = "rank setcolor", async = true, description = "Sets the color of a rank")
+	@Permissible("lcore.command.rank.setcolor")
+	public void rankAddPerm(CommandSender sender, @Param("rank")Rank rank, @Param("newColor") String color) {
 
 		if (rank == null) {
-			sender.sendMessage(CC.translate(Settings.RANK_NONEXISTANT.getMessage()));
+			sender.sendMessage(CC.translate(Configuration.RANK_NONEXISTANT.getMessage()));
 			return;
 		}
 
@@ -38,7 +40,7 @@ public class RankSetColorCommand {
 
 		new RankSetColorPacket(rank, newColor).send();
 
-		sender.sendMessage(CC.translate(Settings.SET_RANK_COLOR.getMessage()
+		sender.sendMessage(CC.translate(Configuration.SET_RANK_COLOR.getMessage()
 				.replaceAll("%new%", color.toUpperCase())
 				.replaceAll("%rank%", rank.getDisplayName())));
 

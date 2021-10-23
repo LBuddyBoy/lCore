@@ -1,12 +1,13 @@
 package me.lbuddyboy.core.rank.command;
 
 import com.mongodb.client.model.Filters;
+import me.blazingtide.zetsu.permissible.impl.permissible.Permissible;
+import me.blazingtide.zetsu.schema.annotations.Command;
+import me.blazingtide.zetsu.schema.annotations.parameter.Param;
+import me.lbuddyboy.core.Configuration;
 import me.lbuddyboy.core.Core;
-import me.lbuddyboy.core.Settings;
 import me.lbuddyboy.core.database.packets.rank.RankDeletePacket;
 import me.lbuddyboy.core.rank.Rank;
-import me.lbuddyboy.libraries.command.Command;
-import me.lbuddyboy.libraries.command.Param;
 import me.lbuddyboy.libraries.util.CC;
 import org.bukkit.command.CommandSender;
 
@@ -17,11 +18,12 @@ import org.bukkit.command.CommandSender;
  */
 public class RankDeleteCommand {
 
-	@Command(names = "rank delete", permission = "lcore.command.rank.delete", async = true)
-	public static void deleteRank(CommandSender sender, @Param(name = "name") String name) {
+	@Command(labels = "rank delete", async = true, description = "Deletes a current rank")
+	@Permissible("lcore.command.rank.delete")
+	public void rankAddPerm(CommandSender sender, @Param("name") String name) {
 
 		if (Core.getInstance().getRankHandler().getByName(name) == null) {
-			sender.sendMessage(CC.translate(Settings.RANK_NONEXISTANT.getMessage()));
+			sender.sendMessage(CC.translate(Configuration.RANK_NONEXISTANT.getMessage()));
 			return;
 		}
 
@@ -30,7 +32,7 @@ public class RankDeleteCommand {
 
 		new RankDeletePacket(rank).send();
 
-		sender.sendMessage(CC.translate(Settings.DELETED_RANK.getMessage().replaceAll("%rank%", name)));
+		sender.sendMessage(CC.translate(Configuration.DELETED_RANK.getMessage().replaceAll("%rank%", name)));
 
 		Core.getInstance().getRankHandler().getCollection().deleteOne(Filters.eq("name", name));
 

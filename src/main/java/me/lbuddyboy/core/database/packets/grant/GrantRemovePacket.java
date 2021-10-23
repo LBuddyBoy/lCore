@@ -1,8 +1,8 @@
 package me.lbuddyboy.core.database.packets.grant;
 
 import lombok.AllArgsConstructor;
+import me.lbuddyboy.core.Configuration;
 import me.lbuddyboy.core.Core;
-import me.lbuddyboy.core.Settings;
 import me.lbuddyboy.core.profile.grant.Grant;
 import me.lbuddyboy.core.profile.lProfile;
 import me.lbuddyboy.libraries.redis.JedisPacket;
@@ -33,7 +33,7 @@ public class GrantRemovePacket implements JedisPacket {
 
 			Player player = Bukkit.getPlayer(grant.getTarget());
 			if (player != null) {
-				player.sendMessage(CC.translate(Settings.GRANT_EXPIRED.getMessage()
+				player.sendMessage(CC.translate(Configuration.GRANT_EXPIRED.getMessage()
 						.replaceAll("%time%", grant.getTimeRemaining())
 						.replaceAll("%rank%", grant.getRank().getDisplayName())
 						.replaceAll("%player%", profile.getName())

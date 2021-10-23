@@ -1,8 +1,8 @@
 package me.lbuddyboy.core.database.packets.punishments;
 
 import lombok.AllArgsConstructor;
+import me.lbuddyboy.core.Configuration;
 import me.lbuddyboy.core.Core;
-import me.lbuddyboy.core.Settings;
 import me.lbuddyboy.core.profile.lProfile;
 import me.lbuddyboy.core.punishment.Punishment;
 import me.lbuddyboy.libraries.redis.JedisPacket;
@@ -34,12 +34,12 @@ public class BanPacket implements JedisPacket {
 
 		Player player = Bukkit.getPlayer(target);
 		if (player != null) {
-			player.sendMessage(CC.translate(Settings.BAN_KICK_MESSAGE.getMessage()
+			player.sendMessage(CC.translate(Configuration.BAN_KICK_MESSAGE.getMessage()
 					.replaceAll("%reason%", punishment.getReason())
-					.replaceAll("%temp-format%", Settings.BAN_TEMPORARY_FORMAT.getMessage())));
-			player.kickPlayer(CC.translate(Settings.BAN_KICK_MESSAGE.getMessage()
+					.replaceAll("%temp-format%", Configuration.BAN_TEMPORARY_FORMAT.getMessage())));
+			player.kickPlayer(CC.translate(Configuration.BAN_KICK_MESSAGE.getMessage()
 					.replaceAll("%reason%", punishment.getReason())
-					.replaceAll("%temp-format%", Settings.BAN_TEMPORARY_FORMAT.getMessage())));
+					.replaceAll("%temp-format%", Configuration.BAN_TEMPORARY_FORMAT.getMessage())));
 		}
 
 	}

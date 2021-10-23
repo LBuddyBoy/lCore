@@ -1,16 +1,16 @@
 package me.lbuddyboy.core.profile.grant.menu;
 
 import lombok.AllArgsConstructor;
+import me.lbuddyboy.core.Configuration;
 import me.lbuddyboy.core.Core;
-import me.lbuddyboy.core.Settings;
 import me.lbuddyboy.core.profile.grant.Grant;
 import me.lbuddyboy.core.profile.grant.listener.GrantListener;
 import me.lbuddyboy.core.profile.lProfile;
+import me.lbuddyboy.libraries.redis.RedisUUIDCache;
 import me.lbuddyboy.libraries.util.CC;
 import me.lbuddyboy.libraries.util.TimeUtils;
 import me.lbuddyboy.libraries.util.qlib.Button;
 import me.lbuddyboy.libraries.util.qlib.pagination.PaginatedMenu;
-import me.lbuddyboy.libraries.uuid.UniqueIDCache;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -33,7 +33,7 @@ public class GrantsMenu extends PaginatedMenu {
 
 	@Override
 	public String getPrePaginatedTitle(Player var1) {
-		return CC.translate(Settings.MENU_GRANTS_TITLE.getMessage().replaceAll("%player%", profile.getName()));
+		return CC.translate(Configuration.MENU_GRANTS_TITLE.getMessage().replaceAll("%player%", profile.getName()));
 	}
 
 	@Override
@@ -57,8 +57,8 @@ public class GrantsMenu extends PaginatedMenu {
 
 		@Override
 		public String getName(Player var1) {
-			return CC.translate(Settings.MENU_GRANTS_NAME.getMessage()
-					.replaceAll("%status%", (grant == Core.getInstance().getProfileHandler().getByUUID(grant.getTarget()).getCurrentGrant() ? Settings.GRANT_ACTIVE.getMessage() : ""))
+			return CC.translate(Configuration.MENU_GRANTS_NAME.getMessage()
+					.replaceAll("%status%", (grant == Core.getInstance().getProfileHandler().getByUUID(grant.getTarget()).getCurrentGrant() ? Configuration.GRANT_ACTIVE.getMessage() : ""))
 					.replaceAll("%rank%", grant.getRank().getDisplayName()));
 		}
 
@@ -67,13 +67,13 @@ public class GrantsMenu extends PaginatedMenu {
 			List<String> newLore = new ArrayList<>();
 
 			if (grant.isRemoved()) {
-				List<String> lore = Settings.MENU_GRANTS_LORE_REMOVED.getList();
+				List<String> lore = Configuration.MENU_GRANTS_LORE_REMOVED.getList();
 				for (String s : lore) {
 					newLore.add(s
-							.replaceAll("%addedBy%", UniqueIDCache.name(grant.getSender()))
+							.replaceAll("%addedBy%", RedisUUIDCache.name(grant.getSender()))
 							.replaceAll("%addedAt%", grant.getAddedAtDate())
 							.replaceAll("%reason%", grant.getReason())
-							.replaceAll("%removedBy%", UniqueIDCache.name(grant.getRemovedBy()))
+							.replaceAll("%removedBy%", RedisUUIDCache.name(grant.getRemovedBy()))
 							.replaceAll("%removedAt%", grant.getRemovedAtDate())
 							.replaceAll("%removedFor%", grant.getRemovedReason())
 							.replaceAll("%reason%", grant.getReason())
@@ -85,10 +85,10 @@ public class GrantsMenu extends PaginatedMenu {
 			}
 
 			if (grant.isPermanent()) {
-				List<String> lore = Settings.MENU_GRANTS_LORE.getList();
+				List<String> lore = Configuration.MENU_GRANTS_LORE.getList();
 				for (String s : lore) {
 					newLore.add(s
-							.replaceAll("%addedBy%", UniqueIDCache.name(grant.getSender()))
+							.replaceAll("%addedBy%", RedisUUIDCache.name(grant.getSender()))
 							.replaceAll("%addedAt%", grant.getAddedAtDate())
 							.replaceAll("%reason%", grant.getReason())
 							.replaceAll("%duration%", "Permanent")
@@ -98,10 +98,10 @@ public class GrantsMenu extends PaginatedMenu {
 				return CC.translate(newLore);
 			}
 
-			List<String> lore = Settings.MENU_GRANTS_LORE.getList();
+			List<String> lore = Configuration.MENU_GRANTS_LORE.getList();
 			for (String s : lore) {
 				newLore.add(s
-						.replaceAll("%addedBy%", UniqueIDCache.name(grant.getSender()))
+						.replaceAll("%addedBy%", RedisUUIDCache.name(grant.getSender()))
 						.replaceAll("%addedAt%", grant.getAddedAtDate())
 						.replaceAll("%reason%", grant.getReason())
 						.replaceAll("%duration%", TimeUtils.formatIntoDetailedString((int) (grant.getDuration() / 1000)))

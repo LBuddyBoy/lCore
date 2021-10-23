@@ -8,7 +8,6 @@ import me.lbuddyboy.core.profile.grant.command.SetRankCommand;
 import me.lbuddyboy.core.profile.grant.menu.GrantsMenu;
 import me.lbuddyboy.core.profile.lProfile;
 import me.lbuddyboy.libraries.util.CC;
-import me.lbuddyboy.libraries.uuid.UniqueIDCache;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -49,7 +48,7 @@ public class GrantListener implements Listener {
 
 			grantBuildMap.put(p, grantBuild);
 
-			p.sendMessage(CC.translate("&aNow, type in the reason for granting " + UniqueIDCache.name(grantBuild.getTarget()) + "&a the " + grantBuild.getRank().getDisplayName() + "&a Rank"));
+			p.sendMessage(CC.translate("&aNow, type in the reason for granting " + Core.getInstance().getServer().getOfflinePlayer(grantBuild.getTarget()).getName() + "&a the " + grantBuild.getRank().getDisplayName() + "&a Rank"));
 			time.remove(p);
 			reason.add(p);
 			event.setCancelled(true);
@@ -65,7 +64,7 @@ public class GrantListener implements Listener {
 
 			grantBuildMap.put(p, grantBuild);
 
-			SetRankCommand.setRank(p, grantBuild.getTarget(), grantBuild.getRank(), grantBuild.getTime(), grantBuild.getReason());
+			new SetRankCommand().setRank(p, grantBuild.getTarget(), grantBuild.getRank(), grantBuild.getTime(), grantBuild.getReason());
 
 			reason.remove(p);
 			event.setCancelled(true);
@@ -82,6 +81,8 @@ public class GrantListener implements Listener {
 			grant.setRemoved(true);
 			grant.setRemovedAt(System.currentTimeMillis());
 			grant.setRemovedReason(event.getMessage());
+
+			target.save();
 
 			new GrantRemovePacket(grant).send();
 

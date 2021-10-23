@@ -1,3 +1,6 @@
+redis:
+  channel-id: 1
+
 mongo:
   enabled: true
   host: "localhost"
@@ -10,13 +13,15 @@ mongo:
     auth-db: ""
 
 use-yaml-storage: false # You can only use one at once.
-
 server-name: "lCore"
+timezone: "EST"
 
 use-protected-ip-storage: true
 failed-to-load-profile: "&cFailed to load your profile. Contact an admin."
 
 grant:
+  active-display: "&a&lACTIVE"
+  inactive-display: "&c&lINACTIVE"
   grants:
     menu-title: "&6Grants: %player%"
     button:
@@ -60,6 +65,72 @@ punish:
     temporary-format: "&cExpires: %time%"
   kick:
     kick-message: "&cYou have been kicked from the server.\n&cReason: %reason%"
+
+reports:
+  sent-sender: "&aWe have received your request for help and we will assist you shortly."
+  go-to-server-message: "&7(( Click here to go to their server ))" # leave blank to not send the message
+  tp-sender-message: "&7(( Click here to go to teleport to the sender ))" # leave blank to not send the message
+  tp-target-message: "&7(( Click here to go to teleport to the target ))" # leave blank to not send the message
+  report-staff-message:
+    - '&6&lREPORT &f- &e%sender%&f needs assistance on &e%server%&f.'
+    - '&6Target&f: %target%'
+    - '&6Reason&f: %reason%'
+  helpop-staff-message:
+    - '&6&lHELPOP &f- &e%sender%&f needs assistance on &e%server%&f.'
+    - '&6Reason&f: %reason%'
+  staff-resolved-message: "&aSuccessfully resolved that report. It has now been moved in to the resolved reports section."
+  staff-deleted-message: "&aSuccessfully deleted that report. It can no longer be recovered."
+  menu:
+    amount-of-reports-button-name: "&6Reports&f: %reports%"
+    resolved-title: "&6Reports"
+    title: "&6Reports"
+    material: "PAPER"
+    data: 0
+    report-name: "&6&lReport &f#%id%"
+    helpop-lore:
+      - ''
+      - '&6Sent At&f: %sender%'
+      - '&6Sent For&f: %reason%'
+      - '&6Sent At&f: %sentAt%'
+      - '&6Sent On&f: %server%'
+      - ''
+      - '&fClick here to resolve this report'
+      - ''
+    report-lore:
+      - ''
+      - '&6Sent At&f: %sender%'
+      - '&6Sent To&f: %target%'
+      - '&6Sent For&f: %reason%'
+      - '&6Sent At&f: %sentAt%'
+      - '&6Sent On&f: %server%'
+      - ''
+      - '&fClick here to resolve this report'
+      - ''
+    resolved-helpop-lore:
+      - ''
+      - '&6Sent At&f: %sender%'
+      - '&6Sent For&f: %reason%'
+      - '&6Sent At&f: %sentAt%'
+      - '&6Sent On&f: %server%'
+      - ''
+      - '&6Resolved By&f: %resolvedBy%'
+      - '&6Resolved At&f: %resolvedAt%'
+      - ''
+      - '&fClick here to delete this report'
+      - ''
+    resolved-report-lore:
+      - ''
+      - '&6Sent At&f: %sender%'
+      - '&6Sent To&f: %target%'
+      - '&6Sent For&f: %reason%'
+      - '&6Sent At&f: %sentAt%'
+      - '&6Sent On&f: %server%'
+      - ''
+      - '&6Resolved By&f: %resolvedBy%'
+      - '&6Resolved At&f: %resolvedAt%'
+      - ''
+      - '&fClick here to delete this report'
+      - ''
 
 rank:
   edit:

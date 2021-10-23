@@ -34,7 +34,6 @@ public class lProfileHandler {
 
 	public lProfile getByUUID(UUID toLook) {
 		lProfile profile = new lProfile(toLook);
-		profile.load();
 		if (!profile.isLoaded()) {
 			return null;
 		}

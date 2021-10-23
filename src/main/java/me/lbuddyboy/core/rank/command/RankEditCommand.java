@@ -1,9 +1,10 @@
 package me.lbuddyboy.core.rank.command;
 
+import me.blazingtide.zetsu.permissible.impl.permissible.Permissible;
+import me.blazingtide.zetsu.schema.annotations.Command;
+import me.blazingtide.zetsu.schema.annotations.parameter.Param;
 import me.lbuddyboy.core.rank.Rank;
 import me.lbuddyboy.core.rank.menu.RankEditMenu;
-import me.lbuddyboy.libraries.command.Command;
-import me.lbuddyboy.libraries.command.Param;
 import org.bukkit.entity.Player;
 
 /**
@@ -13,8 +14,9 @@ import org.bukkit.entity.Player;
  */
 public class RankEditCommand {
 
-	@Command(names = "rank edit", permission = "lcore.command.rank.edit")
-	public static void editRank(Player sender, @Param(name = "rank") Rank rank) {
+	@Command(labels = "rank edit", async = true, description = "Pulls up a rank editor gui")
+	@Permissible("lcore.command.rank.edit")
+	public void rankAddPerm(Player sender, @Param("rank") Rank rank) {
 		new RankEditMenu(rank).openMenu(sender);
 	}
 

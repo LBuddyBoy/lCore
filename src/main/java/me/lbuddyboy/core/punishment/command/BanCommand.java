@@ -1,13 +1,14 @@
 package me.lbuddyboy.core.punishment.command;
 
+import me.blazingtide.zetsu.permissible.impl.permissible.Permissible;
+import me.blazingtide.zetsu.schema.annotations.Command;
+import me.blazingtide.zetsu.schema.annotations.parameter.Param;
 import me.lbuddyboy.core.Core;
 import me.lbuddyboy.core.database.packets.punishments.BanPacket;
 import me.lbuddyboy.core.database.packets.punishments.PunishmentBroadcastPacket;
 import me.lbuddyboy.core.profile.lProfile;
 import me.lbuddyboy.core.punishment.Punishment;
 import me.lbuddyboy.core.punishment.PunishmentType;
-import me.lbuddyboy.libraries.command.Command;
-import me.lbuddyboy.libraries.command.Param;
 import me.lbuddyboy.libraries.util.JavaUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -21,8 +22,9 @@ import java.util.UUID;
  */
 public class BanCommand {
 
-	@Command(names = "ban", permission = "lcore.command.ban")
-	public static void ban(CommandSender sender, @Param(name = "target")UUID uuid, @Param(name = "time") String time, @Param(name = "reason {-p}", wildcard = true) String reason) {
+	@Command(labels = "ban", async = true)
+	@Permissible("lcore.command.ban")
+	public void rankAddPerm(CommandSender sender, @Param("target")UUID uuid, @Param("time") String time, @Param("reason {-p}") String reason) {
 
 		boolean silent = (!reason.contains("-p"));
 

@@ -1,11 +1,12 @@
 package me.lbuddyboy.core.profile.grant.command;
 
+import me.blazingtide.zetsu.permissible.impl.permissible.Permissible;
+import me.blazingtide.zetsu.schema.annotations.Command;
+import me.blazingtide.zetsu.schema.annotations.parameter.Param;
+import me.lbuddyboy.core.Configuration;
 import me.lbuddyboy.core.Core;
-import me.lbuddyboy.core.Settings;
 import me.lbuddyboy.core.profile.grant.menu.GrantMenu;
 import me.lbuddyboy.core.profile.lProfile;
-import me.lbuddyboy.libraries.command.Command;
-import me.lbuddyboy.libraries.command.Param;
 import me.lbuddyboy.libraries.util.CC;
 import org.bukkit.entity.Player;
 
@@ -18,13 +19,14 @@ import java.util.UUID;
  */
 public class GrantCommand {
 
-	@Command(names = "grant", permission = "lcore.command.grant", async = true)
-	public static void grant(Player sender, @Param(name = "target")UUID uuid) {
+	@Command(labels = "grant", async = true)
+	@Permissible("lcore.command.grant")
+	public void rankAddPerm(Player sender, @Param("target")UUID uuid) {
 
 		lProfile profile = Core.getInstance().getProfileHandler().getByUUID(uuid);
 
 		if (profile == null) {
-			sender.sendMessage(CC.translate(Settings.INVALID_PROFILE.getMessage()));
+			sender.sendMessage(CC.translate(Configuration.INVALID_PROFILE.getMessage()));
 			return;
 		}
 

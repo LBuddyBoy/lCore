@@ -13,13 +13,16 @@ public class YamlDoc {
     public YamlDoc(File folder, String configName) {
         this.configName = configName;
         file = new File(folder, configName);
+        init();
     }
-
-
-    public void init() throws IOException {
+    public void init() {
         if (!file.exists()) {
-            file.createNewFile();
-            loadDefaults();
+            try {
+                file.createNewFile();
+                loadDefaults();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         config = YamlConfiguration.loadConfiguration(file);

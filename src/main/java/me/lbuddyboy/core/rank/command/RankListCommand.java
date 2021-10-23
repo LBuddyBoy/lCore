@@ -1,9 +1,10 @@
 package me.lbuddyboy.core.rank.command;
 
+import me.blazingtide.zetsu.permissible.impl.permissible.Permissible;
+import me.blazingtide.zetsu.schema.annotations.Command;
+import me.lbuddyboy.core.Configuration;
 import me.lbuddyboy.core.Core;
-import me.lbuddyboy.core.Settings;
 import me.lbuddyboy.core.rank.Rank;
-import me.lbuddyboy.libraries.command.Command;
 import me.lbuddyboy.libraries.util.CC;
 import org.bukkit.command.CommandSender;
 
@@ -18,10 +19,11 @@ import java.util.List;
  */
 public class RankListCommand {
 
-	@Command(names = {"rank list", "rank dump"}, permission = "lcore.command.rank.list", async = true)
-	public static void listRanks(CommandSender sender) {
+	@Command(labels = "rank list", async = true, description = "Lists all ranks")
+	@Permissible("lcore.command.rank.list")
+	public void rankAddPerm(CommandSender sender) {
 
-		for (String s : Settings.LIST_RANKS_HEADER.getList()) {
+		for (String s : Configuration.LIST_RANKS_HEADER.getList()) {
 			sender.sendMessage(CC.translate(s));
 		}
 
@@ -29,7 +31,7 @@ public class RankListCommand {
 		ranks.sort(Comparator.comparingInt(Rank::getWeight));
 
 		for (Rank rank : ranks) {
-			sender.sendMessage(CC.translate(Settings.LIST_RANKS_FORMAT.getMessage()
+			sender.sendMessage(CC.translate(Configuration.LIST_RANKS_FORMAT.getMessage()
 					.replaceAll("%weight%", "" + rank.getWeight())
 					.replaceAll("%rank%", rank.getName())));
 		}

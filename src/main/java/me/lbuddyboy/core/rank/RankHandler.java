@@ -5,6 +5,7 @@ import lombok.Getter;
 import me.lbuddyboy.core.Core;
 import me.lbuddyboy.core.profile.grant.Grant;
 import me.lbuddyboy.core.rank.listener.RankEditListener;
+import me.lbuddyboy.libraries.menu.listener.MenuListener;
 import me.lbuddyboy.libraries.util.CC;
 import org.bson.Document;
 import org.bukkit.Bukkit;
@@ -29,6 +30,7 @@ public class RankHandler {
 		ranks = new HashSet<>();
 
 		Core.getInstance().getServer().getPluginManager().registerEvents(new RankEditListener(), Core.getInstance());
+		new MenuListener();
 
 		loadAllRanks();
 	}

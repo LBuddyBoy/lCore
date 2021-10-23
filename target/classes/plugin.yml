@@ -2,4 +2,3 @@ name: lCore
 main: me.lbuddyboy.core.Core
 version: 0.1 BETA
 author: LBuddyBoy
-depend: [BuddyLib]

@@ -1,11 +1,12 @@
 package me.lbuddyboy.core.rank.command;
 
+import me.blazingtide.zetsu.permissible.impl.permissible.Permissible;
+import me.blazingtide.zetsu.schema.annotations.Command;
+import me.blazingtide.zetsu.schema.annotations.parameter.Param;
+import me.lbuddyboy.core.Configuration;
 import me.lbuddyboy.core.Core;
-import me.lbuddyboy.core.Settings;
 import me.lbuddyboy.core.database.packets.rank.RankCreatePacket;
 import me.lbuddyboy.core.rank.Rank;
-import me.lbuddyboy.libraries.command.Command;
-import me.lbuddyboy.libraries.command.Param;
 import me.lbuddyboy.libraries.util.CC;
 import org.bukkit.command.CommandSender;
 
@@ -16,11 +17,12 @@ import org.bukkit.command.CommandSender;
  */
 public class RankCreateCommand {
 
-	@Command(names = "rank create", permission = "lcore.command.rank.create", async = true)
-	public static void creatRank(CommandSender sender, @Param(name = "name") String name) {
+	@Command(labels = "rank create", async = true, description = "Creates a brand new rank")
+	@Permissible("lcore.command.rank.create")
+	public void rankAddPerm(CommandSender sender, @Param("name") String name) {
 
 		if (Core.getInstance().getRankHandler().getByName(name) != null) {
-			sender.sendMessage(CC.translate(Settings.RANK_EXISTS.getMessage()));
+			sender.sendMessage(CC.translate(Configuration.RANK_EXISTS.getMessage()));
 			return;
 		}
 
@@ -31,7 +33,7 @@ public class RankCreateCommand {
 
 		new RankCreatePacket(name).send();
 
-		sender.sendMessage(CC.translate(Settings.CREATED_RANK.getMessage().replaceAll("%rank%", name)));
+		sender.sendMessage(CC.translate(Configuration.CREATED_RANK.getMessage().replaceAll("%rank%", name)));
 
 	}
 
