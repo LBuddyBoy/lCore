@@ -1,7 +1,8 @@
 # lCore
 Mongo & Redis Based Rank/Punishment/Essential Core, below are my todo list.
 
-- Make Permission Attachments for players
+- Make Profiling Base for players globally (Done)
+- Make Permission Attachments for players (Done)
 - Start a basis of Punishments
 - Start on essential commands
 
