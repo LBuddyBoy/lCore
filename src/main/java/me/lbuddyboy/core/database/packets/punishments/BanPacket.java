@@ -29,7 +29,7 @@ public class BanPacket implements JedisPacket {
 		lProfile profile = Core.getInstance().getProfileHandler().getByUUID(this.target);
 		if (profile == null) return;
 
-//		profile.getPunishments().add(punishment);
+		profile.getPunishments().add(punishment);
 		profile.save();
 
 		Player player = Bukkit.getPlayer(target);

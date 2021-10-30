@@ -77,14 +77,20 @@ public class GrantListener implements Listener {
 			}
 			Grant grant = grantMap.get(p);
 			lProfile target = Core.getInstance().getProfileHandler().getByUUID(grant.getTarget());
+
 			grant.setRemovedBy(p.getUniqueId());
 			grant.setRemoved(true);
 			grant.setRemovedAt(System.currentTimeMillis());
 			grant.setRemovedReason(event.getMessage());
 
+			target.getGrants().removeIf(grant1 -> grant1.getId().equals(grant.getId()));
+			target.getGrants().add(grant);
+
 			target.save();
 
 			new GrantRemovePacket(grant).send();
+
+			target.calculateGrants();
 
 			new GrantsMenu(target).openMenu(p);
 

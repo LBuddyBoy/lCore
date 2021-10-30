@@ -22,6 +22,12 @@ public enum Configuration {
 
 	// Punishments
 
+	WARN_DISPLAY("punish.warn.display", "&a&lWarn"),
+	KICK_DISPLAY("punish.kick.display", "&e&lKick"),
+	MUTE_DISPLAY("punish.mute.display", "&6&lMute"),
+	BAN_DISPLAY("punish.ban.display", "&c&lBan"),
+	BLACKLIST_DISPLAY("punish.blacklist.display", "&0&lBlacklist"),
+
 	BAN_KICK_MESSAGE("punish.ban.kick-message", "&cYour account is banned from the Example Network.\n%temp-format%\n\n&cIf you feel this punishment is unjust, you may appeal at:\n&ehttps://www.lbuddyboy.me"),
 	BAN_TEMPORARY_FORMAT("punish.ban.temporary-format", "&cPunishment expires in &e%time%"),
 	KICK_KICK_MESSAGE("punish.kick.kick-message", "&cYou have been kicked from the server.\n&cReason: %reason%"),

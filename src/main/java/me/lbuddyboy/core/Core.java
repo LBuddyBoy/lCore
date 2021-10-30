@@ -11,6 +11,8 @@ import me.lbuddyboy.core.profile.grant.command.GrantsCommand;
 import me.lbuddyboy.core.profile.grant.command.SetRankCommand;
 import me.lbuddyboy.core.profile.lProfileHandler;
 import me.lbuddyboy.core.punishment.command.BanCommand;
+import me.lbuddyboy.core.punishment.command.CheckPunishmentsCommand;
+import me.lbuddyboy.core.punishment.command.MuteCommand;
 import me.lbuddyboy.core.rank.Rank;
 import me.lbuddyboy.core.rank.RankHandler;
 import me.lbuddyboy.core.rank.command.*;
@@ -39,6 +41,7 @@ public class Core extends JavaPlugin {
 	private YamlDoc profilesYML;
 	private YamlDoc ranksYML;
 	private YamlDoc commandsYML;
+	private YamlDoc menusYML;
 
 	private DatabaseHandler databaseHandler;
 	private RedisHandler redisHandler;
@@ -61,6 +64,7 @@ public class Core extends JavaPlugin {
 		this.profilesYML = new YamlDoc(this.getDataFolder(), "profiles.yml");
 		this.ranksYML = new YamlDoc(this.getDataFolder(), "ranks.yml");
 		this.commandsYML = new YamlDoc(this.getDataFolder(), "commands.yml");
+		this.menusYML = new YamlDoc(this.getDataFolder(), "menus.yml");
 	}
 
 	private void loadHandlers() {
@@ -78,7 +82,9 @@ public class Core extends JavaPlugin {
 		this.zetsu.registerParameterAdapter(Rank.class, new RankParameterType());
 
 		Arrays.asList(
+				new MuteCommand(),
 				new BanCommand(),
+				new CheckPunishmentsCommand(),
 				new UserCommand(),
 				new GrantCommand(),
 				new GrantsCommand(),

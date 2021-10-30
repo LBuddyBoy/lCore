@@ -15,10 +15,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author LBuddyBoy (lbuddyboy.me)
@@ -116,8 +113,9 @@ public class ResolvedReportsMenu extends PaginatedMenu {
 			String name = CC.translate(Configuration.REPORTS_MENU_MAT_NAME.getMessage());
 			ItemBuilder builder = new ItemBuilder(material).setData(data).setDisplayName(name.replaceAll("%id%", String.valueOf(report.getId())));
 			if (report.isReport() && report.isResolved()) {
+				List<String> lore = new ArrayList<>();
 				for (String s : Configuration.REPORTS_MENU_LORE_REPORT_RESOLVED.getList()) {
-					builder.addLore(s
+					lore.add(s
 							.replaceAll("%server%", report.getServer())
 							.replaceAll("%reason%", report.getReason())
 							.replaceAll("%sentAt%", report.getSentAtDate())
@@ -126,11 +124,13 @@ public class ResolvedReportsMenu extends PaginatedMenu {
 							.replaceAll("%target%", RedisUUIDCache.name(report.getTarget()))
 							.replaceAll("%sender%", RedisUUIDCache.name(report.getSender())));
 				}
+				builder.setLore(CC.translate(lore));
 				return builder.create();
 			}
 			if (!report.isReport() && report.isResolved()) {
+				List<String> lore = new ArrayList<>();
 				for (String s : Configuration.REPORTS_MENU_LORE_HELPOP_RESOLVED.getList()) {
-					builder.addLore(s
+					lore.add(s
 							.replaceAll("%server%", report.getServer())
 							.replaceAll("%reason%", report.getReason())
 							.replaceAll("%sentAt%", report.getSentAtDate())
@@ -138,6 +138,7 @@ public class ResolvedReportsMenu extends PaginatedMenu {
 							.replaceAll("%resolvedBy%", RedisUUIDCache.name(report.getResolvedBy()))
 							.replaceAll("%sender%", RedisUUIDCache.name(report.getSender())));
 				}
+				builder.setLore(CC.translate(lore));
 				return builder.create();
 			}
 			return builder.create();

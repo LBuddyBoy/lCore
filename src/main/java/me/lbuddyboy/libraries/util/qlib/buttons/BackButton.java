@@ -1,5 +1,6 @@
 package me.lbuddyboy.libraries.util.qlib.buttons;
 
+import me.lbuddyboy.libraries.util.CC;
 import me.lbuddyboy.libraries.util.qlib.Button;
 import me.lbuddyboy.libraries.util.qlib.Menu;
 import org.bukkit.Material;
@@ -15,7 +16,7 @@ public class BackButton extends Button {
 
     @Override
     public Material getMaterial(Player player) {
-        return Material.BED;
+        return Material.SIGN;
     }
 
     @Override
@@ -25,7 +26,7 @@ public class BackButton extends Button {
 
     @Override
     public String getName(Player player) {
-        return "\u00a7cGo back";
+        return CC.translate("&e« Go back");
     }
 
     @Override

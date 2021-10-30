@@ -2,12 +2,16 @@ package me.lbuddyboy.core.punishment;
 
 import com.google.gson.JsonObject;
 import lombok.Data;
+import me.lbuddyboy.core.Configuration;
 import me.lbuddyboy.libraries.util.CC;
 import me.lbuddyboy.libraries.util.TimeUtils;
 import me.lbuddyboy.libraries.util.fanciful.FancyMessage;
 import org.bukkit.Bukkit;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.TimeZone;
 import java.util.UUID;
 
 /**
@@ -19,6 +23,7 @@ import java.util.UUID;
 @Data
 public class Punishment {
 
+	private UUID id;
 	private final PunishmentType type;
 	private UUID sender;
 	private UUID target;
@@ -32,7 +37,8 @@ public class Punishment {
 	private long resolvedAt;
 	private UUID resolvedBy;
 
-	public Punishment(PunishmentType type, UUID sender, UUID target, long duration, long addedAt, String reason, boolean silent) {
+	public Punishment(UUID id, PunishmentType type, UUID sender, UUID target, long duration, long addedAt, String reason, boolean silent) {
+		this.id = id;
 		this.type = type;
 		this.sender = sender;
 		this.target = target;
@@ -72,9 +78,32 @@ public class Punishment {
 		}
 	}
 
+	public long getTimeLeft() {
+		return (this.duration + this.addedAt) - System.currentTimeMillis();
+	}
+
+	public String getFormattedTimeLeft() {
+		if (isPermanent()) {
+			return "Forever";
+		}
+		return TimeUtils.formatIntoDetailedString((int) (this.getTimeLeft() / 1000L));
+	}
+
+	public String getAddedAtDate() {
+		SimpleDateFormat sdf = new SimpleDateFormat();
+		sdf.setTimeZone(TimeZone.getTimeZone(Configuration.SERVER_TIMEZONE.getMessage()));
+		return sdf.format(new Date(this.addedAt));
+	}
+
+	public String getResolvedAtDate() {
+		SimpleDateFormat sdf = new SimpleDateFormat();
+		sdf.setTimeZone(TimeZone.getTimeZone(Configuration.SERVER_TIMEZONE.getMessage()));
+		return sdf.format(new Date(this.resolvedAt));
+	}
+
 	public String getDurationString() {
 
-		if (isPermanent()) {
+		if (this.duration == Long.MAX_VALUE) {
 			return "Permanent";
 		}
 
@@ -87,6 +116,7 @@ public class Punishment {
 
 	public static Punishment deserialize(JsonObject object) {
 		Punishment punishment = new Punishment(
+				UUID.fromString(object.get("id").getAsString()),
 				PunishmentType.valueOf(object.get("type").getAsString()),
 				null,
 				null,
@@ -124,12 +154,14 @@ public class Punishment {
 
 	public JsonObject serialize() {
 		JsonObject object = new JsonObject();
+		object.addProperty("id", getId().toString());
 		object.addProperty("type", getType().name());
 		object.addProperty("sender", getSender() == null ? null : getSender().toString());
 		object.addProperty("target", getTarget() == null ? null : getTarget().toString());
 		object.addProperty("addedAt", getAddedAt());
-		object.addProperty("addedReason", getReason());
+		object.addProperty("reason", getReason());
 		object.addProperty("duration", getDuration());
+		object.addProperty("silent", isSilent());
 		object.addProperty("removedBy", getResolvedBy() == null ? null : getResolvedBy().toString());
 		object.addProperty("removedAt", getResolvedAt());
 		object.addProperty("removedReason", getResolvedReason());

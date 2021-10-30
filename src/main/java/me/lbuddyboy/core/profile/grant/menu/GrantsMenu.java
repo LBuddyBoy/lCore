@@ -50,6 +50,11 @@ public class GrantsMenu extends PaginatedMenu {
 		return buttons;
 	}
 
+	@Override
+	public boolean isAutoUpdate() {
+		return true;
+	}
+
 	@AllArgsConstructor
 	public static class GrantButton extends Button {
 
@@ -58,7 +63,7 @@ public class GrantsMenu extends PaginatedMenu {
 		@Override
 		public String getName(Player var1) {
 			return CC.translate(Configuration.MENU_GRANTS_NAME.getMessage()
-					.replaceAll("%status%", (grant == Core.getInstance().getProfileHandler().getByUUID(grant.getTarget()).getCurrentGrant() ? Configuration.GRANT_ACTIVE.getMessage() : ""))
+					.replaceAll("%status%", (grant.getId() == Core.getInstance().getProfileHandler().getByUUID(grant.getTarget()).getCurrentGrant().getId() ? Configuration.GRANT_ACTIVE.getMessage() : ""))
 					.replaceAll("%rank%", grant.getRank().getDisplayName()));
 		}
 
@@ -116,6 +121,9 @@ public class GrantsMenu extends PaginatedMenu {
 		public byte getDamageValue(Player player) {
 			if (grant.isPermanent())
 				return 5;
+			if (grant.isExpired()) {
+				return 4;
+			}
 			if (!grant.isRemoved()) {
 				return 5;
 			}

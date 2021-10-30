@@ -1,1 +1,8 @@
 ranks:
+  Default:
+    name: Default
+    displayName: Default
+    prefix: Default
+    weight: 0
+    color: YELLOW
+    permissions: [ ]

@@ -1,0 +1,58 @@
+menus:
+  punishments-main:
+    title: "&6Punishment Selection"
+    size: 9
+    warn:
+      material: "WOOL"
+      data: 5
+      name: "&a&lWarns&f: %amount% &7(Click)"
+      slot: 1
+    kick:
+      material: "WOOL"
+      data: 4
+      name: "&e&lKicks&f: %amount% &7(Click)"
+      slot: 3
+    mute:
+      material: "WOOL"
+      data: 1
+      name: "&6&lMutes&f: %amount% &7(Click)"
+      slot: 4
+    ban:
+      material: "WOOL"
+      data: 14
+      name: "&c&lBans&f: %amount% &7(Click)"
+      slot: 5
+    blacklist:
+      material: "WOOL"
+      data: 15
+      name: "&0&lBlacklists&f: %amount% &7(Click)"
+      slot: 2
+  punishments-list:
+    title: "&6%type%&f: %target%"
+    default-button:
+      material: "PAPER"
+      data: 0
+      name: "&6%sentAt%"
+      lore:
+        - ''
+        - '&6Sent By&f: %sender%'
+        - '&6Sent For&f: %reason%'
+        - '&6Duration&f: %duration%'
+        - '&6Time Left&f: %time-left%'
+        - ''
+        - '&fClick here to remove this punishment'
+        - ''
+    resolved-button:
+      material: "PAPER"
+      data: 0
+      name: "&6%sentAt%"
+      lore:
+        - ''
+        - '&6Sent By&f: %sender%'
+        - '&6Sent For&f: %reason%'
+        - '&6Duration&f: %duration%'
+        - ''
+        - '&6Resolved By&f: %resolvedBy%'
+        - '&6Resolved For&f: %resolvedFor%'
+        - '&6Resolved At&f: %resolvedAt%'
+        - ''

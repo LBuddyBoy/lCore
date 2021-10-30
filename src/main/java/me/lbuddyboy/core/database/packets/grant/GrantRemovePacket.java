@@ -44,11 +44,14 @@ public class GrantRemovePacket implements JedisPacket {
 			List<Grant> toSearch = new ArrayList<>();
 			profile.getGrants().stream().filter(Grant::isRemoved).forEach(toSearch::add);
 
+			profile.getGrants().removeIf(grant1 -> grant1.getId().equals(grant.getId()));
+			profile.getGrants().add(grant);
+
 			if (toSearch.size() == 0) {
 				profile.getGrants().add(new Grant(UUID.randomUUID(), Core.getInstance().getRankHandler().defaultRank(), null, profile.getUniqueId(), "Default Grant", System.currentTimeMillis(), Long.MAX_VALUE));
 				profile.grantNext();
-				profile.save();
 			}
+			profile.save();
 
 		}
 

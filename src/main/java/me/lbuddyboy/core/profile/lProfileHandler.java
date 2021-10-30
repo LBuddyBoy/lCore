@@ -3,6 +3,7 @@ package me.lbuddyboy.core.profile;
 import lombok.Getter;
 import me.lbuddyboy.core.Core;
 import me.lbuddyboy.core.profile.grant.listener.GrantListener;
+import me.lbuddyboy.core.punishment.listener.PunishmentListener;
 import org.bukkit.Bukkit;
 
 import java.util.HashMap;
@@ -23,6 +24,7 @@ public class lProfileHandler {
 	public lProfileHandler() {
 		profiles = new HashMap<>();
 		Bukkit.getPluginManager().registerEvents(new lProfileListener(), Core.getInstance());
+		Bukkit.getPluginManager().registerEvents(new PunishmentListener(), Core.getInstance());
 		Bukkit.getPluginManager().registerEvents(new GrantListener(), Core.getInstance());
 
 		Bukkit.getScheduler().runTaskTimerAsynchronously(Core.getInstance(), () -> {

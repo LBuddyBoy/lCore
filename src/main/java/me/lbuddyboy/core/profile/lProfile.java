@@ -10,10 +10,13 @@ import com.mongodb.client.model.ReplaceOptions;
 import lombok.Getter;
 import lombok.Setter;
 import me.lbuddyboy.core.Core;
-import me.lbuddyboy.core.database.packets.grant.GrantRemovePacket;
 import me.lbuddyboy.core.profile.grant.Grant;
 import me.lbuddyboy.core.punishment.Punishment;
+import me.lbuddyboy.core.punishment.PunishmentType;
 import me.lbuddyboy.core.rank.Rank;
+import me.lbuddyboy.libraries.util.CC;
+import me.lbuddyboy.libraries.util.JavaUtils;
+import me.lbuddyboy.libraries.util.TimeUtils;
 import org.bson.Document;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -24,7 +27,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 /**
  * @author LBuddyBoy (lbuddyboy.me)
@@ -45,6 +47,7 @@ public class lProfile {
 	private List<Grant> grants;
 	private List<Punishment> punishments;
 
+	@Setter private long lastReport;
 	@Setter private Rank currentRank;
 	@Setter private Grant currentGrant;
 	private boolean loaded;
@@ -66,6 +69,7 @@ public class lProfile {
 			return;
 		}
 
+		this.lastReport = document.getLong("lastReport");
 		this.currentIP = document.getString("currentIP");
 		this.permissions = Core.getInstance().getRedisHandler().getGSON().fromJson(document.getString("permissions"), Core.getInstance().getDatabaseHandler().getLIST_STRING_TYPE());
 
@@ -88,6 +92,7 @@ public class lProfile {
 			Document document = new Document();
 
 			document.put("uniqueId", this.uniqueId.toString());
+			document.put("lastReport", this.lastReport);
 			document.put("currentIP", this.currentIP);
 			document.put("name", this.name);
 			document.put("permissions", Core.getInstance().getRedisHandler().getGSON().toJson(this.permissions, Core.getInstance().getDatabaseHandler().getLIST_STRING_TYPE()));
@@ -133,36 +138,95 @@ public class lProfile {
 
 	public void calculateGrants() {
 		for (Grant grant : this.grants) {
-			if (grant.isExpired() && !grant.isRemoved()) {
-				grant.setRemoved(true);
+			if (!grant.isRemoved() && grant.isExpired()) {
 				grant.setRemovedAt(System.currentTimeMillis());
+				grant.setRemovedReason("Expired");
 				grant.setRemovedBy(null);
-				grant.setRemovedReason("Grant Expired");
-
-				this.currentRank = null;
-				this.currentGrant = null;
-
-				new GrantRemovePacket(grant).send();
+				grant.setRemoved(true);
+				if (this.currentGrant != null && this.currentGrant.equals(grant)) {
+					this.currentGrant = null;
+				}
 			}
 		}
+
 		if (this.currentGrant == null) {
-			grantNext();
-
-			if (this.currentGrant == null) {
-				this.currentGrant = Core.getInstance().getRankHandler().defaultGrant(this.uniqueId);
+			this.grantNext();
+			if (this.currentGrant != null) {
+				return;
 			}
+
+			Grant grant = new Grant(UUID.randomUUID(), Core.getInstance().getRankHandler().defaultRank(), null, this.uniqueId, "Default", System.currentTimeMillis(), Long.MAX_VALUE);
+			this.grants.add(grant);
+			this.setGrant(grant);
 		}
-		List<Grant> sorted = this.grants.stream().filter(grant -> !grant.isRemoved() || !grant.isExpired()).collect(Collectors.toList());
-		if (sorted.isEmpty()) {
-			this.grants.add(Core.getInstance().getRankHandler().defaultGrant(this.uniqueId));
+	}
+
+	public void setGrant(Grant grant) {
+		this.currentGrant = grant;
+		this.currentRank = grant.getRank();
+		Player player = Bukkit.getPlayer(this.uniqueId);
+		if (player != null) {
+			player.setDisplayName(CC.translate(grant.getRank().getPrefix() + player.getName()));
+			setupPermissions();
 		}
+
 	}
 
 	public void grantNext() {
 		List<Grant> grants = new ArrayList<>(this.grants);
-		grants.sort(Comparator.comparingInt((grant) -> grant.getRank().getWeight()));
-		this.currentGrant = grants.get(grants.size() - 1);
-		this.currentRank = grants.get(grants.size() - 1).getRank();
+		grants.sort(Comparator.comparingInt((grant1) -> grant1.getRank().getWeight()));
+
+		for (Grant grant : grants) {
+			if (!grant.isRemoved() && !grant.isExpired()) {
+				this.setGrant(grant);
+			}
+		}
+	}
+
+	public boolean canSendReport() {
+		return ((this.lastReport + JavaUtils.parse(Core.getInstance().getConfig().getString("report-cooldown"))) - System.currentTimeMillis()) <= 0;
+	}
+
+	public String getRemainingReportTime() {
+		return TimeUtils.formatIntoDetailedString((int) (((JavaUtils.parse(Core.getInstance().getConfig().getString("report-cooldown")) + this.lastReport)) - System.currentTimeMillis()) / 1000);
+	}
+
+	public List<Punishment> getPunishmentsByType(PunishmentType type) {
+		List<Punishment> punishments = new ArrayList<>();
+		for (Punishment punishment : this.punishments) {
+			if (punishment.getType() == type) {
+				punishments.add(punishment);
+			}
+		}
+		return punishments;
+	}
+
+	public boolean hasActivePunishment(PunishmentType type) {
+		for (Punishment punishment : this.punishments) {
+			if (punishment.getType() == type) {
+				if (punishment.isPermanent() && !punishment.isResolved()) {
+					return true;
+				}
+				if (punishment.getTimeLeft() > 0 && !punishment.isResolved()) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public Punishment getActivePunishment(PunishmentType type) {
+		for (Punishment punishment : this.punishments) {
+			if (punishment.getType() == type) {
+				if (punishment.isPermanent() && !punishment.isResolved()) {
+					return punishment;
+				}
+				if (punishment.getTimeLeft() > 0 && !punishment.isResolved()) {
+					return punishment;
+				}
+			}
+		}
+		return null;
 	}
 
 	public String getNameWithColor() {

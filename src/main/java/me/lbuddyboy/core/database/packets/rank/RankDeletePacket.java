@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import me.lbuddyboy.core.Core;
 import me.lbuddyboy.core.rank.Rank;
 import me.lbuddyboy.libraries.redis.JedisPacket;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 /**
  * @author LBuddyBoy (lbuddyboy.me)
@@ -19,6 +20,14 @@ public class RankDeletePacket implements JedisPacket {
 	@Override
 	public void onReceive() {
 		Core.getInstance().getRankHandler().getRanks().remove(rank);
+		YamlConfiguration config = Core.getInstance().getRanksYML().gc();
+		config.getConfigurationSection("ranks." + this.rank.getName()).getKeys(false).clear();
+		config.set("ranks." + rank.getName(), null);
+		try {
+			Core.getInstance().getRanksYML().save();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

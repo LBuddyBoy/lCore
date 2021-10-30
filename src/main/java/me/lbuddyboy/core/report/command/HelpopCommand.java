@@ -10,11 +10,11 @@ import me.lbuddyboy.core.database.packets.global.MessageStaffPacket;
 import me.lbuddyboy.core.report.Report;
 import me.lbuddyboy.libraries.util.CC;
 import me.lbuddyboy.libraries.util.fanciful.FancyMessage;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * @author LBuddyBoy (lbuddyboy.me)
@@ -25,12 +25,7 @@ public class HelpopCommand {
 
 	@Command(labels = {"helpop", "request"}, async = true)
 	@Permissible("lcore.command.request")
-	public void reports(Player sender, @Param("target") UUID target, @Param("reason") String reason) {
-
-		if (target == null) {
-			sender.sendMessage(Configuration.INVALID_PROFILE.getMessage());
-			return;
-		}
+	public void reports(Player sender, @Param("reason") String reason) {
 
 		sender.sendMessage(CC.translate(Configuration.REPORT_SENDER.getMessage()));
 
@@ -41,7 +36,7 @@ public class HelpopCommand {
 		Core.getInstance().getReportHandler().getReports().add(report);
 
 		List<String> strings = new ArrayList<>();
-		for (String s : Configuration.REPORT_STAFF_MESSAGE.getList()) {
+		for (String s : Configuration.HELPOP_STAFF_MESSAGE.getList()) {
 			strings.add(s.replaceAll("%sender%", sender.getName())
 					.replaceAll("%server%", report.getServer())
 					.replaceAll("%reason%", reason));
@@ -54,6 +49,21 @@ public class HelpopCommand {
 
 		tpServer.text(CC.translate(Configuration.REPORT_TP_SERVER.getMessage())).tooltip(CC.translate(Configuration.REPORT_TP_SERVER.getMessage())).command("/server " + report.getServer());
 		tpSender.text(CC.translate(Configuration.REPORT_TP_SENDER.getMessage())).tooltip(CC.translate(Configuration.REPORT_TP_SENDER.getMessage())).command("/tp " + sender.getName());
+
+		for (Player staff : Bukkit.getOnlinePlayers()) {
+			if (staff.hasPermission("lcore.staff") || staff.isOp()) {
+				for (String string : strings) {
+					staff.sendMessage(CC.translate(string));
+				}
+				tpServer.send(staff);
+			}
+		}
+
+		for (Player staff : Bukkit.getOnlinePlayers()) {
+			if (staff.hasPermission("lcore.staff") || staff.isOp()) {
+				tpSender.send(staff);
+			}
+		}
 
 		new FancyMessageStaffPacket(tpServer).send();
 		new FancyMessageStaffPacket(tpSender).send();

@@ -1,10 +1,15 @@
 package me.lbuddyboy.core.profile;
 
+import me.lbuddyboy.core.Configuration;
 import me.lbuddyboy.core.Core;
+import me.lbuddyboy.core.punishment.Punishment;
+import me.lbuddyboy.core.punishment.PunishmentType;
+import me.lbuddyboy.libraries.util.CC;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.math.BigInteger;
@@ -22,10 +27,28 @@ public class lProfileListener implements Listener {
 	public void onAsyncPreLogin(AsyncPlayerPreLoginEvent event) {
 
 		lProfile profile = new lProfile(event.getUniqueId());
+		if (profile.hasActivePunishment(PunishmentType.BAN)) {
+			Punishment punishment = profile.getActivePunishment(PunishmentType.BAN);
+			event.setLoginResult(AsyncPlayerPreLoginEvent.Result.KICK_OTHER);
+			event.setKickMessage(CC.translate(Configuration.BAN_KICK_MESSAGE.getMessage()
+					.replaceAll("%reason%", punishment.getReason())
+					.replaceAll("%temp-format%", Configuration.BAN_TEMPORARY_FORMAT.getMessage()
+							.replaceAll("%time%", punishment.getFormattedTimeLeft()))));
+			return;
+		}
 		profile.setName(event.getName());
 		profile.setCurrentIP(hashString(event.getAddress().getHostAddress()));
 
 		Core.getInstance().getProfileHandler().getProfiles().put(event.getUniqueId(), profile);
+	}
+
+	@EventHandler
+	public void onJoin(PlayerJoinEvent event) {
+		Bukkit.getScheduler().runTaskAsynchronously(Core.getInstance(), () -> {
+			lProfile profile = Core.getInstance().getProfileHandler().getProfiles().get(event.getPlayer().getUniqueId());
+
+			profile.save();
+		});
 	}
 
 	@EventHandler
