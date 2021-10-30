@@ -30,7 +30,7 @@ public class lProfileListener implements Listener {
 		if (profile.hasActivePunishment(PunishmentType.BAN)) {
 			Punishment punishment = profile.getActivePunishment(PunishmentType.BAN);
 			event.setLoginResult(AsyncPlayerPreLoginEvent.Result.KICK_OTHER);
-			event.setKickMessage(CC.translate(Configuration.BAN_KICK_MESSAGE.getMessage()
+			event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, CC.translate(Configuration.BAN_KICK_MESSAGE.getMessage()
 					.replaceAll("%reason%", punishment.getReason())
 					.replaceAll("%temp-format%", Configuration.BAN_TEMPORARY_FORMAT.getMessage()
 							.replaceAll("%time%", punishment.getFormattedTimeLeft()))));

@@ -27,7 +27,7 @@ public class MuteCommand {
 
 	@Command(labels = "mute")
 	@Permissible("lcore.command.mute")
-	public void rankAddPerm(CommandSender sender, @Param("target")UUID uuid, @Param("time") String time, @Param("reason {-p}") String reason) {
+	public void rankAddPerm(CommandSender sender, @Param("target") UUID uuid, @Param("time") String time, @Param("reason {-p}") String reason) {
 
 		boolean silent = (!reason.contains("-p"));
 
@@ -55,7 +55,9 @@ public class MuteCommand {
 		if (player != null) {
 			player.sendMessage(CC.translate(Configuration.BAN_KICK_MESSAGE.getMessage()
 					.replaceAll("%reason%", punishment.getReason())
-					.replaceAll("%temp-format%", Configuration.BAN_TEMPORARY_FORMAT.getMessage())));
+					.replaceAll("%time%", punishment.getFormattedTimeLeft())
+					.replaceAll("%temp-format%", Configuration.BAN_TEMPORARY_FORMAT.getMessage().replaceAll("%time%", punishment.getFormattedTimeLeft())
+					)));
 
 		}
 	}
