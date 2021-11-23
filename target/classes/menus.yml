@@ -1,4 +1,30 @@
 menus:
+  grants:
+    menu-title: "&6Grants: %player%"
+    button:
+      name: "&6%rank%"
+      lore:
+        - ''
+        - '&6Added By&7: &f%addedBy%'
+        - '&6Added At&7: &f%addedAt%'
+        - '&6Duration&7: &f%duration%'
+        - '&6Reason&7: &f%reason%'
+        - '&6Time Left&7: &f%time-left%'
+        - ''
+        - '&fClick to remove this grant'
+        - ''
+      lore-removed:
+        - ''
+        - '&6Added By&7: &f%addedBy%'
+        - '&6Added At&7: &f%addedAt%'
+        - '&6Duration&7: &f%duration%'
+        - '&6Reason&7: &f%reason%'
+        - '&6Time Left&7: &f%time-left%'
+        - ''
+        - '&6Removed At&7: &f%removedAt%'
+        - '&6Removed By&7: &f%removedBy%'
+        - '&6Removed For&7: &f%removedFor%'
+        - ''
   punishments-main:
     title: "&6Punishment Selection"
     size: 9
@@ -6,27 +32,27 @@ menus:
       material: "WOOL"
       data: 5
       name: "&a&lWarns&f: %amount% &7(Click)"
-      slot: 1
+      slot: 2
     kick:
       material: "WOOL"
       data: 4
       name: "&e&lKicks&f: %amount% &7(Click)"
-      slot: 3
+      slot: 4
     mute:
       material: "WOOL"
       data: 1
       name: "&6&lMutes&f: %amount% &7(Click)"
-      slot: 4
+      slot: 5
     ban:
       material: "WOOL"
       data: 14
       name: "&c&lBans&f: %amount% &7(Click)"
-      slot: 5
+      slot: 6
     blacklist:
       material: "WOOL"
       data: 15
       name: "&0&lBlacklists&f: %amount% &7(Click)"
-      slot: 2
+      slot: 8
   punishments-list:
     title: "&6%type%&f: %target%"
     default-button:

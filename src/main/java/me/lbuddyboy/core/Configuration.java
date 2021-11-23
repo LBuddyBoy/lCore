@@ -16,18 +16,35 @@ import java.util.List;
 public enum Configuration {
 
 	SERVER_NAME("server-name", "lCore"),
+	VAULT_INTEGRATION("vault-integration", false),
+	PAPI_INTEGRATION("papi-integration", false),
 	SERVER_TIMEZONE("timezone", "EST"),
-	STORAGE_YAML("use-yaml-storage", true),
-	STORAGE_MONGO("mongo.enabled", true),
+	STORAGE_MONGO("mongo.enabled", false),
+	REDIS_SYNC("redis.enabled", false),
 
 	// Punishments
+
+	ALTS_OFFLINE_COLOR("punish.alts.offline", "&7"),
+	ALTS_ONLINE_COLOR("punish.alts.online", "&a"),
+	ALTS_MUTED_COLOR("punish.alts.muted", "&e"),
+	ALTS_BANNED_COLOR("punish.alts.banned", "&c"),
+	ALTS_BLACKLISTED_COLOR("punish.alts.blacklisted", "&4"),
+	ALTS_HEADER("punish.alts.header", "\\n&6&lAlts\\n"),
+	ALTS_INFO("punish.alts.info-line", "&7Offline &f- &aOnline &f- &eMuted &f- &cBanned &f- &4Blacklisted"),
 
 	WARN_DISPLAY("punish.warn.display", "&a&lWarn"),
 	KICK_DISPLAY("punish.kick.display", "&e&lKick"),
 	MUTE_DISPLAY("punish.mute.display", "&6&lMute"),
 	BAN_DISPLAY("punish.ban.display", "&c&lBan"),
 	BLACKLIST_DISPLAY("punish.blacklist.display", "&0&lBlacklist"),
+	MAX_WARNS_COMMAND("punish.warn.warn-command", "ban %player% 3d Reached maximum amount of warns"),
+	MAX_WARNS("punish.warn.warns-before-command", 3),
+	WARN_TIME_UNTIL_REMOVE("punish.warn.warns-last-time", "7d"),
 
+	MUTE_MESSAGE("punish.mute.message", "&cYou have been muted for %reason%\n&cExpires: %time%"),
+	MUTE_RESOLVED_MESSAGE("punish.mute.resolved-message", "&aYour mute has been lifted. You may now chat."),
+	WARN_MESSAGE("punish.warn.message", "&cYou have been muted for %reason%\n&cExpires: 7 days"),
+	BLACKLIST_KICK_MESSAGE("punish.blacklist.kick-message", "&cYour account is blacklisted from the Example Network.\n&cYour account is blacklisted from the Example Network\\n&cThis punishment cannot be appealed\\n"),
 	BAN_KICK_MESSAGE("punish.ban.kick-message", "&cYour account is banned from the Example Network.\n%temp-format%\n\n&cIf you feel this punishment is unjust, you may appeal at:\n&ehttps://www.lbuddyboy.me"),
 	BAN_TEMPORARY_FORMAT("punish.ban.temporary-format", "&cPunishment expires in &e%time%"),
 	KICK_KICK_MESSAGE("punish.kick.kick-message", "&cYou have been kicked from the server.\n&cReason: %reason%"),
@@ -57,61 +74,6 @@ public enum Configuration {
 			"&6Reason&f: %reason%"
 	)),
 
-	REPORTS_MENU_AMOUNT_REPORTS_BUTTON("reports.menu.amount-of-reports-button-name", "&6Reports&f: %reports%"),
-	REPORTS_MENU_TITLE("reports.menu.title", "&6Reports"),
-	RESOLVED_REPORTS_MENU_TITLE("reports.menu.resolved-title", "&6Resolved Reports"),
-	REPORTS_MENU_MAT_NAME("reports.menu.name", "&6&lReport &f#%id%"),
-	REPORTS_MENU_MAT("reports.menu.material", "PAPER"),
-	REPORTS_MENU_MAT_DATA("reports.menu.data", 0),
-	REPORTS_MENU_LORE_HELPOP("reports.menu.helpop-lore", Arrays.asList(
-			"",
-			"&6Sent At&f: %sender%",
-			"&6Sent For&f: %reason%",
-			"&6Sent At&f: %sentAt%",
-			"&6Sent On&f: %server%",
-			"",
-			"&fClick here to resolve this report",
-			""
-	)),
-	REPORTS_MENU_LORE_REPORT("reports.menu.report-lore", Arrays.asList(
-			"",
-			"&6Sent At&f: %sender%",
-			"&6Sent To&f: %target%",
-			"&6Sent For&f: %reason%",
-			"&6Sent At&f: %sentAt%",
-			"&6Sent On&f: %server%",
-			"",
-			"&fClick here to resolve this report",
-			""
-	)),
-	REPORTS_MENU_LORE_REPORT_RESOLVED("reports.menu.resolved-report-lore", Arrays.asList(
-			"",
-			"&6Sent At&f: %sender%",
-			"&6Sent To&f: %target%",
-			"&6Sent For&f: %reason%",
-			"&6Sent At&f: %sentAt%",
-			"&6Sent On&f: %server%",
-			"",
-			"&6Resolved By&f: %resolvedBy%",
-			"&6Resolved At&f: %resolvedAt%",
-			"",
-			"&fClick here to delete this report",
-			""
-	)),
-	REPORTS_MENU_LORE_HELPOP_RESOLVED("reports.menu.resolved-helpop-lore", Arrays.asList(
-			"",
-			"&6Sent At&f: %sender%",
-			"&6Sent For&f: %reason%",
-			"&6Sent At&f: %sentAt%",
-			"&6Sent On&f: %server%",
-			"",
-			"&6Resolved By&f: %resolvedBy%",
-			"&6Resolved At&f: %resolvedAt%",
-			"",
-			"&fClick here to delete this report",
-			""
-	)),
-
 	// Grants
 
 	GRANT_ACTIVE("grant.active-display", "&a&lACTIVE"),
@@ -119,33 +81,12 @@ public enum Configuration {
 	GRANT_EXPIRED("grant.granted.expired", "&aYour %rank% has just expired&a."),
 	GRANTED_SENDER("grant.granted.sender", "&aYou have just granted %player% &athe %rank%&a for &e%time%&a."),
 	GRANTED_TARGET("grant.granted.target", "&aYou have just been granted &athe %rank%&a for &e%time%&a."),
-	MENU_GRANTS_TITLE("grant.grants.menu-title", "&6Grants: %player%"),
-	MENU_GRANTS_NAME("grant.grants.button.name", "&6%rank% &7(%status%&7)"),
-	MENU_GRANTS_LORE("grant.grants.button.lore", Arrays.asList(
-			"",
-			"&6Added By&7: &f%addedBy%",
-			"&6Added At&7: &f%addedAt%",
-			"&6Duration&7: &f%duration%",
-			"&6Reason&7: &f%reason%",
-			"&6Time Left&7: &f%time-left%",
-			"",
-			"&fClick to remove this grant",
-			""
-	)),
-	MENU_GRANTS_LORE_REMOVED("grant.grants.button.lore-removed", Arrays.asList(
-			"",
-			"&6Added By&7: &f%addedBy%",
-			"&6Added At&7: &f%addedAt%",
-			"&6Duration&7: &f%duration%",
-			"&6Reason&7: &f%reason%",
-			"&6Time Left&7: &f%time-left%",
-			"",
-			"&6&lRemoved Info",
-			"&6Removed By&7: %removedBy%",
-			"&6Removed At&7: %removedAt%",
-			"&6Removed Reason&7: %removedReason%",
-			""
-	)),
+
+	// Essentials
+
+	ESSENTIALS_GAMEMODE_SWITCH_MESSAGE("essentials.gamemode.message", "&fSwitched to &6%mode%&f mode."),
+	ESSENTIALS_FEED("essentials.feed.message", "&aYou are now full hunger."),
+	ESSENTIALS_HEAL("essentials.heal.message", "&aYou are now full health."),
 
 	// Ranks
 

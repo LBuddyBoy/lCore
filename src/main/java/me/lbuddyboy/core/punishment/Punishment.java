@@ -2,11 +2,13 @@ package me.lbuddyboy.core.punishment;
 
 import com.google.gson.JsonObject;
 import lombok.Data;
+import lombok.Setter;
 import me.lbuddyboy.core.Configuration;
 import me.lbuddyboy.libraries.util.CC;
 import me.lbuddyboy.libraries.util.TimeUtils;
 import me.lbuddyboy.libraries.util.fanciful.FancyMessage;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -30,7 +32,7 @@ public class Punishment {
 	private final long duration;
 	private final long addedAt;
 	private final String reason;
-	private final boolean silent;
+	@Setter private boolean silent;
 
 	private boolean resolved;
 	private String resolvedReason;
@@ -51,10 +53,13 @@ public class Punishment {
 	public void alert(String senderDisplay, String targetDisplay) {
 		if (this.silent) {
 
-			String msg = CC.translate(targetDisplay + "&a has just been &esilently " + type.getBroadcastText() + " &aby " + senderDisplay);
+			String msg = CC.translate(targetDisplay + "&a has just been &7silently " + type.getBroadcastText() + " &aby " + senderDisplay);
+			if (this.isResolved()) {
+				msg = CC.translate(targetDisplay + "&a has just been &7silently " + type.getBroadcastPardonText() + " &aby " + senderDisplay);
+			}
 
 			FancyMessage message = new FancyMessage();
-			message.then().text(msg).tooltip(Arrays.asList(
+			message.text(msg).tooltip(Arrays.asList(
 					CC.GRAY + CC.UNICODE_ARROWS_RIGHT + CC.translate(" &6Reason&7: &f" + this.reason),
 					CC.GRAY + CC.UNICODE_ARROWS_RIGHT + CC.translate(" &6Duration&7: &f" + TimeUtils.formatIntoDetailedString((int) (this.duration / 1000L)))
 			));
@@ -67,9 +72,12 @@ public class Punishment {
 
 		} else {
 			String msg = CC.translate(targetDisplay + "&a has just been " + type.getBroadcastText() + " &aby " + senderDisplay);
+			if (this.isResolved()) {
+				msg = CC.translate(targetDisplay + "&a has just been " + type.getBroadcastPardonText() + " &aby " + senderDisplay);
+			}
 
 			FancyMessage message = new FancyMessage();
-			message.then().text(msg).tooltip(Arrays.asList(
+			message.text(msg).tooltip(Arrays.asList(
 					CC.GRAY + CC.UNICODE_ARROWS_RIGHT + CC.translate(" &6Reason&7: &f" + this.reason),
 					CC.GRAY + CC.UNICODE_ARROWS_RIGHT + CC.translate(" &6Duration&7: &f" + getDurationString())
 			));
@@ -83,8 +91,14 @@ public class Punishment {
 	}
 
 	public String getFormattedTimeLeft() {
+		if (getTimeLeft() < 0 && !isPermanent()) {
+			return "Expired";
+		}
+		if (isPermanent() && getTimeLeft() < 0) {
+			return "Removed";
+		}
 		if (isPermanent()) {
-			return "Forever";
+			return "Never";
 		}
 		return TimeUtils.formatIntoDetailedString((int) (this.getTimeLeft() / 1000L));
 	}
@@ -168,4 +182,29 @@ public class Punishment {
 		object.addProperty("removed", isResolved());
 		return object;
 	}
+
+	public void sendPunishInfo(Player player) {
+		if (getType() == PunishmentType.MUTE) {
+			player.sendMessage(CC.translate(Configuration.MUTE_MESSAGE.getMessage()
+					.replaceAll("%reason%", getReason())
+					.replaceAll("%temp-format%", Configuration.BAN_TEMPORARY_FORMAT.getMessage())));
+		} else if (getType() == PunishmentType.KICK) {
+			player.sendMessage(CC.translate(Configuration.KICK_KICK_MESSAGE.getMessage()
+					.replaceAll("%reason%", getReason())
+					.replaceAll("%temp-format%", Configuration.BAN_TEMPORARY_FORMAT.getMessage())));
+		} else if (getType() == PunishmentType.WARN) {
+			player.sendMessage(CC.translate(Configuration.WARN_MESSAGE.getMessage()
+					.replaceAll("%reason%", getReason())
+					.replaceAll("%temp-format%", Configuration.BAN_TEMPORARY_FORMAT.getMessage())));
+		} else if (getType() == PunishmentType.BAN) {
+			player.sendMessage(CC.translate(Configuration.BAN_KICK_MESSAGE.getMessage()
+					.replaceAll("%reason%", getReason())
+					.replaceAll("%temp-format%", Configuration.BAN_TEMPORARY_FORMAT.getMessage())));
+		} else if (getType() == PunishmentType.BLACKLIST) {
+			player.sendMessage(CC.translate(Configuration.BLACKLIST_KICK_MESSAGE.getMessage()
+					.replaceAll("%reason%", getReason())
+					.replaceAll("%temp-format%", Configuration.BAN_TEMPORARY_FORMAT.getMessage())));
+		}
+	}
+
 }

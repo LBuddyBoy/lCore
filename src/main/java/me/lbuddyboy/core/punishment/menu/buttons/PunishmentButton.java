@@ -2,9 +2,9 @@ package me.lbuddyboy.core.punishment.menu.buttons;
 
 import lombok.AllArgsConstructor;
 import me.lbuddyboy.core.Core;
+import me.lbuddyboy.core.database.redis.uuid.RedisUUIDCache;
 import me.lbuddyboy.core.punishment.Punishment;
 import me.lbuddyboy.core.punishment.listener.PunishmentListener;
-import me.lbuddyboy.libraries.redis.RedisUUIDCache;
 import me.lbuddyboy.libraries.util.CC;
 import me.lbuddyboy.libraries.util.qlib.Button;
 import org.bukkit.Material;

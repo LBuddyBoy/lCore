@@ -1,13 +1,11 @@
 package me.lbuddyboy.core.rank;
 
-import com.mongodb.client.MongoCollection;
 import lombok.Getter;
 import me.lbuddyboy.core.Core;
 import me.lbuddyboy.core.profile.grant.Grant;
 import me.lbuddyboy.core.rank.listener.RankEditListener;
 import me.lbuddyboy.libraries.menu.listener.MenuListener;
 import me.lbuddyboy.libraries.util.CC;
-import org.bson.Document;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -23,8 +21,6 @@ import java.util.UUID;
 public class RankHandler {
 
 	@Getter private final Set<Rank> ranks;
-	@Getter private final MongoCollection<Document> collection = Core.getInstance().getDatabaseHandler().getMongoDatabase().getCollection("ranks");
-
 
 	public RankHandler() {
 		ranks = new HashSet<>();
@@ -51,7 +47,6 @@ public class RankHandler {
 			for (String key : config.getConfigurationSection("ranks").getKeys(false)) {
 				Rank rank = new Rank(key);
 				ranks.add(rank);
-
 				Bukkit.getConsoleSender().sendMessage(CC.translate("&6&l[lCore] &fLoaded " + rank.getColor() + rank.getName()));
 			}
 		} catch (NullPointerException e) {

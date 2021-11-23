@@ -1,7 +1,7 @@
 package me.lbuddyboy.core.rank.listener;
 
 import me.lbuddyboy.core.Configuration;
-import me.lbuddyboy.core.database.packets.rank.*;
+import me.lbuddyboy.core.database.redis.packets.rank.*;
 import me.lbuddyboy.core.rank.Rank;
 import me.lbuddyboy.core.rank.menu.RankEditMenu;
 import me.lbuddyboy.libraries.util.CC;

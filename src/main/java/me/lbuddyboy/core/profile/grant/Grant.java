@@ -59,8 +59,10 @@ public class Grant {
 	}
 
 	public String getTimeRemaining() {
+		if (isExpired())
+			return "Expired";
 		if (isRemoved())
-			return getRemovedReason();
+			return "Removed";
 
 		if (isPermanent())
 			return "Never";

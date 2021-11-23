@@ -34,7 +34,7 @@ public class PunishmentsMainMenu extends Menu {
 		Map<Integer, Button> buttons = new HashMap<>();
 
 		for (PunishmentType punish : PunishmentType.values()) {
-			buttons.put(Core.getInstance().getMenusYML().gc().getInt("menus.punishments-main." + punish.name().toLowerCase() + ".slot"), new PunishListButton(target, punish));
+			buttons.put(Core.getInstance().getMenusYML().gc().getInt("menus.punishments-main." + punish.name().toLowerCase() + ".slot") - 1, new PunishListButton(target, punish));
 		}
 
 		return buttons;

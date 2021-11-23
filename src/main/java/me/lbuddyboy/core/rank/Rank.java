@@ -3,7 +3,7 @@ package me.lbuddyboy.core.rank;
 import lombok.Data;
 import lombok.SneakyThrows;
 import me.lbuddyboy.core.Core;
-import me.lbuddyboy.core.database.packets.rank.RankDeletePacket;
+import me.lbuddyboy.core.database.redis.packets.rank.RankDeletePacket;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -27,6 +27,7 @@ public class Rank {
 
 	private int weight = 0;
 	private String prefix = "";
+	private String suffix = "";
 	private String displayName;
 	private List<String> permissions;
 	private ChatColor color = ChatColor.WHITE;
@@ -58,6 +59,7 @@ public class Rank {
 
 		this.permissions = config.getStringList(absolute + "permissions");
 		this.prefix = config.getString(absolute + "prefix");
+		this.suffix = config.getString(absolute + "suffix");
 		this.displayName = config.getString(absolute + "displayName");
 		this.weight = config.getInt(absolute + "weight");
 		this.color = ChatColor.valueOf(config.getString(absolute + "color"));
@@ -72,7 +74,8 @@ public class Rank {
 
 			config.set(absolute + "name", this.name);
 			config.set(absolute + "displayName", this.displayName);
-			config.set(absolute + "prefix", this.displayName);
+			config.set(absolute + "prefix", this.prefix);
+			config.set(absolute + "suffix", this.suffix);
 			config.set(absolute + "weight", this.weight);
 			config.set(absolute + "color", this.color.name());
 			config.set(absolute + "permissions", this.permissions);

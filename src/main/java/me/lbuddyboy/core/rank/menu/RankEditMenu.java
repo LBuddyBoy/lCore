@@ -2,7 +2,7 @@ package me.lbuddyboy.core.rank.menu;
 
 import lombok.AllArgsConstructor;
 import me.lbuddyboy.core.Configuration;
-import me.lbuddyboy.core.database.packets.rank.RankDeletePacket;
+import me.lbuddyboy.core.database.redis.packets.rank.RankDeletePacket;
 import me.lbuddyboy.core.rank.Rank;
 import me.lbuddyboy.core.rank.listener.RankEditListener;
 import me.lbuddyboy.core.util.Callback;

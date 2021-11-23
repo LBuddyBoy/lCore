@@ -48,10 +48,6 @@
           <groupId>com.google.guava</groupId>
         </exclusion>
         <exclusion>
-          <artifactId>gson</artifactId>
-          <groupId>com.google.code.gson</groupId>
-        </exclusion>
-        <exclusion>
           <artifactId>ebean</artifactId>
           <groupId>org.avaje</groupId>
         </exclusion>
@@ -64,6 +60,20 @@
           <groupId>net.md-5</groupId>
         </exclusion>
       </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>me.clip</groupId>
+      <artifactId>PAPI</artifactId>
+      <version>1.8.9</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/libs/PlaceholderAPI-2.10.10-DEV-108.jar</systemPath>
+    </dependency>
+    <dependency>
+      <groupId>net.milkbowl.vault</groupId>
+      <artifactId>VaultAPI</artifactId>
+      <version>1.8.9</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/libs/Vault.jar</systemPath>
     </dependency>
   </dependencies>
 </project>

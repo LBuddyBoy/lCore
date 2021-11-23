@@ -27,17 +27,28 @@ public class lProfileListener implements Listener {
 	public void onAsyncPreLogin(AsyncPlayerPreLoginEvent event) {
 
 		lProfile profile = new lProfile(event.getUniqueId());
-		if (profile.hasActivePunishment(PunishmentType.BAN)) {
-			Punishment punishment = profile.getActivePunishment(PunishmentType.BAN);
-			event.setLoginResult(AsyncPlayerPreLoginEvent.Result.KICK_OTHER);
-			event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, CC.translate(Configuration.BAN_KICK_MESSAGE.getMessage()
+
+		if (profile.hasActivePunishment(PunishmentType.BLACKLIST)) {
+			Punishment punishment = profile.getActivePunishment(PunishmentType.BLACKLIST);
+			event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, CC.translate(Configuration.BLACKLIST_KICK_MESSAGE.getMessage()
 					.replaceAll("%reason%", punishment.getReason())
-					.replaceAll("%temp-format%", Configuration.BAN_TEMPORARY_FORMAT.getMessage()
-							.replaceAll("%time%", punishment.getFormattedTimeLeft()))));
+					.replaceAll("%time%", punishment.getFormattedTimeLeft())
+					.replaceAll("%temp-format%", Configuration.BAN_TEMPORARY_FORMAT.getMessage().replaceAll("%time%", punishment.getFormattedTimeLeft())
+					)));
 			return;
 		}
+		if (profile.hasActivePunishment(PunishmentType.BAN)) {
+			Punishment punishment = profile.getActivePunishment(PunishmentType.BAN);
+			event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, CC.translate(Configuration.BAN_KICK_MESSAGE.getMessage()
+					.replaceAll("%reason%", punishment.getReason())
+					.replaceAll("%time%", punishment.getFormattedTimeLeft())
+					.replaceAll("%temp-format%", Configuration.BAN_TEMPORARY_FORMAT.getMessage().replaceAll("%time%", punishment.getFormattedTimeLeft())
+					)));
+			return;
+		}
+
 		profile.setName(event.getName());
-		profile.setCurrentIP(hashString(event.getAddress().getHostAddress()));
+		profile.setCurrentIP(Configuration.PROFILE_HASHED_IPS.getBoolean() ? hashString(event.getAddress().getHostAddress()) : event.getAddress().getHostAddress());
 
 		Core.getInstance().getProfileHandler().getProfiles().put(event.getUniqueId(), profile);
 	}
@@ -54,9 +65,7 @@ public class lProfileListener implements Listener {
 	@EventHandler
 	public void onQuit(PlayerQuitEvent event) {
 		Bukkit.getScheduler().runTaskAsynchronously(Core.getInstance(), () -> {
-			lProfile profile = Core.getInstance().getProfileHandler().getProfiles().remove(event.getPlayer().getUniqueId());
-
-			profile.save();
+			Core.getInstance().getProfileHandler().getProfiles().remove(event.getPlayer().getUniqueId());
 		});
 	}
 

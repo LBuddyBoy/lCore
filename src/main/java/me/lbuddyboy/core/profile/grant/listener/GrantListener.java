@@ -1,7 +1,7 @@
 package me.lbuddyboy.core.profile.grant.listener;
 
 import me.lbuddyboy.core.Core;
-import me.lbuddyboy.core.database.packets.grant.GrantRemovePacket;
+import me.lbuddyboy.core.database.redis.packets.grant.GrantRemovePacket;
 import me.lbuddyboy.core.profile.grant.Grant;
 import me.lbuddyboy.core.profile.grant.GrantBuild;
 import me.lbuddyboy.core.profile.grant.command.SetRankCommand;

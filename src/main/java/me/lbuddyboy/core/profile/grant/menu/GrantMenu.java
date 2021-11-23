@@ -56,7 +56,7 @@ public class GrantMenu extends Menu {
 
 		@Override
 		public String getName(Player var1) {
-			return rank.getDisplayName();
+			return CC.translate(rank.getDisplayName());
 		}
 
 		@Override

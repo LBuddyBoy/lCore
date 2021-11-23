@@ -5,8 +5,8 @@ import me.blazingtide.zetsu.schema.annotations.Command;
 import me.blazingtide.zetsu.schema.annotations.parameter.Param;
 import me.lbuddyboy.core.Configuration;
 import me.lbuddyboy.core.Core;
-import me.lbuddyboy.core.database.packets.punishments.BanPacket;
-import me.lbuddyboy.core.database.packets.punishments.PunishmentBroadcastPacket;
+import me.lbuddyboy.core.database.redis.packets.punishments.PunishPacket;
+import me.lbuddyboy.core.database.redis.packets.punishments.PunishmentBroadcastPacket;
 import me.lbuddyboy.core.profile.lProfile;
 import me.lbuddyboy.core.punishment.Punishment;
 import me.lbuddyboy.core.punishment.PunishmentType;
@@ -33,32 +33,46 @@ public class MuteCommand {
 
 		UUID senderUUID = (sender instanceof Player ? ((Player) sender).getUniqueId() : null);
 		long duration = (time.equalsIgnoreCase("perm") ? Long.MAX_VALUE : JavaUtils.parse(time));
-		lProfile senderProfile = Core.getInstance().getProfileHandler().getByUUID(senderUUID);
 		lProfile targetProfile = Core.getInstance().getProfileHandler().getByUUID(uuid);
-		String senderDisplay = (senderUUID == null ? "&4Console" : (senderProfile == null ? sender.getName() : senderProfile.getNameWithColor()));
-		String targetDisplay = (senderUUID == null ? "&4Console" : (targetProfile == null ? sender.getName() : targetProfile.getNameWithColor()));
 
 		if (targetProfile == null) {
 			sender.sendMessage(CC.translate(Configuration.INVALID_PROFILE.getMessage()));
 			return;
 		}
 
+		String senderDisplay = (senderUUID == null ? "&4Console" : (Core.getInstance().getProfileHandler().getByUUID(senderUUID) == null ? sender.getName() : Core.getInstance().getProfileHandler().getByUUID(senderUUID).getNameWithColor()));
+		String targetDisplay = targetProfile.getNameWithColor();
+
+		if (senderUUID != null) {
+			if (Core.getInstance().getProfileHandler().getByUUID(senderUUID).getCurrentRank().getWeight() < targetProfile.getCurrentRank().getWeight()) {
+				sender.sendMessage(CC.translate("&cYou cannot punish people with a higher rank than you."));
+				return;
+			}
+		}
+
+		if (targetProfile.hasActivePunishment(PunishmentType.MUTE)) {
+			sender.sendMessage(CC.translate("&cThat player is already muted."));
+			return;
+		}
+
 		Punishment punishment = new Punishment(UUID.randomUUID(), PunishmentType.MUTE, senderUUID, uuid, duration, System.currentTimeMillis(), reason, silent);
 
-		new PunishmentBroadcastPacket(punishment, senderDisplay, targetDisplay).send();
-		new BanPacket(uuid, punishment).send();
+		punishment.alert(senderDisplay, targetDisplay);
 
 		targetProfile.getPunishments().add(punishment);
 		targetProfile.save();
 
+		new PunishmentBroadcastPacket(punishment, senderDisplay, targetDisplay).send();
+		new PunishPacket(uuid, punishment).send();
+
 		Player player = Bukkit.getPlayer(uuid);
 		if (player != null) {
-			player.sendMessage(CC.translate(Configuration.BAN_KICK_MESSAGE.getMessage()
+			player.sendMessage(CC.translate(Configuration.MUTE_MESSAGE.getMessage()
+					.replaceAll("%text%", punishment.getType().getBroadcastText())
 					.replaceAll("%reason%", punishment.getReason())
 					.replaceAll("%time%", punishment.getFormattedTimeLeft())
 					.replaceAll("%temp-format%", Configuration.BAN_TEMPORARY_FORMAT.getMessage().replaceAll("%time%", punishment.getFormattedTimeLeft())
 					)));
-
 		}
 	}
 

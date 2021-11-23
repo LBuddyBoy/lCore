@@ -3,10 +3,11 @@ package me.lbuddyboy.core.profile.grant.menu;
 import lombok.AllArgsConstructor;
 import me.lbuddyboy.core.Configuration;
 import me.lbuddyboy.core.Core;
+import me.lbuddyboy.core.MenuConfiguration;
+import me.lbuddyboy.core.database.redis.uuid.RedisUUIDCache;
 import me.lbuddyboy.core.profile.grant.Grant;
 import me.lbuddyboy.core.profile.grant.listener.GrantListener;
 import me.lbuddyboy.core.profile.lProfile;
-import me.lbuddyboy.libraries.redis.RedisUUIDCache;
 import me.lbuddyboy.libraries.util.CC;
 import me.lbuddyboy.libraries.util.TimeUtils;
 import me.lbuddyboy.libraries.util.qlib.Button;
@@ -33,7 +34,7 @@ public class GrantsMenu extends PaginatedMenu {
 
 	@Override
 	public String getPrePaginatedTitle(Player var1) {
-		return CC.translate(Configuration.MENU_GRANTS_TITLE.getMessage().replaceAll("%player%", profile.getName()));
+		return CC.translate(MenuConfiguration.GRANTS_MENU_TITLE.getMessage().replaceAll("%player%", profile.getName()));
 	}
 
 	@Override
@@ -62,7 +63,7 @@ public class GrantsMenu extends PaginatedMenu {
 
 		@Override
 		public String getName(Player var1) {
-			return CC.translate(Configuration.MENU_GRANTS_NAME.getMessage()
+			return CC.translate(MenuConfiguration.GRANTS_BUTTON_NAME.getMessage()
 					.replaceAll("%status%", (grant.getId() == Core.getInstance().getProfileHandler().getByUUID(grant.getTarget()).getCurrentGrant().getId() ? Configuration.GRANT_ACTIVE.getMessage() : ""))
 					.replaceAll("%rank%", grant.getRank().getDisplayName()));
 		}
@@ -72,7 +73,7 @@ public class GrantsMenu extends PaginatedMenu {
 			List<String> newLore = new ArrayList<>();
 
 			if (grant.isRemoved()) {
-				List<String> lore = Configuration.MENU_GRANTS_LORE_REMOVED.getList();
+				List<String> lore = MenuConfiguration.GRANTS_BUTTON_REMOVED_LORE.getList();
 				for (String s : lore) {
 					newLore.add(s
 							.replaceAll("%addedBy%", RedisUUIDCache.name(grant.getSender()))
@@ -90,7 +91,7 @@ public class GrantsMenu extends PaginatedMenu {
 			}
 
 			if (grant.isPermanent()) {
-				List<String> lore = Configuration.MENU_GRANTS_LORE.getList();
+				List<String> lore = MenuConfiguration.GRANTS_BUTTON_LORE.getList();
 				for (String s : lore) {
 					newLore.add(s
 							.replaceAll("%addedBy%", RedisUUIDCache.name(grant.getSender()))
@@ -103,7 +104,7 @@ public class GrantsMenu extends PaginatedMenu {
 				return CC.translate(newLore);
 			}
 
-			List<String> lore = Configuration.MENU_GRANTS_LORE.getList();
+			List<String> lore = MenuConfiguration.GRANTS_BUTTON_LORE.getList();
 			for (String s : lore) {
 				newLore.add(s
 						.replaceAll("%addedBy%", RedisUUIDCache.name(grant.getSender()))

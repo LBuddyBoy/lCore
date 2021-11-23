@@ -1,5 +1,7 @@
 package me.lbuddyboy.core.util;
 
+import me.lbuddyboy.libraries.util.CC;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.*;
@@ -14,6 +16,7 @@ public class YamlDoc {
         this.configName = configName;
         file = new File(folder, configName);
         init();
+        Bukkit.getConsoleSender().sendMessage(CC.translate("&fSuccessfully created the &6" + configName + " &ffile."));
     }
     public void init() {
         if (!file.exists()) {
