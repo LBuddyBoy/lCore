@@ -1,8 +1,11 @@
 package me.lbuddyboy.core.punishment.listener;
 
+import me.lbuddyboy.core.Configuration;
 import me.lbuddyboy.core.Core;
+import me.lbuddyboy.core.database.redis.packets.punishments.UnPunishPacket;
 import me.lbuddyboy.core.profile.lProfile;
 import me.lbuddyboy.core.punishment.Punishment;
+import me.lbuddyboy.core.punishment.PunishmentType;
 import me.lbuddyboy.core.punishment.menu.PunishmentsMenu;
 import me.lbuddyboy.libraries.util.CC;
 import org.bukkit.entity.Player;
@@ -27,6 +30,7 @@ public class PunishmentListener implements Listener {
 
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent event) {
+		lProfile profile = Core.getInstance().getProfileHandler().getByUUID(event.getPlayer().getUniqueId());
 		if (reasons.contains(event.getPlayer())) {
 			if (event.getMessage().equalsIgnoreCase("cancel")) {
 				event.setCancelled(true);
@@ -34,17 +38,20 @@ public class PunishmentListener implements Listener {
 				pMap.remove(event.getPlayer());
 				return;
 			}
+			lProfile target = Core.getInstance().getProfileHandler().getByUUID(pMap.get(event.getPlayer()).getTarget());
 			Punishment punishment = pMap.get(event.getPlayer());
-			lProfile target = Core.getInstance().getProfileHandler().getByUUID(punishment.getTarget());
-			target.getPunishments().remove(punishment);
 
 			punishment.setResolvedAt(System.currentTimeMillis());
 			punishment.setResolvedBy(event.getPlayer().getUniqueId());
 			punishment.setResolvedReason(event.getMessage());
 			punishment.setResolved(true);
 
+			target.getPunishments().removeIf(p -> p.getId().equals(punishment.getId()));
 			target.getPunishments().add(punishment);
+
 			target.save();
+
+			new UnPunishPacket(punishment.getTarget(), punishment).send();
 
 			pMap.remove(event.getPlayer());
 			reasons.remove(event.getPlayer());
@@ -53,7 +60,17 @@ public class PunishmentListener implements Listener {
 
 			event.setCancelled(true);
 			event.getPlayer().sendMessage(CC.translate("&aSuccessfully removed the punishment for the reason '" + event.getMessage() + "'"));
+			return;
+		}
+		if (profile.hasActivePunishment(PunishmentType.MUTE)) {
+			Punishment punishment = profile.getActivePunishment(PunishmentType.MUTE);
+			event.setCancelled(true);
+			event.getPlayer().sendMessage(CC.translate(Configuration.MUTE_MESSAGE.getMessage()
+					.replaceAll("%text%", punishment.getType().getBroadcastText())
+					.replaceAll("%reason%", punishment.getReason())
+					.replaceAll("%time%", punishment.getFormattedTimeLeft())
+					.replaceAll("%temp-format%", Configuration.BAN_TEMPORARY_FORMAT.getMessage().replaceAll("%time%", punishment.getFormattedTimeLeft())
+					)));
 		}
 	}
-
 }

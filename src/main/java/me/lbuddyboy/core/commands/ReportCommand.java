@@ -8,7 +8,6 @@ import me.lbuddyboy.core.Core;
 import me.lbuddyboy.core.api.lCoreAPI;
 import me.lbuddyboy.core.database.redis.packets.global.FancyMessageStaffPacket;
 import me.lbuddyboy.core.database.redis.packets.global.MessageStaffPacket;
-import me.lbuddyboy.core.database.redis.uuid.RedisUUIDCache;
 import me.lbuddyboy.core.profile.lProfile;
 import me.lbuddyboy.libraries.util.CC;
 import me.lbuddyboy.libraries.util.fanciful.FancyMessage;
@@ -49,7 +48,7 @@ public class ReportCommand {
 		for (String s : Configuration.REPORT_STAFF_MESSAGE.getList()) {
 			strings.add(s.replaceAll("%sender%", sender.getName())
 					.replaceAll("%server%", Configuration.SERVER_NAME.getMessage())
-					.replaceAll("%target%", RedisUUIDCache.name(target))
+					.replaceAll("%target%", UUIDCache.name(target))
 					.replaceAll("%reason%", reason));
 		}
 
@@ -61,7 +60,7 @@ public class ReportCommand {
 
 		tpServer.text(CC.translate(Configuration.REPORT_TP_SERVER.getMessage())).tooltip(CC.translate(Configuration.REPORT_TP_SERVER.getMessage())).command("/server " + Configuration.SERVER_NAME.getMessage());
 		tpSender.text(CC.translate(Configuration.REPORT_TP_SENDER.getMessage())).tooltip(CC.translate(Configuration.REPORT_TP_SENDER.getMessage())).command("/tp " + sender.getName());
-		tpTarget.text(CC.translate(Configuration.REPORT_TP_TARGET.getMessage())).tooltip(CC.translate(Configuration.REPORT_TP_TARGET.getMessage())).command("/tp " + RedisUUIDCache.name(target));
+		tpTarget.text(CC.translate(Configuration.REPORT_TP_TARGET.getMessage())).tooltip(CC.translate(Configuration.REPORT_TP_TARGET.getMessage())).command("/tp " + UUIDCache.name(target));
 
 		for (Player staff : Bukkit.getOnlinePlayers()) {
 			if (staff.hasPermission("lcore.staff") || staff.isOp()) {

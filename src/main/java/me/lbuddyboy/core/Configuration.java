@@ -43,7 +43,7 @@ public enum Configuration {
 
 	MUTE_MESSAGE("punish.mute.message", "&cYou have been muted for %reason%\n&cExpires: %time%"),
 	MUTE_RESOLVED_MESSAGE("punish.mute.resolved-message", "&aYour mute has been lifted. You may now chat."),
-	WARN_MESSAGE("punish.warn.message", "&cYou have been muted for %reason%\n&cExpires: 7 days"),
+	WARN_MESSAGE("punish.warn.message", "&cYou have been warned for %reason%\n&cExpires: 7 days"),
 	BLACKLIST_KICK_MESSAGE("punish.blacklist.kick-message", "&cYour account is blacklisted from the Example Network.\n&cYour account is blacklisted from the Example Network\\n&cThis punishment cannot be appealed\\n"),
 	BAN_KICK_MESSAGE("punish.ban.kick-message", "&cYour account is banned from the Example Network.\n%temp-format%\n\n&cIf you feel this punishment is unjust, you may appeal at:\n&ehttps://www.lbuddyboy.me"),
 	BAN_TEMPORARY_FORMAT("punish.ban.temporary-format", "&cPunishment expires in &e%time%"),

@@ -10,7 +10,7 @@ public class UUIDListener implements Listener {
 
     @EventHandler
     public void onAsyncPlayerPreLogin(AsyncPlayerPreLoginEvent event) {
-        RedisUUIDCache.update(event.getUniqueId(), event.getName());
+        UUIDCache.update(event.getUniqueId(), event.getName());
     }
 }
 

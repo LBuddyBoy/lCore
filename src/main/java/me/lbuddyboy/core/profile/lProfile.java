@@ -270,6 +270,16 @@ public class lProfile {
 	public List<Punishment> getPunishmentsByType(PunishmentType type) {
 		List<Punishment> sorted = new ArrayList<>();
 		for (Punishment punishment : this.punishments) {
+			if (punishment.getType() == type) {
+				sorted.add(punishment);
+			}
+		}
+		return sorted;
+	}
+
+	public List<Punishment> getPunishmentsByTypeSorted(PunishmentType type) {
+		List<Punishment> sorted = new ArrayList<>();
+		for (Punishment punishment : this.punishments) {
 			if (punishment.isResolved()) continue;
 			if (punishment.getType() == type) {
 				sorted.add(punishment);

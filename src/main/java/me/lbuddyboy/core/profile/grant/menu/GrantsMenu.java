@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import me.lbuddyboy.core.Configuration;
 import me.lbuddyboy.core.Core;
 import me.lbuddyboy.core.MenuConfiguration;
-import me.lbuddyboy.core.database.redis.uuid.RedisUUIDCache;
+import me.lbuddyboy.core.database.redis.uuid.UUIDCache;
 import me.lbuddyboy.core.profile.grant.Grant;
 import me.lbuddyboy.core.profile.grant.listener.GrantListener;
 import me.lbuddyboy.core.profile.lProfile;
@@ -76,10 +76,10 @@ public class GrantsMenu extends PaginatedMenu {
 				List<String> lore = MenuConfiguration.GRANTS_BUTTON_REMOVED_LORE.getList();
 				for (String s : lore) {
 					newLore.add(s
-							.replaceAll("%addedBy%", RedisUUIDCache.name(grant.getSender()))
+							.replaceAll("%addedBy%", UUIDCache.name(grant.getSender()))
 							.replaceAll("%addedAt%", grant.getAddedAtDate())
 							.replaceAll("%reason%", grant.getReason())
-							.replaceAll("%removedBy%", RedisUUIDCache.name(grant.getRemovedBy()))
+							.replaceAll("%removedBy%", UUIDCache.name(grant.getRemovedBy()))
 							.replaceAll("%removedAt%", grant.getRemovedAtDate())
 							.replaceAll("%removedFor%", grant.getRemovedReason())
 							.replaceAll("%reason%", grant.getReason())
@@ -94,7 +94,7 @@ public class GrantsMenu extends PaginatedMenu {
 				List<String> lore = MenuConfiguration.GRANTS_BUTTON_LORE.getList();
 				for (String s : lore) {
 					newLore.add(s
-							.replaceAll("%addedBy%", RedisUUIDCache.name(grant.getSender()))
+							.replaceAll("%addedBy%", UUIDCache.name(grant.getSender()))
 							.replaceAll("%addedAt%", grant.getAddedAtDate())
 							.replaceAll("%reason%", grant.getReason())
 							.replaceAll("%duration%", "Permanent")
@@ -107,7 +107,7 @@ public class GrantsMenu extends PaginatedMenu {
 			List<String> lore = MenuConfiguration.GRANTS_BUTTON_LORE.getList();
 			for (String s : lore) {
 				newLore.add(s
-						.replaceAll("%addedBy%", RedisUUIDCache.name(grant.getSender()))
+						.replaceAll("%addedBy%", UUIDCache.name(grant.getSender()))
 						.replaceAll("%addedAt%", grant.getAddedAtDate())
 						.replaceAll("%reason%", grant.getReason())
 						.replaceAll("%duration%", TimeUtils.formatIntoDetailedString((int) (grant.getDuration() / 1000)))

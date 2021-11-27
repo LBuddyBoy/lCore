@@ -50,7 +50,7 @@ public class WarnCommand {
 		String senderDisplay = (senderUUID == null ? "&4Console" : (Core.getInstance().getProfileHandler().getByUUID(senderUUID) == null ? sender.getName() : Core.getInstance().getProfileHandler().getByUUID(senderUUID).getNameWithColor()));
 		String targetDisplay = targetProfile.getNameWithColor();
 
-		int warns = targetProfile.getPunishmentsByType(PunishmentType.WARN).size();
+		int warns = targetProfile.getPunishmentsByTypeSorted(PunishmentType.WARN).size();
 
 		Punishment punishment = new Punishment(UUID.randomUUID(), PunishmentType.WARN, senderUUID, uuid, duration, System.currentTimeMillis(), reason, silent);
 

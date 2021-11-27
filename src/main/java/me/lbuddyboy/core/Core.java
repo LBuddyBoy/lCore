@@ -53,6 +53,7 @@ public class Core extends JavaPlugin {
 	private YamlDoc profilesYML;
 	private YamlDoc ranksYML;
 	private YamlDoc menusYML;
+	private YamlDoc chatYML;
 
 	private MongoHandler mongoHandler;
 	private RedisHandler redisHandler;
@@ -97,6 +98,7 @@ public class Core extends JavaPlugin {
 	private void loadYMLs() {
 		this.profilesYML = new YamlDoc(this.getDataFolder(), "profiles.yml");
 		this.ranksYML = new YamlDoc(this.getDataFolder(), "ranks.yml");
+		this.chatYML = new YamlDoc(this.getDataFolder(), "chat.yml");
 		this.menusYML = new YamlDoc(this.getDataFolder(), "menus.yml");
 	}
 
@@ -122,6 +124,7 @@ public class Core extends JavaPlugin {
 				new FeedCommand(),
 				new HealCommand(),
 				new GamemodeCommand(),
+				new ReloadConfigCommand(),
 				new AltsCommand(),
 				new UnMuteCommand(),
 				new UnBanCommand(),

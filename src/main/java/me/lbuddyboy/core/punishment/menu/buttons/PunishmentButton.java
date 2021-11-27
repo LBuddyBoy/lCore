@@ -2,7 +2,6 @@ package me.lbuddyboy.core.punishment.menu.buttons;
 
 import lombok.AllArgsConstructor;
 import me.lbuddyboy.core.Core;
-import me.lbuddyboy.core.database.redis.uuid.RedisUUIDCache;
 import me.lbuddyboy.core.punishment.Punishment;
 import me.lbuddyboy.core.punishment.listener.PunishmentListener;
 import me.lbuddyboy.libraries.util.CC;
@@ -44,8 +43,8 @@ public class PunishmentButton extends Button {
 						.replaceAll("%time-left%", punishment.getFormattedTimeLeft())
 						.replaceAll("%resolvedAt%", punishment.getResolvedAtDate())
 						.replaceAll("%resolvedFor%", punishment.getResolvedReason())
-						.replaceAll("%resolvedBy%", RedisUUIDCache.name(punishment.getResolvedBy()))
-						.replaceAll("%sender%", RedisUUIDCache.name(punishment.getSender())));
+						.replaceAll("%resolvedBy%", UUIDCache.name(punishment.getResolvedBy()))
+						.replaceAll("%sender%", UUIDCache.name(punishment.getSender())));
 			}
 			return CC.translate(lore);
 		}
@@ -56,7 +55,7 @@ public class PunishmentButton extends Button {
 					.replaceAll("%sentAt%", punishment.getAddedAtDate())
 					.replaceAll("%time-left%", punishment.getFormattedTimeLeft())
 					.replaceAll("%duration%", punishment.getDurationString())
-					.replaceAll("%sender%", RedisUUIDCache.name(punishment.getSender())));
+					.replaceAll("%sender%", UUIDCache.name(punishment.getSender())));
 		}
 		return CC.translate(lore);
 	}

@@ -50,9 +50,7 @@ punish:
   mute:
     display: "&6&lMute"
     resolved-message: "&aYour mute has been lifted. You may now chat."
-    message:
-      - '&cYou have been muted for %reason%'
-      - '&cExpires: %time%'
+    message: "&cYou have been muted for %reason%\n&cExpires: 7 days"
   ban:
     display: "&c&lBan"
     kick-message: "&cYour account is banned from the Example Network.\n%temp-format%\n\n&cIf you feel this punishment is unjust, you may appeal at:\nhttp://www.lbuddyboy.me"
@@ -62,9 +60,7 @@ punish:
     kick-message: "&cYou have been kicked from the server.\n&cReason: %reason%"
   warn:
     display: "&a&lWarn"
-    message:
-      - '&cYou have been warned for %reason%'
-      - '&cExpires: 7 days'
+    message: "&cYou have been warned for %reason%\n&cExpires: 7 days"
     warns-before-command: 3
     warn-command: "ban %player% 3d Reached maximum amount of warns"
     warn-last-time: "7d"

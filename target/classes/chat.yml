@@ -1,0 +1,6 @@
+slowed:
+  delay: 0 # seconds
+muted:
+  enabled: false
+  time: "0s"
+  millis-start: 0 # Dont worry about this is just used for storage.

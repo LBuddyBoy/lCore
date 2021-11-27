@@ -40,12 +40,12 @@ public class UnBlacklistCommand {
 		String senderDisplay = (senderUUID == null ? "&4Console" : (Core.getInstance().getProfileHandler().getByUUID(senderUUID) == null ? sender.getName() : Core.getInstance().getProfileHandler().getByUUID(senderUUID).getNameWithColor()));
 		String targetDisplay = targetProfile.getNameWithColor();
 
-		if (!targetProfile.hasActivePunishment(PunishmentType.BAN)) {
+		if (!targetProfile.hasActivePunishment(PunishmentType.BLACKLIST)) {
 			sender.sendMessage(CC.translate("&cThat player is not banned."));
 			return;
 		}
 
-		Punishment punishment = targetProfile.getActivePunishment(PunishmentType.BAN);
+		Punishment punishment = targetProfile.getActivePunishment(PunishmentType.BLACKLIST);
 
 		punishment.setSilent(silent);
 		punishment.setResolved(true);

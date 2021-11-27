@@ -11,11 +11,11 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-public final class RedisUUIDCache {
+public final class UUIDCache {
     private static final Map<UUID, String> uuidToName=new ConcurrentHashMap<>();
     private static final Map<String, UUID> nameToUuid=new ConcurrentHashMap<>();
 
-    public RedisUUIDCache() {
+    public UUIDCache() {
         Jedis redis = Core.getInstance().getRedisHandler().getJedisPool().getResource();
         Map<String, String> cache=redis.hgetAll("UUIDCache");
         for ( Map.Entry<String, String> cacheEntry : cache.entrySet() ) {
