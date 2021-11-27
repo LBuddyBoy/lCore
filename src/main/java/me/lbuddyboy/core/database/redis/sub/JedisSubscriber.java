@@ -20,12 +20,11 @@ public class JedisSubscriber extends redis.clients.jedis.JedisPubSub {
 		try {
 			packetClass = Class.forName(packetClassStr);
 		} catch (ClassNotFoundException ignored) {
+			System.out.println("All your cores need to be on the same version for the packets to establish correctly");
 			return;
 		}
 		JedisPacket packet = (JedisPacket) RedisHandler.getGSON().fromJson(messageJson, packetClass);
-		if (Core.getInstance().isEnabled()) {
-			Bukkit.getScheduler().runTask(Core.getInstance(), packet::onReceive);
-		}
+		Bukkit.getScheduler().runTask(Core.getInstance(), packet::onReceive);
 	}
 }
 
