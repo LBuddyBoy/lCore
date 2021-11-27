@@ -55,7 +55,7 @@ public class UnBlacklistCommand {
 
 		targetProfile.save();
 
-		punishment.alert(senderDisplay, targetDisplay);
+//		punishment.alert(senderDisplay, targetDisplay);
 
 		new PunishmentBroadcastPacket(punishment, senderDisplay, targetDisplay).send();
 		new UnPunishPacket(uuid, punishment).send();

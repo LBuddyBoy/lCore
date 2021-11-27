@@ -57,7 +57,7 @@ public class MuteCommand {
 
 		Punishment punishment = new Punishment(UUID.randomUUID(), PunishmentType.MUTE, senderUUID, uuid, duration, System.currentTimeMillis(), reason, silent);
 
-		punishment.alert(senderDisplay, targetDisplay);
+//		punishment.alert(senderDisplay, targetDisplay);
 
 		targetProfile.getPunishments().add(punishment);
 		targetProfile.save();

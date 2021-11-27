@@ -57,7 +57,7 @@ public class BanCommand {
 
 		Punishment punishment = new Punishment(UUID.randomUUID(), PunishmentType.BAN, senderUUID, uuid, duration, System.currentTimeMillis(), reason, silent);
 
-		punishment.alert(senderDisplay, targetDisplay);
+//		punishment.alert(senderDisplay, targetDisplay);
 
 		targetProfile.getPunishments().removeIf(punishment1 -> punishment1.getId() == punishment.getId());
 		targetProfile.getPunishments().add(punishment);

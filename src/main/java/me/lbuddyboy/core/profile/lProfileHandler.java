@@ -1,13 +1,17 @@
 package me.lbuddyboy.core.profile;
 
+import com.mongodb.client.MongoCollection;
 import lombok.Getter;
+import me.lbuddyboy.core.Configuration;
 import me.lbuddyboy.core.Core;
 import me.lbuddyboy.core.profile.global.GlobalStatistic;
 import me.lbuddyboy.core.profile.grant.listener.GrantListener;
 import me.lbuddyboy.core.punishment.listener.PunishmentListener;
+import org.bson.Document;
 import org.bukkit.Bukkit;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author LBuddyBoy (lbuddyboy.me)
@@ -20,7 +24,8 @@ public class lProfileHandler {
 
 	private final Map<UUID, lProfile> profiles;
 	private final List<GlobalStatistic> globalStatistics;
-	private List<UUID> checkedProfiles = new ArrayList<>();
+	private ConcurrentHashMap<UUID, String> allProfiles = new ConcurrentHashMap<>();
+	private final MongoCollection<Document> collection = Core.getInstance().getMongoHandler().getMongoDatabase().getCollection("profiles");
 
 	public lProfileHandler() {
 		this.profiles = new HashMap<>();
@@ -31,13 +36,24 @@ public class lProfileHandler {
 		Bukkit.getPluginManager().registerEvents(new GrantListener(), Core.getInstance());
 
 		Bukkit.getScheduler().runTaskTimerAsynchronously(Core.getInstance(), () -> {
-			checkedProfiles.clear();
 			for (lProfile profile : getProfiles().values()) {
-				if (checkedProfiles.contains(profile.getUniqueId())) continue;
 				profile.calculateGrants();
-				checkedProfiles.add(profile.getUniqueId());
+				profile.setupPermissions();
 			}
 		}, 20 * 30, 20 * 30);
+	}
+
+	public ConcurrentHashMap<UUID, String> getAllCachedPlayers() {
+		if (Configuration.STORAGE_MONGO.getBoolean()) {
+			for (Document document : collection.find()) {
+				allProfiles.put(UUID.fromString(document.getString("uniqueId")), document.getString("name"));
+			}
+		} else {
+			for (String key : Core.getInstance().getProfilesYML().gc().getConfigurationSection("profiles").getKeys(false)) {
+				allProfiles.put(UUID.fromString(key), Core.getInstance().getProfilesYML().gc().getString("profiles." + key + ".name"));
+			}
+		}
+		return allProfiles;
 	}
 
 	public lProfile getByUUID(UUID toLook) {

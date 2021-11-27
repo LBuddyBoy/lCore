@@ -10,18 +10,22 @@ import org.bukkit.Bukkit;
 @NoArgsConstructor
 public class JedisSubscriber extends redis.clients.jedis.JedisPubSub {
 
-    @SneakyThrows
-    @Override
-    public void onMessage(String channel, String message) {
-        Class<?> packetClass;
-        int packetMessageSplit=message.indexOf("||");
-        String packetClassStr=message.substring(0, message.indexOf("||"));
-        String messageJson=message.substring(packetMessageSplit + "||".length());
-
-        packetClass=Class.forName(packetClassStr);
-
-        JedisPacket packet=(JedisPacket) RedisHandler.getGSON().fromJson(messageJson, packetClass);
-        Bukkit.getScheduler().runTask(Core.getInstance(), packet::onReceive);
-    }
+	@SneakyThrows
+	@Override
+	public void onMessage(String channel, String message) {
+		Class<?> packetClass;
+		int packetMessageSplit = message.indexOf("||");
+		String packetClassStr = message.substring(0, packetMessageSplit);
+		String messageJson = message.substring(packetMessageSplit + "||".length());
+		try {
+			packetClass = Class.forName(packetClassStr);
+		} catch (ClassNotFoundException ignored) {
+			return;
+		}
+		JedisPacket packet = (JedisPacket) RedisHandler.getGSON().fromJson(messageJson, packetClass);
+		if (Core.getInstance().isEnabled()) {
+			Bukkit.getScheduler().runTask(Core.getInstance(), packet::onReceive);
+		}
+	}
 }
 

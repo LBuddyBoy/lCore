@@ -50,7 +50,7 @@ public class KickCommand {
 
 		Punishment punishment = new Punishment(UUID.randomUUID(), PunishmentType.KICK, senderUUID, uuid, Long.MAX_VALUE, System.currentTimeMillis(), reason, silent);
 
-		punishment.alert(senderDisplay, targetDisplay);
+//		punishment.alert(senderDisplay, targetDisplay);
 
 		targetProfile.getPunishments().removeIf(punishment1 -> punishment1.getId() == punishment.getId());
 		targetProfile.getPunishments().add(punishment);
