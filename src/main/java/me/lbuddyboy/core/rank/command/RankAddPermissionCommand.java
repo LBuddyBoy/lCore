@@ -36,7 +36,7 @@ public class RankAddPermissionCommand {
 		rank.getPermissions().add(permission);
 		rank.save();
 
-		new RankAddPermissionPacket(rank, permission).send();
+		new RankAddPermissionPacket(rank.getName(), permission).send();
 
 		sender.sendMessage(CC.translate(Configuration.RANK_ADDED_PERM.getMessage()
 				.replaceAll("%perm%", permission)

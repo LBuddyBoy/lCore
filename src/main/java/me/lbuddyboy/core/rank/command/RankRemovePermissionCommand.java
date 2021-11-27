@@ -36,7 +36,7 @@ public class RankRemovePermissionCommand {
 		rank.getPermissions().remove(permission);
 		rank.save();
 
-		new RankRemovedPermissionPacket(rank, permission).send();
+		new RankRemovedPermissionPacket(rank.getName(), permission).send();
 
 		sender.sendMessage(CC.translate(Configuration.RANK_REMOVED_PERM.getMessage()
 				.replaceAll("%perm%", permission)

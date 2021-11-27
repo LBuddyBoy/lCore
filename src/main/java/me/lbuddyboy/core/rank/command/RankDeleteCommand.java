@@ -29,7 +29,7 @@ public class RankDeleteCommand {
 		Rank rank = Core.getInstance().getRankHandler().getByName(name);
 		Core.getInstance().getRankHandler().getRanks().remove(rank);
 
-		new RankDeletePacket(rank).send();
+		new RankDeletePacket(name).send();
 
 		sender.sendMessage(CC.translate(Configuration.DELETED_RANK.getMessage().replaceAll("%rank%", name)));
 

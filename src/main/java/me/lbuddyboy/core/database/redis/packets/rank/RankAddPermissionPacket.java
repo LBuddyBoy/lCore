@@ -15,11 +15,13 @@ import me.lbuddyboy.core.rank.Rank;
 @AllArgsConstructor
 public class RankAddPermissionPacket implements JedisPacket {
 
-	private final Rank rank;
+	private final String name;
 	private final String permission;
 
 	@Override
 	public void onReceive() {
+		Rank rank = Core.getInstance().getRankHandler().getByName(name);
+
 		rank.getPermissions().add(permission);
 		rank.save();
 

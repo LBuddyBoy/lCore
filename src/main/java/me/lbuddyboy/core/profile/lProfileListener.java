@@ -26,6 +26,11 @@ public class lProfileListener implements Listener {
 	@EventHandler
 	public void onAsyncPreLogin(AsyncPlayerPreLoginEvent event) {
 
+		if (!Core.isLoaded()) {
+			event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, CC.translate("&cThe server is still starting up."));
+			return;
+		}
+
 		lProfile profile = new lProfile(event.getUniqueId());
 
 		if (profile.hasActivePunishment(PunishmentType.BLACKLIST)) {

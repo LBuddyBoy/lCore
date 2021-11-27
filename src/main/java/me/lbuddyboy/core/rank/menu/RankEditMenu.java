@@ -74,7 +74,7 @@ public class RankEditMenu extends Menu {
 			if (type == RankEditTypes.DELETE) {
 				rank.delete();
 
-				new RankDeletePacket(rank).send();
+				new RankDeletePacket(rank.getName()).send();
 
 				player.sendMessage(CC.translate(Configuration.DELETED_RANK.getMessage()
 						.replaceAll("%new%", rank.getDisplayName())

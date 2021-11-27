@@ -28,7 +28,7 @@ public class RankSetDisplayCommand {
 		rank.setDisplayName(newDisplay);
 		rank.save();
 
-		new RankSetDisplayPacket(rank, newDisplay).send();
+		new RankSetDisplayPacket(rank.getName(), newDisplay).send();
 
 		sender.sendMessage(CC.translate(Configuration.SET_RANK_DISPLAY.getMessage()
 				.replaceAll("%new%", newDisplay)

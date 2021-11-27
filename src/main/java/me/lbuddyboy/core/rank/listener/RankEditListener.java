@@ -48,7 +48,7 @@ public class RankEditListener implements Listener {
 			rank.setName(event.getMessage());
 			rank.save();
 
-			new RankRenamePacket(rank, event.getMessage()).send();
+			new RankRenamePacket(rank.getName(), event.getMessage()).send();
 
 			p.sendMessage(CC.translate(Configuration.RANK_RENAME.getMessage()
 					.replaceAll("%new%", event.getMessage())
@@ -78,7 +78,7 @@ public class RankEditListener implements Listener {
 			rank.setColor(color);
 			rank.save();
 
-			new RankSetColorPacket(rank, color).send();
+			new RankSetColorPacket(rank.getName(), color).send();
 
 			p.sendMessage(CC.translate(Configuration.SET_RANK_COLOR.getMessage()
 					.replaceAll("%new%", event.getMessage())
@@ -104,7 +104,7 @@ public class RankEditListener implements Listener {
 			rank.setWeight(weight);
 			rank.save();
 
-			new RankSetWeightPacket(rank, weight).send();
+			new RankSetWeightPacket(rank.getName(), weight).send();
 
 			p.sendMessage(CC.translate(Configuration.SET_RANK_WEIGHT.getMessage()
 					.replaceAll("%new%", event.getMessage())
@@ -128,7 +128,7 @@ public class RankEditListener implements Listener {
 			rank.setPrefix(event.getMessage());
 			rank.save();
 
-			new RankSetPrefixPacket(rank, event.getMessage()).send();
+			new RankSetPrefixPacket(rank.getName(), event.getMessage()).send();
 
 			p.sendMessage(CC.translate(Configuration.SET_RANK_PREFIX.getMessage()
 					.replaceAll("%new%", event.getMessage())
@@ -150,7 +150,7 @@ public class RankEditListener implements Listener {
 			rank.setDisplayName(event.getMessage());
 			rank.save();
 
-			new RankSetDisplayPacket(rank, event.getMessage()).send();
+			new RankSetDisplayPacket(rank.getName(), event.getMessage()).send();
 
 			p.sendMessage(CC.translate(Configuration.SET_RANK_DISPLAY.getMessage()
 					.replaceAll("%new%", event.getMessage())

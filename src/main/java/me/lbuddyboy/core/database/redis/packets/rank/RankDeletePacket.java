@@ -15,13 +15,15 @@ import org.bukkit.configuration.file.YamlConfiguration;
 @AllArgsConstructor
 public class RankDeletePacket implements JedisPacket {
 
-	private final Rank rank;
+	private final String name;
 
 	@Override
 	public void onReceive() {
+		Rank rank = Core.getInstance().getRankHandler().getByName(name);
+		
 		Core.getInstance().getRankHandler().getRanks().remove(rank);
 		YamlConfiguration config = Core.getInstance().getRanksYML().gc();
-		config.getConfigurationSection("ranks." + this.rank.getName()).getKeys(false).clear();
+		config.getConfigurationSection("ranks." + rank.getName()).getKeys(false).clear();
 		config.set("ranks." + rank.getName(), null);
 		try {
 			Core.getInstance().getRanksYML().save();

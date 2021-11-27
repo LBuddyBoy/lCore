@@ -1,6 +1,7 @@
 package me.lbuddyboy.core.database.redis.packets.rank;
 
 import lombok.AllArgsConstructor;
+import me.lbuddyboy.core.Core;
 import me.lbuddyboy.core.database.redis.JedisPacket;
 import me.lbuddyboy.core.rank.Rank;
 import org.bukkit.ChatColor;
@@ -14,11 +15,12 @@ import org.bukkit.ChatColor;
 @AllArgsConstructor
 public class RankSetColorPacket implements JedisPacket {
 
-	private final Rank rank;
+	private final String name;
 	private final ChatColor newColor;
 
 	@Override
 	public void onReceive() {
+		Rank rank = Core.getInstance().getRankHandler().getByName(name);
 		rank.setColor(newColor);
 		rank.save();
 	}

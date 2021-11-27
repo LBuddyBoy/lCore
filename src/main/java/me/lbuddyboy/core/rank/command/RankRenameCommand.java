@@ -28,7 +28,7 @@ public class RankRenameCommand {
 		rank.setName(newName);
 		rank.save();
 
-		new RankRenamePacket(rank, newName).send();
+		new RankRenamePacket(rank.getName(), newName).send();
 
 		sender.sendMessage(CC.translate(Configuration.RANK_RENAME.getMessage()
 				.replaceAll("%new%", newName)

@@ -45,8 +45,8 @@ import java.util.UUID;
 @Getter
 public class Core extends JavaPlugin {
 
-	@Getter
-	private static Core instance;
+	@Getter private static Core instance;
+	@Getter private static boolean loaded;
 
 	private Zetsu zetsu;
 
@@ -74,12 +74,14 @@ public class Core extends JavaPlugin {
 		Bukkit.getConsoleSender().sendMessage(CC.translate("&6&llCore&f has &aenabled&f successfully."));
 		Bukkit.getConsoleSender().sendMessage(CC.translate(" &7- &6Author&f: LBuddyB0y/LBuddyBoy"));
 		Bukkit.getConsoleSender().sendMessage(CC.translate(" "));
+
+		loaded = true;
 	}
 
 	@Override
 	public void onDisable() {
 		if (Configuration.REDIS_SYNC.getBoolean()) {
-			this.redisHandler.close();
+			this.redisHandler.getJedisPool().close();
 		}
 	}
 

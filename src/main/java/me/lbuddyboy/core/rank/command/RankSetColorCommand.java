@@ -38,7 +38,7 @@ public class RankSetColorCommand {
 		rank.setColor(newColor);
 		rank.save();
 
-		new RankSetColorPacket(rank, newColor).send();
+		new RankSetColorPacket(rank.getName(), newColor).send();
 
 		sender.sendMessage(CC.translate(Configuration.SET_RANK_COLOR.getMessage()
 				.replaceAll("%new%", color.toUpperCase())

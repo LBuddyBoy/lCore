@@ -91,7 +91,7 @@ public class Rank {
 	@SneakyThrows
 	public void delete() {
 		try {
-			new RankDeletePacket(this).send();
+			new RankDeletePacket(this.name).send();
 			rankHandler.getRanks().remove(this);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -28,7 +28,7 @@ public class RankSetPrefixCommand {
 		rank.setPrefix(newPrefix);
 		rank.save();
 
-		new RankSetPrefixPacket(rank, newPrefix).send();
+		new RankSetPrefixPacket(rank.getName(), newPrefix).send();
 
 		sender.sendMessage(CC.translate(Configuration.SET_RANK_PREFIX.getMessage()
 				.replaceAll("%new%", newPrefix)

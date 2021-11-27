@@ -9,6 +9,7 @@ import me.lbuddyboy.core.api.lCoreAPI;
 import me.lbuddyboy.core.database.redis.packets.global.FancyMessageStaffPacket;
 import me.lbuddyboy.core.database.redis.packets.global.MessageStaffPacket;
 import me.lbuddyboy.core.profile.lProfile;
+import me.lbuddyboy.core.util.UUIDCache;
 import me.lbuddyboy.libraries.util.CC;
 import me.lbuddyboy.libraries.util.fanciful.FancyMessage;
 import org.bukkit.Bukkit;

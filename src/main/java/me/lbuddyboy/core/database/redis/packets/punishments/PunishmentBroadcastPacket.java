@@ -19,7 +19,7 @@ public class PunishmentBroadcastPacket implements JedisPacket {
 
 	@Override
 	public void onReceive() {
-//		punishment.alert(senderDisplay, targetDisplay);
+		punishment.alert(senderDisplay, targetDisplay);
 	}
 
 	@Override

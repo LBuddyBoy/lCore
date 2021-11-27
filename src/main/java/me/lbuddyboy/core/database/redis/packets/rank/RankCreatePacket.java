@@ -20,7 +20,6 @@ public class RankCreatePacket implements JedisPacket {
 	public void onReceive() {
 		Rank rank = new Rank(this.name);
 		Core.getInstance().getRankHandler().getRanks().add(rank);
-
 	}
 
 	@Override

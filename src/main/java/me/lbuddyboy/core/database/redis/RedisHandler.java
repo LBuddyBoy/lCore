@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import lombok.Getter;
 import me.lbuddyboy.core.Core;
 import me.lbuddyboy.core.database.redis.sub.JedisSubscriber;
+import me.lbuddyboy.libraries.util.CC;
 import org.bukkit.Bukkit;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -27,8 +28,12 @@ public class RedisHandler {
 		this.instance = instance;
 
 		try {
-			this.jedisPool = (new JedisPool(new JedisPoolConfig(), "localhost", 6379, 20000, null, 12));
-			System.out.println("Connected to redis.");
+			if (!instance.getConfig().getBoolean("redis.auth.enabled")) {
+				this.jedisPool = (new JedisPool(new JedisPoolConfig(), instance.getConfig().getString("redis.host"), instance.getConfig().getInt("redis.port"), 20000, null, instance.getConfig().getInt("redis.channel-id")));
+			} else {
+				this.jedisPool = (new JedisPool(new JedisPoolConfig(), instance.getConfig().getString("redis.host"), instance.getConfig().getInt("redis.port"), 20000, instance.getConfig().getString("redis.auth.password"), instance.getConfig().getInt("redis.channel-id")));
+			}
+			Bukkit.getConsoleSender().sendMessage(CC.translate("&fSuccessfully connected to the &6Redis Server"));
 		} catch (Exception var6) {
 			var6.printStackTrace();
 			this.instance.getLogger().warning("Couldn't connect to a Redis instance at localhost" + ".");
@@ -46,24 +51,13 @@ public class RedisHandler {
 			while (Core.getInstance().isEnabled()) {
 				try {
 					Jedis jedis = connectTo.getResource();
-					Throwable throwable = null;
 					try {
 						JedisSubscriber pubSub = new JedisSubscriber();
 						jedis.subscribe(pubSub, GLOBAL_MESSAGE_CHANNEL);
-					} catch (Throwable throwable2) {
-						throwable = throwable2;
-						throw throwable2;
-					} finally {
-						if (jedis == null) continue;
-						if (throwable != null) {
-							try {
-								jedis.close();
-							} catch (Throwable throwable3) {
-								throwable.addSuppressed(throwable3);
-							}
-							continue;
+					} catch (Exception exception) {
+						if (jedis != null) {
+							jedis.close();
 						}
-						jedis.close();
 					}
 				} catch (Exception e) {
 					e.printStackTrace();

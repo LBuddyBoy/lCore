@@ -9,6 +9,10 @@ The premium version of this is available on http://discord.lbuddyboy.me
 
 ***
 
+### Terms
+
+You may use this for any server or anything, change the name of the plugin, but you CANNOT remove me from the authors.
+
 ### Introduction
 
 My name is LBuddyBoy or Ethan and I have started a base of a rank core that I will be working on as much as I can and this will be a fun project for me and hopefully helpful for anything that wants to use it.
@@ -18,4 +22,5 @@ My name is LBuddyBoy or Ethan and I have started a base of a rank core that I wi
 - Discord - LBuddyBoy#6163
 - [Telegram](https://t.me/LBuddyBoy)
 - [Twitter](https://twitter.com/LBuddyBoy)
-- [Webiste](https://lbuddyboy.me)
+- [Website](http://lbuddyboy.me)
+- [Discord](http://discord.lbuddyboy.me)

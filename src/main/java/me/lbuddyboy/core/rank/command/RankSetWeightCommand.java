@@ -28,7 +28,7 @@ public class RankSetWeightCommand {
 		rank.setWeight(newWeight);
 		rank.save();
 
-		new RankSetWeightPacket(rank, newWeight).send();
+		new RankSetWeightPacket(rank.getName(), newWeight).send();
 
 		sender.sendMessage(CC.translate(Configuration.SET_RANK_WEIGHT.getMessage()
 				.replaceAll("%new%", "" + newWeight)
