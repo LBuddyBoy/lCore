@@ -41,7 +41,7 @@ public class UnBlacklistCommand {
 		String targetDisplay = targetProfile.getNameWithColor();
 
 		if (!targetProfile.hasActivePunishment(PunishmentType.BLACKLIST)) {
-			sender.sendMessage(CC.translate("&cThat player is not banned."));
+			sender.sendMessage(CC.translate("&cThat player is not blacklisted."));
 			return;
 		}
 

@@ -25,11 +25,14 @@ public class lProfileHandler {
 	private final Map<UUID, lProfile> profiles;
 	private final List<GlobalStatistic> globalStatistics;
 	private ConcurrentHashMap<UUID, String> allProfiles = new ConcurrentHashMap<>();
-	private final MongoCollection<Document> collection = Core.getInstance().getMongoHandler().getMongoDatabase().getCollection("profiles");
+	private MongoCollection<Document> collection;
 
 	public lProfileHandler() {
 		this.profiles = new HashMap<>();
 		this.globalStatistics = new ArrayList<>();
+		if (Configuration.STORAGE_MONGO.getBoolean()) {
+			this.collection = Core.getInstance().getMongoHandler().getMongoDatabase().getCollection("profiles");
+		}
 
 		Bukkit.getPluginManager().registerEvents(new lProfileListener(), Core.getInstance());
 		Bukkit.getPluginManager().registerEvents(new PunishmentListener(), Core.getInstance());
