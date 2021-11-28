@@ -1,6 +1,6 @@
 # lCore
 Mongo & Redis Based Rank/Punishment/Essential Core, below are my todo list.
-The premium version of this is available on http://discord.lbuddyboy.me
+The premium version of this is available on http://disc.lbuddyboy.me
 
 - Make Profiling Base for players globally (Done)
 - Make Permission Attachments for players (Done)
