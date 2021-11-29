@@ -21,6 +21,7 @@ public enum Configuration {
 	SERVER_TIMEZONE("timezone", "EST"),
 	STORAGE_MONGO("mongo.enabled", false),
 	REDIS_SYNC("redis.enabled", false),
+	CHAT_FORMAT("chat-format", "%player-prefix%%player-name%&7: %message%"),
 
 	// Punishments
 

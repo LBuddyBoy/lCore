@@ -21,6 +21,7 @@ mongo:
     password: ""
     auth-db: ""
 
+chat-format: "%player-prefix%%player-name%&7: %message%"
 server-name: "lCore"
 timezone: "EST"
 

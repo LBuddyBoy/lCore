@@ -6,8 +6,11 @@ import me.lbuddyboy.core.punishment.Punishment;
 import me.lbuddyboy.core.punishment.PunishmentType;
 import me.lbuddyboy.libraries.util.CC;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -72,6 +75,20 @@ public class lProfileListener implements Listener {
 		Bukkit.getScheduler().runTaskAsynchronously(Core.getInstance(), () -> {
 			Core.getInstance().getProfileHandler().getProfiles().remove(event.getPlayer().getUniqueId());
 		});
+	}
+
+	@EventHandler
+	public void onAsyncChat(AsyncPlayerChatEvent event) {
+		event.setCancelled(true);
+		lProfile profile = Core.getInstance().getProfileHandler().getByUUID(event.getPlayer().getUniqueId());
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			player.sendMessage(CC.translate(Configuration.CHAT_FORMAT.getMessage())
+					.replaceAll("%message%", ChatColor.stripColor(event.getMessage()))
+					.replaceAll("%player-prefix%", CC.translate(profile.getCurrentRank().getPrefix()))
+					.replaceAll("%player-name%", profile.getName())
+					.replaceAll("%player-display%", profile.getNameWithColor()
+					));
+		}
 	}
 
 	public String hashString(String toHash) {

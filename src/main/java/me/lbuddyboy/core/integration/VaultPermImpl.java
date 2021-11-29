@@ -5,6 +5,7 @@ import me.lbuddyboy.core.profile.lProfile;
 import me.lbuddyboy.core.rank.Rank;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 
 /**
  * @author LBuddyBoy (lbuddyboy.me)
@@ -40,6 +41,16 @@ public class VaultPermImpl extends Permission {
 			return false;
 		}
 		profile.getPermissions().add(s2);
+		return true;
+	}
+
+	@Override
+	public boolean playerRemove(String s, OfflinePlayer op, String s2) {
+		lProfile profile = Core.getInstance().getProfileHandler().getByUUID(op.getUniqueId());
+		if (!profile.getPermissions().contains(s2)) {
+			return false;
+		}
+		profile.getPermissions().remove(s2);
 		return true;
 	}
 
